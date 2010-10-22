@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Iching!</string>
-    <string name="app_name">Ichingandroid</string>
+    <string name="main_title">Welcome to IChing!</string>
+    <string name="app_name">IChing</string>
+    <string name="reference_check_label">Check References</string>
+    <string name="cast_iching_label">Cast Iching</string>
+    <string name="about_label">About</string>
+    <string name="exit_label">Exit</string>
 </resources>

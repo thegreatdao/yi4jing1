@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">欢迎来到易经世界!</string>
+    <string name="app_name">易经</string>
+    <string name="reference_check_label">64卦查询</string>
+    <string name="cast_iching_label">占卜</string>
+    <string name="about_label">关于</string>
+    <string name="exit_label">退出</string>
+</resources>
