@@ -27,24 +27,29 @@
 		     android:stretchColumns="*">
 			<TableRow>
 				<Button
+				   android:id="@+id/references_check"
 				   android:layout_width="fill_parent"
 				   android:layout_height="wrap_content"
-				   android:text="@string/reference_check_label" />
+				   android:text="@string/references_check_label" />
 				<Button
+				   android:id="@+id/cast_iching"
 				   android:layout_width="fill_parent"
 				   android:layout_height="wrap_content"
 				   android:text="@string/cast_iching_label" />
 			</TableRow>
 			<TableRow>
 				<Button
+				   android:id="@+id/about"
 				   android:layout_width="fill_parent"
 				   android:layout_height="wrap_content"
 				   android:text="@string/about_label" />
 				<Button
+				   android:id="@+id/exit"
 				   android:layout_width="fill_parent"
 				   android:layout_height="wrap_content"
 				   android:text="@string/exit_label" />
 			</TableRow>
-		</TableLayout>	      
+		</TableLayout>
+		
 	</LinearLayout>	      
 </LinearLayout>
