@@ -6,4 +6,10 @@
     <string name="cast_iching_label">Cast Iching</string>
     <string name="about_label">About</string>
     <string name="exit_label">Exit</string>
+    <string name="about_text">
+	    The I Ching (Wade-Giles), "Yì Jīng" (Pinyin), also known as the Book of Changes, 
+		Classic of Changes; and Zhouyi, is one of the oldest of the Chinese classic texts.
+		The book contains a divination system comparable to Western geomancy or the West African 
+		Ifá system. In Western cultures and modern East Asia, it is still widely used for this purpose.
+	</string>
 </resources>

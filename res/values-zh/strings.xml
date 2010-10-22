@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="main_title">欢迎来到易经世界!</string>
+    <string name="main_title">欢迎来到易经世界！</string>
     <string name="app_name">易经</string>
     <string name="references_check_label">64卦查询</string>
     <string name="cast_iching_label">占卜</string>
     <string name="about_label">关于</string>
     <string name="exit_label">退出</string>
+    <string name="about_text">
+	    《易经》是中国一部最古老而深邃的经典，据说是由伏羲的言论加以总结与修改概括而来，
+		是华夏五千年智慧与文化的结晶，被誉为“群经之首，大道之源”。在古代是帝王之学，
+		政治家、军事家、商家的必修之术。从本质上来讲，《易经》是一本关于“卜筮”之书。
+		“卜筮”就是对未来事态的发展进行预测，而《易经》便是总结这些预测的规律理论的书。
+	</string>
 </resources>
