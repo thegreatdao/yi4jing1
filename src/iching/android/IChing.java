@@ -1,6 +1,9 @@
 package iching.android;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,16 +33,16 @@ public class IChing extends Activity implements OnClickListener
 				break;
 			case R.id.about:
 				Intent intent = new Intent(this, About.class);
-				startActivity(intent);				
+				startActivity(intent);
 				break;
 			case R.id.exit:
-				finish();
+				showDialog(0);
 				break;
 			default:
 				break;
 		}
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -50,8 +53,33 @@ public class IChing extends Activity implements OnClickListener
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_menu, menu);
-	    return true;
+		inflater.inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.confirmation_exit_text)
+		.setCancelable(
+				false).setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						finish();
+					}
+				}).setNegativeButton(R.string.no,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		return alert;
 	}
 
 	private void setUpListeners()

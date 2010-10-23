@@ -13,4 +13,7 @@
 		Ifá system. In Western cultures and modern East Asia, it is still widely used for this purpose.
 	</string>
 	<string name="settings">Settings</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="confirmation_exit_text">Are you sure you want to exit?</string>
 </resources>
