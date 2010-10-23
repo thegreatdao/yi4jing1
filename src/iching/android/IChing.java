@@ -78,8 +78,7 @@ public class IChing extends Activity implements OnClickListener
 						dialog.cancel();
 					}
 				});
-		AlertDialog alert = builder.create();
-		return alert;
+		return builder.create();
 	}
 
 	private void setUpListeners()
