@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="main_title">Welcome to IChing!</string>
+    <string name="main_title">Welcome to IChing</string>
     <string name="app_name">IChing</string>
     <string name="references_check_label">Check References</string>
     <string name="cast_iching_label">Cast Iching</string>

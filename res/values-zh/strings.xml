@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="main_title">欢迎来到易经世界！</string>
+    <string name="main_title">欢迎来到易经世界</string>
     <string name="app_name">易经</string>
     <string name="references_check_label">64卦查询</string>
     <string name="cast_iching_label">占卜</string>
@@ -15,5 +15,5 @@
 	<string name="settings">设置</string>
 	<string name="yes">确定</string>
 	<string name="no">取消</string>
-	<string name="confirmation_exit_text">确定要推出吗？</string>
+	<string name="confirmation_exit_text">确定要退出吗？</string>
 </resources>
