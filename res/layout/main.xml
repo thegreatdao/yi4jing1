@@ -5,29 +5,22 @@
    android:layout_width="fill_parent"
    android:layout_height="fill_parent">
    <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/main_title" 
-      android:gravity="center"
-      android:textColor="#A5C04C"/>
+   	  style="@style/commonCenterizer.mainTitle"
+      android:text="@string/main_title"/>      
    <Button
+   	  style="@style/commonCenterizer"
    	  android:id="@+id/references_check"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
       android:text="@string/references_check_label" />
    <Button
+   	  style="@style/commonCenterizer"
    	  android:id="@+id/cast_iching"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
       android:text="@string/cast_iching_label" />
    <Button
-      android:id="@+id/about"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/about_label" />
+   	  style="@style/commonCenterizer"
+   	  android:id="@+id/about"
+	  android:text="@string/about_label" />
    <Button
+   	  style="@style/commonCenterizer"
       android:id="@+id/exit"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
       android:text="@string/exit_label" />
 </LinearLayout>
