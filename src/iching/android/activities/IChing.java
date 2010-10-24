@@ -1,4 +1,4 @@
-package iching.android;
+package iching.android.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
