@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">歡迎來到易經世界</string>
+    <string name="app_name">易經</string>
+    <string name="references_check_label">64卦查詢</string>
+    <string name="cast_iching_label">占卜</string>
+    <string name="about_label">關于</string>
+    <string name="exit_label">退出</string>
+    <string name="about_text">
+	    《易經》是中國一部最古老而深邃的經典，據說是由伏羲的言論加以總結與修改概括而來，
+		是華夏五千年智慧與文化的結晶，被譽為“群經之首，大道之源”。在古代是帝王之學，
+		政治家、軍事家、商家的必修之術。從本質上來講，《易經》是一本關于“卜筮”之書。
+		“卜筮”就是對未來事態的發展進行預測，而《易經》便是總結這些預測的規律理論的書。
+	</string>
+	<string name="settings">設置</string>
+	<string name="yes">確定</string>
+	<string name="no">取消</string>
+	<string name="confirmation_exit_text">確定要退出嗎？</string>
+</resources>
