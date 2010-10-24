@@ -62,22 +62,22 @@ public class IChing extends Activity implements OnClickListener
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.confirmation_exit_text)
-		.setCancelable(
-				false).setPositiveButton(R.string.yes,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int id)
-					{
-						finish();
-					}
-				}).setNegativeButton(R.string.no,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int id)
-					{
-						dialog.cancel();
-					}
-				});
+		.setCancelable(false)
+		.setPositiveButton(R.string.yes,
+		new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int id)
+			{
+				finish();
+			}
+		}).setNegativeButton(R.string.no,
+		new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int id)
+			{
+				dialog.cancel();
+			}
+		});
 		return builder.create();
 	}
 
