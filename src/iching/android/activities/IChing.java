@@ -37,19 +37,18 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
-				Log.d("iChing", "before db call");
-				IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
-				iChingSQLiteDBHelper.insert(IChingSQLiteDBHelper.GONG, "qian", "1", "2");
-				List<String> gongNamesInEn = iChingSQLiteDBHelper.selectAll(IChingSQLiteDBHelper.GONG, "en");
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("Names in dabase: ");
-				for(String name : gongNamesInEn)
-				{
-					stringBuilder.append(name + " ");
-				}
-				Log.d("iChing", "after db call");
-				String text = stringBuilder.toString();
-				Toast.makeText(IChing.this, text, text.length()).show();
+				IChingSQLiteDBHelper dh = new IChingSQLiteDBHelper(this);
+		        dh.deleteAll();
+		        dh.insert("Porky Pig");
+		        dh.insert("Foghorn Leghorn");
+		        dh.insert("Yosemite Sam");        
+		        List<String> names = dh.selectAll();
+		        StringBuilder sb = new StringBuilder();
+		        for (String name : names) {
+		           sb.append(name);
+		        }
+		        String text = sb.toString();
+		        Toast.makeText(IChing.this, text, Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);
