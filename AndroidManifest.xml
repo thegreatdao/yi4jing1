@@ -15,7 +15,7 @@
     	<activity android:name=".About" android:label="@string/about_label"
     		android:theme="@android:style/Theme.Dialog"/>
     		 
-    	<activity android:name=".IChingGridView" android:label="@string/about_label"/>
+    	<activity android:name=".IChingGridView" android:label="@string/gua_label"/>
     		
 	</application>
     

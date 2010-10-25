@@ -16,4 +16,5 @@
 	<string name="yes">確定</string>
 	<string name="no">取消</string>
 	<string name="confirmation_exit_text">確定要退出嗎？</string>
+	<string name="gua_label">64卦</string>
 </resources>

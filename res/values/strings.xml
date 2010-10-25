@@ -16,4 +16,5 @@
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	<string name="confirmation_exit_text">Are you sure you want to exit?</string>
+	<string name="gua_label">64 Hexagrams</string>
 </resources>
