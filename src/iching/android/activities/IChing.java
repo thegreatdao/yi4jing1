@@ -28,12 +28,14 @@ public class IChing extends Activity implements OnClickListener
 		switch (v.getId())
 		{
 			case R.id.references_check:
+				Intent referencesCheckintent = new Intent(this, IChingGridView.class);
+				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
 				break;
 			case R.id.about:
-				Intent intent = new Intent(this, About.class);
-				startActivity(intent);
+				Intent aboutIntent = new Intent(this, About.class);
+				startActivity(aboutIntent);
 				break;
 			case R.id.exit:
 				showDialog(0);
