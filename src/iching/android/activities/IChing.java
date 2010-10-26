@@ -1,5 +1,9 @@
 package iching.android.activities;
 
+import java.util.List;
+
+import iching.android.persistence.IChingSQLiteDBHelper;
+import static iching.android.persistence.IChingSQLiteDBHelper.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,16 +28,23 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	public void onClick(View v)
+	public void onClick(View view)
 	{
-		switch (v.getId())
+		switch (view.getId())
 		{
 			case R.id.references_check:
 				Intent referencesCheckintent = new Intent(this, IChingGridView.class);
 				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
-		        Toast.makeText(IChing.this, "text", Toast.LENGTH_SHORT).show();
+				IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+				List<String> names = iChingSQLiteDBHelper.selectAll(TABLE_GONG, TW);
+				StringBuilder sb = new StringBuilder();
+				for(String name : names)
+				{
+					sb.append(name + " ");
+				}
+		        Toast.makeText(IChing.this, sb.toString(), Toast.LENGTH_LONG).show();
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);
@@ -48,9 +59,9 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
+	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
-		return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(menuItem);
 	}
 
 	@Override
