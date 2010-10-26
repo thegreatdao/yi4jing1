@@ -1,77 +1,104 @@
 package iching.android.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.content.Context;
-import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
-public class IChingSQLiteDBHelper
+public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 {
-	private static final String DATABASE_NAME = "example.db";
-	   private static final int DATABASE_VERSION = 1;
-	   private static final String TABLE_NAME = "table1";
+	private static final String DB_PATH = "/data/data/iching.android.activities/databases/";
+	private static final String DB_NAME = "iching.db";
+	private SQLiteDatabase sqLiteDatabase;
+	private final Context context;
 
-	   private Context context;
-	   private SQLiteDatabase db;
+	public IChingSQLiteDBHelper(Context context)
+	{
+		super(context, DB_NAME, null, 1);
+		this.context = context;
+	}
 
-	   private SQLiteStatement insertStmt;
-	   private static final String INSERT = "insert into " 
-	      + TABLE_NAME + "(name) values (?)";
+	public void createDataBase() throws IOException
+	{
+		boolean dbExists = checkDataBase();
+		if(!dbExists)
+		{
+			this.getReadableDatabase();
+			try
+			{
+				copyDataBase();
+			}
+			catch (IOException e)
+			{
+				throw new Error("Error copying database");
+			}
+		}
+	}
 
-	   public IChingSQLiteDBHelper(Context context) {
-	      this.context = context;
-	      OpenHelper openHelper = new OpenHelper(this.context);
-	      this.db = openHelper.getWritableDatabase();
-	      this.insertStmt = this.db.compileStatement(INSERT);
-	   }
+	public void openDataBase() throws SQLException
+	{
+		String pathToDB = DB_PATH + DB_NAME;
+		sqLiteDatabase = SQLiteDatabase.openDatabase(pathToDB, null, SQLiteDatabase.OPEN_READONLY);
+	}
 
-	   public long insert(String name) {
-	      this.insertStmt.bindString(1, name);
-	      return this.insertStmt.executeInsert();
-	   }
+	@Override
+	public synchronized void close()
+	{
+		if(sqLiteDatabase != null)
+		{
+			sqLiteDatabase.close();
+		}
+		super.close();
+	}
 
-	   public void deleteAll() {
-	      this.db.delete(TABLE_NAME, null, null);
-	   }
+	@Override
+	public void onCreate(SQLiteDatabase db)
+	{
+	}
 
-	   public List<String> selectAll() {
-	      List<String> list = new ArrayList<String>();
-	      Cursor cursor = this.db.query(TABLE_NAME, new String[] { "name" }, 
-	        null, null, null, null, "name desc");
-	      if (cursor.moveToFirst()) {
-	         do {
-	            list.add(cursor.getString(0)); 
-	         } while (cursor.moveToNext());
-	      }
-	      if (cursor != null && !cursor.isClosed()) {
-	         cursor.close();
-	      }
-	      return list;
-	   }
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+	{
+	}
 
-	   private static class OpenHelper extends SQLiteOpenHelper {
+	private boolean checkDataBase()
+	{
+		SQLiteDatabase sqLiteDatabase = null;
+		try
+		{
+			String myPath = DB_PATH + DB_NAME;
+			sqLiteDatabase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+		}
+		catch (SQLiteException e)
+		{
+			throw new Error("error occurs while accessing database");
+		}
+		if (sqLiteDatabase != null)
+		{
+			sqLiteDatabase.close();
+		}
+		return sqLiteDatabase != null ? true : false;
+	}
 
-	      OpenHelper(Context context) {
-	         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	      }
-
-	      @Override
-	      public void onCreate(SQLiteDatabase db) {
-	         db.execSQL("CREATE TABLE " + TABLE_NAME + "(id INTEGER PRIMARY KEY, name TEXT)");
-	      }
-
-	      @Override
-	      public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-	         Log.w("Example", "Upgrading database, this will drop tables and recreate.");
-	         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-	         onCreate(db);
-	      }
-	   }
-
-
+	private void copyDataBase() throws IOException
+	{
+		InputStream dbInput = context.getAssets().open(DB_NAME);
+		String outDbFileName = DB_PATH + DB_NAME;
+		OutputStream dBOutPutStream = new FileOutputStream(outDbFileName);
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = dbInput.read(buffer)) > 0)
+		{
+			dBOutPutStream.write(buffer, 0, length);
+		}
+		dBOutPutStream.flush();
+		dBOutPutStream.close();
+		dbInput.close();
+	}
 }

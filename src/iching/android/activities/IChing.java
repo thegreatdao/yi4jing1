@@ -1,15 +1,11 @@
 package iching.android.activities;
 
-import java.util.List;
-
-import iching.android.persistence.IChingSQLiteDBHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,18 +33,7 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
-				IChingSQLiteDBHelper dh = new IChingSQLiteDBHelper(this);
-		        dh.deleteAll();
-		        dh.insert("Porky Pig");
-		        dh.insert("Foghorn Leghorn");
-		        dh.insert("Yosemite Sam");        
-		        List<String> names = dh.selectAll();
-		        StringBuilder sb = new StringBuilder();
-		        for (String name : names) {
-		           sb.append(name);
-		        }
-		        String text = sb.toString();
-		        Toast.makeText(IChing.this, text, Toast.LENGTH_SHORT).show();
+		        Toast.makeText(IChing.this, "text", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);
