@@ -38,7 +38,7 @@ public class IChing extends Activity implements OnClickListener
 				break;
 			case R.id.cast_iching:
 				IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
-				List<String> names = iChingSQLiteDBHelper.selectAll(TABLE_GONG, TW);
+				List<String> names = iChingSQLiteDBHelper.selectAll(TABLE_GUA, TW);
 				StringBuilder sb = new StringBuilder();
 				for(String name : names)
 				{
