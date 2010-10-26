@@ -1,9 +1,8 @@
 package iching.android.activities;
 
-import java.util.List;
-
+import static iching.android.persistence.IChingSQLiteDBHelper.EN;
+import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_GUA;
 import iching.android.persistence.IChingSQLiteDBHelper;
-import static iching.android.persistence.IChingSQLiteDBHelper.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -38,13 +37,8 @@ public class IChing extends Activity implements OnClickListener
 				break;
 			case R.id.cast_iching:
 				IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
-				List<String> names = iChingSQLiteDBHelper.selectAll(TABLE_GUA, TW);
-				StringBuilder sb = new StringBuilder();
-				for(String name : names)
-				{
-					sb.append(name + " ");
-				}
-		        Toast.makeText(IChing.this, sb.toString(), Toast.LENGTH_LONG).show();
+				String name = iChingSQLiteDBHelper.selectOne(TABLE_GUA, EN, 64);
+		        Toast.makeText(IChing.this, name, Toast.LENGTH_LONG).show();
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);

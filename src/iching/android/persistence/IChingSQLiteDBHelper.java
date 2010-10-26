@@ -47,6 +47,20 @@ public class IChingSQLiteDBHelper
 		return results;
 	}
 	
+	public String selectOne(String tableName, String field, long id)
+	{
+		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, "_id=" + id, null, null, null, null);
+		if(cursor.getCount() != 0)
+		{
+			cursor.moveToFirst();
+			return cursor.getString(0);
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
 	private static class IChingSQLiteOpenHelper extends SQLiteOpenHelper
 	{
 		private SQLiteDatabase sqLiteDatabase;
