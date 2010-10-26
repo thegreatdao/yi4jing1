@@ -10,7 +10,6 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class IChingSQLiteDBHelper
@@ -104,7 +103,7 @@ public class IChingSQLiteDBHelper
 		{
 		}
 
-		private boolean checkDataBase()
+		/*private boolean checkDataBase()
 		{
 			SQLiteDatabase sqLiteDatabase = null;
 			try
@@ -121,7 +120,7 @@ public class IChingSQLiteDBHelper
 				sqLiteDatabase.close();
 			}
 			return sqLiteDatabase != null ? true : false;
-		}
+		}*/
 
 		private void copyDataBase() throws IOException
 		{
