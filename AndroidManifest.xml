@@ -17,7 +17,7 @@
     		 
     	<activity android:name=".IChingGridView" android:label="@string/gua_label"/>
     		
-    	<activity android:name=".Gua" android:label="@string/gua_label"/>
+    	<activity android:name=".Gua" android:label="@string/gua_label" android:theme="@android:style/Theme.Dialog"/>
 	</application>
     
     <uses-sdk android:minSdkVersion="8" />

@@ -19,6 +19,7 @@ public class IChingSQLiteDBHelper
 	public static final String EN = "en";
 	public static final String CN = "cn";
 	public static final String TW = "tw";
+	public static final String ICON = "icon";
 	public static final String TABLE_GUA = "gua";
 	public static final String TABLE_GONG = "gong";
 	private SQLiteDatabase sqLiteDatabase;
