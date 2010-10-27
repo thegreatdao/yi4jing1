@@ -16,6 +16,7 @@ public class Gua extends Activity
         String data = extras.getString("guaContent");
         TextView textView = (TextView)findViewById(R.id.gua_content);
         textView.setText(data);
+        setTitle("OK");
 	}
 	
 }

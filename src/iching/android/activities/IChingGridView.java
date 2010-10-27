@@ -1,6 +1,9 @@
 package iching.android.activities;
 
 import static iching.android.persistence.IChingSQLiteDBHelper.*;
+
+import java.util.Locale;
+
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.viewadapters.IChingGridViewAdapter;
 import android.app.Activity;
@@ -29,8 +32,18 @@ public class IChingGridView extends Activity
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 				{
 					id = position + 1;
-					String guaContent = iChingSQLiteDBHelper.selectOne(TABLE_GUA, CN, id);
-					String guaIcon = iChingSQLiteDBHelper.selectOne(TABLE_GUA, ICON, id);
+					Locale locale = Locale.getDefault();
+					String field = EN;
+					if(locale.equals(Locale.TAIWAN))
+					{
+						field = TW;
+					}
+					else if(locale.equals(Locale.CHINA))
+					{
+						field = CN;
+					}
+					String guaContent = iChingSQLiteDBHelper.selectOne(TABLE_GUA, field, id);
+					String guaIcon = iChingSQLiteDBHelper.selectOne(TABLE_GUA, field, id);
 					intent.putExtra("guaContent", guaContent);
 					intent.putExtra("icon", guaIcon);
 					startActivity(intent);
