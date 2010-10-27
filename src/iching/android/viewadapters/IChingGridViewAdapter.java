@@ -9,13 +9,7 @@ import static iching.android.activities.R.drawable.*;
 
 public class IChingGridViewAdapter extends BaseAdapter
 {
-	private Integer[] guaImages = { bi, bi2, bo, cui, daguo, daxu, dayou,
-			dazhuang, ding, dui, dun, feng, fou, fu, ge, gen, gou, guan,
-			guimei, heng, huan, jian, jiaren, jie, jie2, jiji, jin, jing, jue,
-			kan, kui, kun, kun2, li, lin, lu, lv, meng, mingyi, qian, qian2,
-			qian3, sheng, shi, shike, song, sui, sun, tai, tongren, tun, weiji,
-			wuwang, xian, xiaochu, xiaoguo, xu, xun, yi, yi2, yu, zhen, zhong,
-			zhongfu };
+	private Integer[] guaImages = {qian3, };
 	private Context context;
 
 	public IChingGridViewAdapter(Context context)
