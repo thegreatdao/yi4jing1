@@ -59,21 +59,21 @@ public class IChingSQLiteDBHelper
 	public String selectOne(String tableName, String field, long id)
 	{
 		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, "_id=" + id, null, null, null, null);
+		String result = "";
 		if(cursor.getCount() != 0)
 		{
 			cursor.moveToFirst();
-			return cursor.getString(0);
+			cursor.close();
+			result = cursor.getString(0);
 		}
-		else
-		{
-			return "";
-		}
+		cursor.close();
+		return result;
 	}
 	
 	public Map<String, String> selectOneGua(long id, Locale locale)
 	{
 		String bodyLan = EN;
-		String titleLan = EN;
+		String titleLan = EN+ TITLE_SUFFIX;
 		if(locale.equals(Locale.TAIWAN))
 		{
 			bodyLan = TW;
@@ -93,6 +93,7 @@ public class IChingSQLiteDBHelper
 			gua.put(GUA_TITLE, cursor.getString(1));
 			gua.put(GUA_ICON, cursor.getString(2));
 		}
+		cursor.close();
 		return gua;
 	}
 	
