@@ -27,15 +27,14 @@ public class IChingGridView extends Activity
 		super.onCreate(savedInstanceState);
 		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
 		setContentView(R.layout.iching_grid_view);
-		GridView gridView = (GridView)findViewById(R.id.ichingGridView);
+		GridView gridView = (GridView)findViewById(R.id.hexagrams_grid_view);
 		gridView.setAdapter(new IChingGridViewAdapter(this));
 		final Intent intent = new Intent(getApplicationContext(), Gua.class);
-		
+		final Locale locale = Locale.getDefault();
 		gridView.setOnItemClickListener(
 			new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 				{
-					Locale locale = Locale.getDefault();
 					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGua(position + 1, locale);
 					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
 					intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
@@ -44,7 +43,6 @@ public class IChingGridView extends Activity
 				}
 			}
 		);
-		
 		gridView.setOnItemSelectedListener(
 				new OnItemSelectedListener()
 				{

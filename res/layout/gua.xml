@@ -9,7 +9,6 @@
   		<TableRow>
 		  	<ImageView
 			  	android:id="@+id/gua_icon"
-		  		android:src="@drawable/bi2"
 		  		android:layout_width="fill_parent"
 			  	android:layout_height="wrap_content"/>
   		</TableRow>

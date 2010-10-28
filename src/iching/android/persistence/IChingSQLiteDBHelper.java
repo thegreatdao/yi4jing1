@@ -26,6 +26,9 @@ public class IChingSQLiteDBHelper
 	public static final String TABLE_GUA = "gua";
 	public static final String TABLE_GONG = "gong";
 	public static final String TITLE_SUFFIX = "_title";
+	public static final String TITLE_EN = EN + TITLE_SUFFIX;
+	public static final String TITLE_CN = CN + TITLE_SUFFIX;
+	public static final String TITLE_TW = TW + TITLE_SUFFIX;
 	public static final String GUA_BODY = "guaBody";
 	public static final String GUA_TITLE = "guaTitle";
 	public static final String GUA_ICON = "guaIcon";
@@ -38,10 +41,28 @@ public class IChingSQLiteDBHelper
 		sqLiteDatabase = iChingSQLiteOpenHelper.getWritableDatabase();
 	}
 	
-	public List<String> selectAll(String tableName, String field)
+	public List<String> selectALlTitles(Locale locale)
 	{
+		String field = TITLE_EN;
+		if(locale.equals(Locale.TAIWAN))
+		{
+			field = TITLE_TW;
+		}
+		else if(locale.equals(Locale.CHINA))
+		{
+			field = TITLE_CN;
+		}
+		return selectAllForOneField(TABLE_GUA, field, " _id desc");
+	}
+	
+	private List<String> selectAllForOneField(String tableName, String field, String orderBy)
+	{
+		if(orderBy == null)
+		{
+			orderBy = " " + field + " desc";
+		}
 		List<String> results = new ArrayList<String>();
-		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, null, null, null, null, " " + field + " desc");
+		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, null, null, null, null, orderBy);
 		if(cursor.moveToFirst())
 		{
 			do
@@ -73,16 +94,16 @@ public class IChingSQLiteDBHelper
 	public Map<String, String> selectOneGua(long id, Locale locale)
 	{
 		String bodyLan = EN;
-		String titleLan = EN+ TITLE_SUFFIX;
+		String titleLan = TITLE_EN;
 		if(locale.equals(Locale.TAIWAN))
 		{
 			bodyLan = TW;
-			titleLan = TW + TITLE_SUFFIX;
+			titleLan = TITLE_TW;
 		}
 		else if (locale.equals(Locale.CHINA))
 		{
 			bodyLan = CN;
-			titleLan = CN + TITLE_SUFFIX;
+			titleLan = TITLE_CN;
 		}
 		Map<String, String> gua = new HashMap<String, String>();
 		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON}, "_id=" + id, null, null, null, null);
