@@ -1,8 +1,5 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.EN;
-import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_GUA;
-import iching.android.persistence.IChingSQLiteDBHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 public class IChing extends Activity implements OnClickListener
 {
@@ -36,9 +32,6 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
-				IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
-				String name = iChingSQLiteDBHelper.selectOne(TABLE_GUA, EN, 64);
-		        Toast.makeText(IChing.this, name, Toast.LENGTH_LONG).show();
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);

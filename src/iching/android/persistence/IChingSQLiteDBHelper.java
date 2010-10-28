@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +25,11 @@ public class IChingSQLiteDBHelper
 	public static final String ICON = "icon";
 	public static final String TABLE_GUA = "gua";
 	public static final String TABLE_GONG = "gong";
+	public static final String TITLE_SUFFIX = "_title";
+	public static final String GUA_BODY = "guaBody";
+	public static final String GUA_TITLE = "guaTitle";
+	public static final String GUA_ICON = "guaIcon";
+	
 	private SQLiteDatabase sqLiteDatabase;
 	
 	public IChingSQLiteDBHelper(Context context)
@@ -60,6 +68,32 @@ public class IChingSQLiteDBHelper
 		{
 			return "";
 		}
+	}
+	
+	public Map<String, String> selectOneGua(long id, Locale locale)
+	{
+		String bodyLan = EN;
+		String titleLan = EN;
+		if(locale.equals(Locale.TAIWAN))
+		{
+			bodyLan = TW;
+			titleLan = TW + TITLE_SUFFIX;
+		}
+		else if (locale.equals(Locale.CHINA))
+		{
+			bodyLan = CN;
+			titleLan = CN + TITLE_SUFFIX;
+		}
+		Map<String, String> gua = new HashMap<String, String>();
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON}, "_id=" + id, null, null, null, null);
+		if(cursor.getCount() != 0)
+		{
+			cursor.moveToFirst();
+			gua.put(GUA_BODY, cursor.getString(0));
+			gua.put(GUA_TITLE, cursor.getString(1));
+			gua.put(GUA_ICON, cursor.getString(2));
+		}
+		return gua;
 	}
 	
 	private static class IChingSQLiteOpenHelper extends SQLiteOpenHelper

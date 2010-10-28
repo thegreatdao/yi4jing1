@@ -3,17 +3,26 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
-  	<ImageView
-  		android:src="@drawable/bi2"
-  		android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"/>
-	<ScrollView
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content">
-	  <TextView 
-	  	android:id="@+id/gua_content"
-	  	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-	  	android:padding="10dip"/>
-	</ScrollView>
+  	<TableLayout
+		android:layout_width="wrap_content"
+  		android:layout_height="wrap_content">
+  		<TableRow>
+		  	<ImageView
+			  	android:id="@+id/gua_icon"
+		  		android:src="@drawable/bi2"
+		  		android:layout_width="fill_parent"
+			  	android:layout_height="wrap_content"/>
+  		</TableRow>
+  		<TableRow>
+			<ScrollView
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content">
+			  <TextView 
+			  	android:id="@+id/gua_content"
+			  	android:layout_width="fill_parent"
+			  	android:layout_height="wrap_content"
+			  	android:padding="10dip"/>
+			</ScrollView>
+  		</TableRow>
+  	</TableLayout>
 </LinearLayout>

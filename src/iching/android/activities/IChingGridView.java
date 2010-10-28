@@ -1,11 +1,14 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.*;
-
-import java.util.Locale;
-
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.viewadapters.IChingGridViewAdapter;
+
+import java.util.Locale;
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class IChingGridView extends Activity
 {
@@ -23,34 +27,41 @@ public class IChingGridView extends Activity
 		super.onCreate(savedInstanceState);
 		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
 		setContentView(R.layout.iching_grid_view);
-		GridView gridview = (GridView)findViewById(R.id.ichingGridView);
-		gridview.setAdapter(new IChingGridViewAdapter(this));
+		GridView gridView = (GridView)findViewById(R.id.ichingGridView);
+		gridView.setAdapter(new IChingGridViewAdapter(this));
 		final Intent intent = new Intent(getApplicationContext(), Gua.class);
 		
-		gridview.setOnItemClickListener(
+		gridView.setOnItemClickListener(
 			new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 				{
-					id = position + 1;
 					Locale locale = Locale.getDefault();
-					String field = EN;
-					if(locale.equals(Locale.TAIWAN))
-					{
-						field = TW;
-					}
-					else if(locale.equals(Locale.CHINA))
-					{
-						field = CN;
-					}
-					String guaContent = iChingSQLiteDBHelper.selectOne(TABLE_GUA, field, id);
-					String guaIcon = iChingSQLiteDBHelper.selectOne(TABLE_GUA, field, id);
-					intent.putExtra("guaContent", guaContent);
-					intent.putExtra("icon", guaIcon);
+					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGua(position + 1, locale);
+					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
+					intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
+					intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
 					startActivity(intent);
 				}
 			}
 		);
-
+		
+		gridView.setOnItemSelectedListener(
+				new OnItemSelectedListener()
+				{
+		
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3)
+					{
+						//Toast.makeText(getApplicationContext(), "text", Toast.LENGTH_LONG).show();
+					}
+		
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0)
+					{
+					}
+				}
+		);
 	}
 
 }
