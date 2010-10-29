@@ -52,7 +52,7 @@ public class IChingSQLiteDBHelper
 		{
 			field = TITLE_CN;
 		}
-		return selectAllForOneField(TABLE_GUA, field, " _id desc");
+		return selectAllForOneField(TABLE_GUA, field, " _id asc");
 	}
 	
 	private List<String> selectAllForOneField(String tableName, String field, String orderBy)
