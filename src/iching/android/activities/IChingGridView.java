@@ -1,22 +1,18 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.persistence.IChingSQLiteDBHelper;
-import iching.android.viewadapters.IChingGridViewAdapter;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class IChingGridView extends Activity
 {
@@ -26,12 +22,19 @@ public class IChingGridView extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+		setContentView(R.layout.iching_list_view);
 		final Intent intent = new Intent(getApplicationContext(), Gua.class);
 		final Locale locale = Locale.getDefault();
-		
-		setContentView(R.layout.iching_grid_view);
+		List<String> titles = iChingSQLiteDBHelper.selectALlTitles(locale);
+		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.gua_title_text_view, titles));
+		/*setContentView(R.layout.iching_grid_view);
 		GridView gridView = (GridView)findViewById(R.id.hexagrams_grid_view);
+		registerForContextMenu(gridView);
 		gridView.setAdapter(new IChingGridViewAdapter(this));
+		
+		final Intent intent = new Intent(getApplicationContext(), Gua.class);
+		final Locale locale = Locale.getDefault();
 		
 		gridView.setOnItemClickListener(
 			new OnItemClickListener(){
@@ -45,7 +48,6 @@ public class IChingGridView extends Activity
 				}
 			}
 		);
-		
 		gridView.setOnItemSelectedListener(
 				new OnItemSelectedListener()
 				{
@@ -62,7 +64,16 @@ public class IChingGridView extends Activity
 					{
 					}
 				}
-		);
+		);*/
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Swithch view");
+		menu.add(0, v.getId(), 0, "grid view");
+		menu.add(0, v.getId(), 0, "list view");
 	}
 
 }
