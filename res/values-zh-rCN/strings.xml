@@ -17,4 +17,7 @@
 	<string name="no">取消</string>
 	<string name="confirmation_exit_text">确定要退出吗？</string>
 	<string name="gua_label">64卦</string>
+	<string name="switch_view">列表转化</string>
+	<string name="grid_view">图片形式</string>
+	<string name="list_view">文字形式</string>
 </resources>

@@ -17,4 +17,7 @@
 	<string name="no">No</string>
 	<string name="confirmation_exit_text">Are you sure you want to exit?</string>
 	<string name="gua_label">64 Hexagrams</string>
+	<string name="switch_view">Switch view</string>
+	<string name="grid_view">Image view</string>
+	<string name="list_view">Text view</string>
 </resources>

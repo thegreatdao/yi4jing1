@@ -45,9 +45,9 @@ public class IChingGridView extends Activity
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Swithch view");
-		menu.add(0, v.getId(), 0, "grid view");
-		menu.add(0, v.getId(), 0, "list view");
+		menu.setHeaderTitle(R.string.switch_view);
+		menu.add(0, v.getId(), 0, R.string.grid_view);
+		menu.add(0, v.getId(), 0, R.string.list_view);
 	}
 
 	@Override
@@ -63,6 +63,7 @@ public class IChingGridView extends Activity
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
 		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.gua_title_text_view, titles));
 		registerForContextMenu(listView);
+		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
 		return listView;
 	}
 	
@@ -71,12 +72,23 @@ public class IChingGridView extends Activity
 		GridView gridView = (GridView)findViewById(R.id.hexagrams_grid_view);
 		registerForContextMenu(gridView);
 		gridView.setAdapter(new IChingGridViewAdapter(this));
-		
-		final Intent intent = new Intent(getApplicationContext(), Gua.class);
-		
-		gridView.setOnItemClickListener(
+		setOnItemClickListener(iChingSQLiteDBHelper, locale, gridView);
+		return gridView;
+	}
+	private void setOnItemClickListener( final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale, AdapterView<?> adapterView)
+	{
+		adapterView.setOnItemClickListener(
 			new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+				{
+					final Intent intent = new Intent(getApplicationContext(), Gua.class);
+					setUpHexagram(iChingSQLiteDBHelper, locale, intent,
+							position);
+				}
+
+				private void setUpHexagram(
+						final IChingSQLiteDBHelper iChingSQLiteDBHelper,
+						final Locale locale, final Intent intent, int position)
 				{
 					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGua(position + 1, locale);
 					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
@@ -86,7 +98,6 @@ public class IChingGridView extends Activity
 				}
 			}
 		);
-		return gridView;
 	}
 	
 }
