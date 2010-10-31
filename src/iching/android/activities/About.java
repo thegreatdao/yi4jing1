@@ -1,6 +1,7 @@
 package iching.android.activities;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
 public class About extends Activity
@@ -11,6 +12,7 @@ public class About extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
+		setTitleColor(Color.rgb(255, 218, 47));
 	}
 	
 }

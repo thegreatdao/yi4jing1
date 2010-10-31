@@ -4,8 +4,19 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
 	</style>
+	
     <style name="commonCenterizer.mainTitle">
         <item name="android:textColor">#A5C336</item>
         <item name="android:gravity">center</item>
     </style>
+    
+    <style name="Theme.iching" parent="android:Theme.Light">
+        <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="Theme.iching.about" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@drawable/background</item>
+    </style>
+    
 </resources>
