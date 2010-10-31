@@ -43,6 +43,7 @@ public class IChingGridView extends Activity
 		isGridView = Boolean.TRUE;
 		
 	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo)
 	{
@@ -93,6 +94,7 @@ public class IChingGridView extends Activity
 		setOnItemClickListener(iChingSQLiteDBHelper, locale, gridView);
 		return gridView;
 	}
+	
 	private void setOnItemClickListener( final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale, AdapterView<?> adapterView)
 	{
 		adapterView.setOnItemClickListener(
