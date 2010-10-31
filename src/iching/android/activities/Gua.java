@@ -7,6 +7,7 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import java.lang.reflect.Field;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class Gua extends Activity
 		TextView textView = (TextView) findViewById(R.id.gua_content);
 		textView.setText(data);
 		setTitle(extras.getString(GUA_TITLE));
+		setTitleColor(Color.rgb(255, 218, 47));
 		ImageView iconImage = (ImageView) findViewById(R.id.gua_icon);
 		String icon = extras.getString(GUA_ICON);
 		int iconId = getIconId(icon);
