@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.ViewSwitcher;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class IChingGridView extends Activity
+public class IChingView extends Activity
 {
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;
