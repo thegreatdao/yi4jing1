@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -27,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class IChingGridView extends Activity
 {
 	private ViewSwitcher viewSwitcher;
+	private boolean isGridView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,23 +40,39 @@ public class IChingGridView extends Activity
 		setListView(iChingSQLiteDBHelper, locale);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
 		setGridView(iChingSQLiteDBHelper, locale);
-		viewSwitcher.showNext();
+		isGridView = Boolean.TRUE;
 		
 	}
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo)
 	{
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle(R.string.switch_view);
-		menu.add(0, v.getId(), 0, R.string.grid_view);
-		menu.add(0, v.getId(), 0, R.string.list_view);
+		super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
+		contextMenu.setHeaderTitle(R.string.switch_view);
+		contextMenu.add(Menu.NONE, view.getId(), Menu.NONE, R.string.grid_view);
+		contextMenu.add(Menu.NONE, view.getId(), Menu.FIRST, R.string.list_view);
 	}
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item)
+	public boolean onContextItemSelected(MenuItem menuItem)
 	{
-		viewSwitcher.showPrevious();
-		return super.onOptionsItemSelected(item);
+		int itemOrder = menuItem.getOrder();
+		if(isGridView)
+		{
+			if(itemOrder == Menu.FIRST)
+			{
+				isGridView = Boolean.FALSE;
+				viewSwitcher.showPrevious();
+			}
+		}
+		else
+		{
+			if(itemOrder == Menu.NONE)
+			{
+				isGridView = Boolean.TRUE;
+				viewSwitcher.showPrevious();
+			}
+		}
+		return super.onOptionsItemSelected(menuItem);
 	}
 	
 	private ListView setListView(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale)

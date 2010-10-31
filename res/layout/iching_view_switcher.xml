@@ -13,7 +13,6 @@
 	    android:verticalSpacing="10dp"
 	    android:horizontalSpacing="10dp"
 	    android:stretchMode="columnWidth"
-	    android:gravity="center"
 		/>
 		
 		<ListView android:id="@+id/hexagrams_list_view"
