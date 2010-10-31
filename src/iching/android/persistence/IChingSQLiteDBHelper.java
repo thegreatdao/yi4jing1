@@ -133,10 +133,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 				results.add(cursor.getString(0));
 			}while(cursor.moveToNext());
 		}
-		if (cursor != null && !cursor.isClosed())
-		{
-			cursor.close();
-		}
+		cursor.close();
 		return results;
 	}
 	
@@ -147,7 +144,6 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		if(cursor.getCount() != 0)
 		{
 			cursor.moveToFirst();
-			cursor.close();
 			result = cursor.getString(0);
 		}
 		cursor.close();

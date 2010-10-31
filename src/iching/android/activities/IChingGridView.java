@@ -30,6 +30,7 @@ public class IChingGridView extends Activity
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -42,8 +43,8 @@ public class IChingGridView extends Activity
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
 		setGridView(iChingSQLiteDBHelper, locale);
 		isGridView = Boolean.TRUE;
-		
 	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo)
 	{
