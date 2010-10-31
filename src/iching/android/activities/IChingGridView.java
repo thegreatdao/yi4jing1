@@ -29,12 +29,13 @@ public class IChingGridView extends Activity
 {
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;
-	
+	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+		this.iChingSQLiteDBHelper = iChingSQLiteDBHelper;
 		setContentView(R.layout.iching_view_switcher);
 		final Locale locale = Locale.getDefault();
 		setListView(iChingSQLiteDBHelper, locale);
@@ -43,7 +44,6 @@ public class IChingGridView extends Activity
 		isGridView = Boolean.TRUE;
 		
 	}
-	
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo)
 	{
@@ -57,23 +57,24 @@ public class IChingGridView extends Activity
 	public boolean onContextItemSelected(MenuItem menuItem)
 	{
 		int itemOrder = menuItem.getOrder();
-		if(isGridView)
+		if(itemOrder == Menu.FIRST && isGridView)
 		{
-			if(itemOrder == Menu.FIRST)
-			{
-				isGridView = Boolean.FALSE;
-				viewSwitcher.showPrevious();
-			}
+			isGridView = Boolean.FALSE;
+			viewSwitcher.showPrevious();
 		}
-		else
+		if(itemOrder == Menu.NONE && !isGridView)
 		{
-			if(itemOrder == Menu.NONE)
-			{
-				isGridView = Boolean.TRUE;
-				viewSwitcher.showPrevious();
-			}
+			isGridView = Boolean.TRUE;
+			viewSwitcher.showPrevious();
 		}
 		return super.onOptionsItemSelected(menuItem);
+	}
+	
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+		iChingSQLiteDBHelper.close();
 	}
 	
 	private ListView setListView(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale)
