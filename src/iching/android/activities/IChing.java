@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +16,24 @@ import android.view.View.OnClickListener;
 
 public class IChing extends Activity implements OnClickListener
 {
+	private MediaPlayer mediaPlayer;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setUpListeners();
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		mediaPlayer = MediaPlayer.create(this, R.raw.bg);
+		mediaPlayer.start();
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		mediaPlayer.stop();
 	}
 
 	@Override
