@@ -12,7 +12,7 @@ public class About extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
-		setTitleColor(Color.rgb(255, 218, 47));
+		setTitleColor(Color.rgb(41, 40, 41));
 	}
 	
 }
