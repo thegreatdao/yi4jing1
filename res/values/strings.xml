@@ -20,4 +20,9 @@
 	<string name="switch_view">Switch view</string>
 	<string name="grid_view">Image view</string>
 	<string name="list_view">Text view</string>
+	<string name="music_title">music_summary</string>
+	<string name="music_summary">music_summary</string>
+	<string name="hexagrams_title">music_summary</string>
+	<string name="hexagrams_summary">hexagrams_summary</string>
+	<string name="settings_label">IChing Settings</string>
 </resources>

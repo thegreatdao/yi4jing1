@@ -3,6 +3,7 @@ package iching.android.activities;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
+import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.viewadapters.IChingGridViewAdapter;
 

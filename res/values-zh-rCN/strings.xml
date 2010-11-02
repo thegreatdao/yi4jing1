@@ -20,4 +20,9 @@
 	<string name="switch_view">列表转化</string>
 	<string name="grid_view">图片形式</string>
 	<string name="list_view">文字形式</string>
+	<string name="music_title">音乐设置</string>
+	<string name="music_summary">关闭或播放音乐</string>
+	<string name="hexagrams_title">64卦排列形式</string>
+	<string name="hexagrams_summary">图片或文字排列</string>
+	<string name="settings_label">易经设置</string>
 </resources>

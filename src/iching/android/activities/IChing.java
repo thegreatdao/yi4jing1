@@ -1,12 +1,13 @@
 package iching.android.activities;
 
+import iching.android.R;
+import iching.android.service.MusicService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +17,6 @@ import android.view.View.OnClickListener;
 
 public class IChing extends Activity implements OnClickListener
 {
-	private MediaPlayer mediaPlayer;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -25,15 +25,13 @@ public class IChing extends Activity implements OnClickListener
 		setContentView(R.layout.main);
 		setUpListeners();
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		mediaPlayer = MediaPlayer.create(this, R.raw.bg);
-		mediaPlayer.start();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		mediaPlayer.stop();
+		stopService(new Intent(this, MusicService.class));
 	}
 
 	@Override
@@ -62,7 +60,8 @@ public class IChing extends Activity implements OnClickListener
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
-		return super.onOptionsItemSelected(menuItem);
+		startActivity(new Intent(this, Preferences.class));
+		return Boolean.TRUE;
 	}
 
 	@Override

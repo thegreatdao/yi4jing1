@@ -1,5 +1,6 @@
 package iching.android.activities;
 
+import iching.android.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;

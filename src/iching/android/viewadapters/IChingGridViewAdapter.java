@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import static iching.android.activities.R.drawable.*;
+import static iching.android.R.drawable.*;
 
 public class IChingGridViewAdapter extends BaseAdapter
 {

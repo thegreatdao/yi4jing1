@@ -17,7 +17,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 {
-	private static final String DB_PATH = "/data/data/iching.android.activities/databases/";
+	private static final String DB_PATH = "/data/data/iching.android/databases/";
 	private static final String DB_NAME = "iching.db";
 	public static final String EN = "en";
 	public static final String CN = "cn";

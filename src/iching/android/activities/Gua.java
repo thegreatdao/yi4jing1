@@ -4,6 +4,8 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 
+import iching.android.R;
+
 import java.lang.reflect.Field;
 
 import android.app.Activity;
