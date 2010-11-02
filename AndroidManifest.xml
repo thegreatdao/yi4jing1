@@ -19,7 +19,7 @@
     	
 		<activity android:name=".activities.Preferences" android:label="@string/settings_label"/>
 		
-		<service android:name=".service.MusicService"/>
+		<service android:name=".service.MusicService" android:enabled="true"/>
 	</application>
     
     <uses-sdk android:minSdkVersion="8" />
