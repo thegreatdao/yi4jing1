@@ -25,4 +25,8 @@
 	<string name="hexagrams_title">music_summary</string>
 	<string name="hexagrams_summary">hexagrams_summary</string>
 	<string name="settings_label">IChing Settings</string>
+	<string name="music_preference_category">Music</string>
+	<string name="hexagrams_preference_category">Hexagrams</string>
+	<string name="hexagrams_view_preference">Hexagrams\' view</string>
+	<string name="hexagrams_view_preference_summary">Select a view that suits you to display hexagrams</string>
 </resources>

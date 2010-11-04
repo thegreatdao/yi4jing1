@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-	<CheckBoxPreference
-		android:key="music"
-		android:title="@string/music_title"
-		android:summary="@string/music_summary"
-		android:defaultValue="true" />
+	<PreferenceCategory android:title="@string/music_preference_category">
+		<CheckBoxPreference
+			android:key="musicPref"
+			android:title="@string/music_title"
+			android:summary="@string/music_summary"
+			android:defaultValue="true"/>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/hexagrams_preference_category">
+		<ListPreference android:title="@string/hexagrams_view_preference"
+			android:summary="@string/hexagrams_view_preference_summary"
+			android:key="viewPref"
+			android:entries="@array/hexagrams_view_names"
+			android:entryValues="@array/hexagrams_view_values"/>
+    </PreferenceCategory>
+	
 </PreferenceScreen>

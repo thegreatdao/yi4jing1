@@ -43,9 +43,15 @@ public class IChingView extends Activity
 		setListView(iChingSQLiteDBHelper, locale);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
 		setGridView(iChingSQLiteDBHelper, locale);
-		isGridView = Boolean.TRUE;
+		isGridView = Preferences.getValue(this).equals("0");
 	}
 	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo)
 	{
@@ -54,7 +60,7 @@ public class IChingView extends Activity
 		contextMenu.add(Menu.NONE, view.getId(), Menu.NONE, R.string.grid_view);
 		contextMenu.add(Menu.NONE, view.getId(), Menu.FIRST, R.string.list_view);
 	}
-
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem)
 	{
@@ -98,7 +104,7 @@ public class IChingView extends Activity
 		return gridView;
 	}
 	
-	private void setOnItemClickListener( final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale, AdapterView<?> adapterView)
+	private void setOnItemClickListener(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale, AdapterView<?> adapterView)
 	{
 		adapterView.setOnItemClickListener(
 			new OnItemClickListener(){

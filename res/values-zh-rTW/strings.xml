@@ -25,4 +25,8 @@
 	<string name="hexagrams_title">64卦排列形式</string>
 	<string name="hexagrams_summary">圖片或文字排列</string>
 	<string name="settings_label">易經設置</string>
+	<string name="music_preference_category">音樂</string>
+	<string name="hexagrams_preference_category">卦</string>
+	<string name="hexagrams_view_preference">64卦排列</string>
+	<string name="hexagrams_view_preference_summary">選擇您想要的卦排列形式</string>
 </resources>

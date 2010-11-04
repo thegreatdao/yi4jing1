@@ -1,7 +1,7 @@
 package iching.android.activities;
 
 import iching.android.R;
-import iching.android.service.MusicService;
+import iching.android.service.MusicControl;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 
 public class IChing extends Activity implements OnClickListener
 {
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -28,12 +28,22 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	protected void onDestroy()
+	protected void onResume()
 	{
-		super.onDestroy();
-		stopService(new Intent(this, MusicService.class));
+		super.onResume();
+		if(Preferences.isMusicOn(this))
+		{
+			MusicControl.play(this, R.raw.bg);
+		}
 	}
 
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MusicControl.stop(this);
+	}
+	
 	@Override
 	public void onClick(View view)
 	{
