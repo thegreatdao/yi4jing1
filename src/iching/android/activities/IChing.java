@@ -41,7 +41,7 @@ public class IChing extends Activity implements OnClickListener
 	protected void onPause()
 	{
 		super.onPause();
-		MusicControl.stop(this);
+//		MusicControl.stop(this);
 	}
 	
 	@Override
