@@ -7,19 +7,32 @@ import android.media.MediaPlayer;
 public class MusicControl
 {
 	private static MediaPlayer mediaPlayer = null;
-
+	
 	public static void play(Context context, int resource)
 	{
-		stop(context);
-
-		if (Preferences.isMusicOn(context))
+		if (Preferences.isMusicOn(context) && mediaPlayer == null)
 		{
-			mediaPlayer = MediaPlayer.create(context, resource);
-			mediaPlayer.setLooping(true);
+			playMusic(context, resource);
+		}
+	}	
+
+	public static void pause(Context context)
+	{
+		mediaPlayer.pause();
+	}
+	
+	public static void resume(Context context, int resource)
+	{
+		if(mediaPlayer == null)
+		{
+			playMusic(context, resource);
+		}
+		else
+		{
 			mediaPlayer.start();
 		}
 	}
-
+		
 	public static void stop(Context context)
 	{
 		if (mediaPlayer != null)
@@ -29,4 +42,12 @@ public class MusicControl
 			mediaPlayer = null;
 		}
 	}
+	
+	private static void playMusic(Context context, int resource)
+	{
+		mediaPlayer = MediaPlayer.create(context, resource);
+		mediaPlayer.setLooping(true);
+		mediaPlayer.start();
+	}
+
 }

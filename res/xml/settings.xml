@@ -9,11 +9,13 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/hexagrams_preference_category">
-		<ListPreference android:title="@string/hexagrams_view_preference"
-			android:summary="@string/hexagrams_view_preference_summary"
+		<ListPreference
 			android:key="viewPref"
+			android:title="@string/hexagrams_view_preference"
+			android:summary="@string/hexagrams_view_preference_summary"
 			android:entries="@array/hexagrams_view_names"
-			android:entryValues="@array/hexagrams_view_values"/>
+			android:entryValues="@array/hexagrams_view_values"
+			android:defaultValue="0"/>
     </PreferenceCategory>
 	
 </PreferenceScreen>

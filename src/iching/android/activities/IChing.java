@@ -28,9 +28,9 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	protected void onResume()
+	protected void onStart()
 	{
-		super.onResume();
+		super.onStart();
 		if(Preferences.isMusicOn(this))
 		{
 			MusicControl.play(this, R.raw.bg);
@@ -38,12 +38,26 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	protected void onPause()
+	protected void onResume()
 	{
-		super.onPause();
-//		MusicControl.stop(this);
+		super.onResume();
+		if(Preferences.isMusicOn(this))
+		{
+			MusicControl.resume(this, R.raw.bg);
+		}
+		else
+		{
+			MusicControl.stop(this);
+		}
 	}
 	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		MusicControl.stop(this);
+	}
+
 	@Override
 	public void onClick(View view)
 	{

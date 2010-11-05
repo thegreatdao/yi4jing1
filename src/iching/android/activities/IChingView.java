@@ -43,7 +43,11 @@ public class IChingView extends Activity
 		setListView(iChingSQLiteDBHelper, locale);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
 		setGridView(iChingSQLiteDBHelper, locale);
-		isGridView = Preferences.getValue(this).equals("0");
+		isGridView = Preferences.getStringValue(this).equals("0");
+		if(!isGridView)
+		{
+			viewSwitcher.showPrevious();
+		}
 	}
 	
 	@Override

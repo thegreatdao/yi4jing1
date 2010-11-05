@@ -26,7 +26,7 @@ public class Preferences extends PreferenceActivity
 		return getSharedPreferences(context).getBoolean(KEY_MUSIC, DEFAULT_VALUE_MUSIC);
 	}
 	
-	public static String getValue(Context context)
+	public static String getStringValue(Context context)
 	{
 		return getSharedPreferences(context).getString(KEY_VIEW, DEFAULT_VALUE_VIEW);
 	}
