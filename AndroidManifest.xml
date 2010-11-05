@@ -17,6 +17,8 @@
     	
     	<activity android:name=".activities.Gua" android:theme="@style/Theme.iching.dialog"/>
     	
+    	<activity android:name=".activities.CastIChing" android:label="@string/gua_label"/>
+    	
 		<activity android:name=".activities.Preferences" android:label="@string/settings_label"/>
 		
 		<service android:name=".service.MusicService" android:enabled="true"/>

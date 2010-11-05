@@ -68,6 +68,8 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(referencesCheckintent);
 				break;
 			case R.id.cast_iching:
+				Intent castIChingIntent = new Intent(this, CastIChing.class);
+				startActivity(castIChingIntent);
 				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);

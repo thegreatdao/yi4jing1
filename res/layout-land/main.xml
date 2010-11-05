@@ -15,7 +15,8 @@
    
 	   	<TextView
 		   	 style="@style/commonCenterizer.mainTitle"
-		     android:text="@string/main_title"/>
+		     android:text="@string/main_title"
+		     android:textStyle="bold"/>
 	   
 		 <TableLayout
 		     android:layout_height="wrap_content"
@@ -26,21 +27,21 @@
 				<Button
 				   style="@style/commonCenterizer"
 				   android:id="@+id/references_check"
-				   android:text="@string/references_check_label" />
+				   android:text="@string/references_check_label"/>
 				<Button
 				   style="@style/commonCenterizer"
 				   android:id="@+id/cast_iching"
-				   android:text="@string/cast_iching_label" />
+				   android:text="@string/cast_iching_label"/>
 			</TableRow>
 			<TableRow>
 				<Button
 				   style="@style/commonCenterizer"
 				   android:id="@+id/about"
-				   android:text="@string/about_label" />
+				   android:text="@string/about_label"/>
 				<Button
 				   style="@style/commonCenterizer"
 				   android:id="@+id/exit"
-				   android:text="@string/exit_label" />
+				   android:text="@string/exit_label"/>
 			</TableRow>
 		</TableLayout>
 		
