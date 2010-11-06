@@ -1,7 +1,4 @@
 .classpath
-
 .project
 bin/
 gen/
-.classpath
-.project
