@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="Android">
+		<item name="button">@style/ichingButton</item>
+		<item name="android:windowBackground">@drawable/background</item>
+	</style>
+</resources>
