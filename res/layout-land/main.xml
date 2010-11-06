@@ -16,7 +16,8 @@
 	   	<TextView
 		   	 style="@style/commonCenterizer.mainTitle"
 		     android:text="@string/main_title"
-		     android:textStyle="bold"/>
+		     android:textStyle="bold"
+		     android:paddingBottom="20dip"/>
 	   
 		 <TableLayout
 		     android:layout_height="wrap_content"
