@@ -20,6 +20,7 @@ public class CastIChing extends Activity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(new Panel(this));
+		//sdfsdf
 	}
 
 	class Panel extends View
