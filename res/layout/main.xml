@@ -8,11 +8,8 @@
    android:layout_width="fill_parent"
    android:layout_height="fill_parent">
    <TextView
-   	  style="@style/commonCenterizer.mainTitle"
-      android:text="@string/main_title"
-      android:textStyle="bold"
-      android:textColor="@color/main_title"
-      android:paddingBottom="20dip"/>
+   	  style="?mainTitle"
+      android:text="@string/main_title"/>
    <Button
    	  android:id="@+id/references_check"
       android:text="@string/references_check_label"

@@ -3,5 +3,6 @@
 	<style name="Android">
 		<item name="button">@style/ichingButton</item>
 		<item name="android:windowBackground">@drawable/background</item>
+		<item name="mainTitle">@style/mainTitle</item>
 	</style>
 </resources>
