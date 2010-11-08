@@ -5,18 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import static iching.android.R.drawable.*;
 
 public class IChingGridViewAdapter extends BaseAdapter
 {
-	private Integer[] guaImages = {qian3, kun, tun, meng, xu, song, shi, bi,
-									xiaochu, fu, tai, fou, tongren, dayou, qian, yu,
-									sui, zhong, lin, guan, shike, bi2, bo, fu,
-									wuwang, daxu, yi, daguo, kan, li, xian, heng,
-									dun, dazhuang, jin, mingyi, jiaren, kui, qian2, jie,
-									sun, yi2, jue, gou, cui, sheng, kun2, jing,
-									ge, ding, zhen, gen, jian ,guimei, feng, lv,
-									xun, dui, huan, jie2, zhongfu, xiaoguo, jiji, weiji};
+	private Integer[] hexagramIcons = AdapterCommons.HEXAGRAM_ICONS;
 	private Context context;
 
 	public IChingGridViewAdapter(Context context)
@@ -27,7 +19,7 @@ public class IChingGridViewAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		return guaImages.length;
+		return hexagramIcons.length;
 	}
 
 	@Override
@@ -56,7 +48,7 @@ public class IChingGridViewAdapter extends BaseAdapter
 			imageView = (ImageView) convertView;
 		}
 
-		imageView.setImageResource(guaImages[position]);
+		imageView.setImageResource(hexagramIcons[position]);
 		return imageView;
 	}
 

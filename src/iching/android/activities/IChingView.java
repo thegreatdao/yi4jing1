@@ -4,19 +4,23 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.R;
+import iching.android.bean.Hexagram;
 import iching.android.persistence.IChingSQLiteDBHelper;
+import iching.android.viewadapters.AdapterCommons;
 import iching.android.viewadapters.IChingGridViewAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -96,21 +101,25 @@ public class IChingView extends Activity
 	{
 		List<String> titles = iChingSQLiteDBHelper.selectALlTitles(locale);
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.gua_title_text_view, titles){
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent)
-			{
-				TextView txt = new TextView(this.getContext());
-				txt.setTextColor(Color.BLACK);
-				txt.setTextSize(16);
-				txt.setText(getItem(position));
-				txt.setPadding(10, 8, 10, 8);
-				return txt; 
-			}});
+		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, AdapterCommons.HEXAGRAM_ICONS)));
 		registerForContextMenu(listView);
 		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
 		return listView;
+	}
+	
+	private ArrayList<Hexagram> getHexagrams(List<String> titles, Integer[] icons)
+	{		
+		ArrayList<Hexagram> result = new ArrayList<Hexagram>();
+		int index = 0;
+		for(String title : titles)
+		{
+			Hexagram hexagram = new Hexagram();
+			hexagram.setTitle(title);
+			hexagram.setIcon(icons[index]);
+			result.add(hexagram);			
+			index++;
+		}
+		return result;
 	}
 	
 	private GridView setGridView(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale)
@@ -145,6 +154,39 @@ public class IChingView extends Activity
 				}
 			}
 		);
+	}
+	
+	private class HexagramAdapter extends ArrayAdapter<Hexagram>
+	{
+
+		private ArrayList<Hexagram> hexagrams;
+		
+		public HexagramAdapter(Context context, int textViewResourceId, ArrayList<Hexagram> hexagrams)
+		{
+			super(context, textViewResourceId, hexagrams);
+			this.hexagrams = hexagrams;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
+			View view = convertView;
+	        if (view == null)
+	        {
+	            LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            view = vi.inflate(R.layout.list_item, null);
+	        }
+	        Hexagram hexagram = hexagrams.get(position);
+	        if (hexagram != null)
+	        {
+	                TextView hexagramText = (TextView) view.findViewById(R.id.hexagram_text);
+	                hexagramText.setText(hexagram.getTitle());
+	                ImageView hexagramIcon = (ImageView)view.findViewById(R.id.hexagram_icon);
+	                hexagramIcon.setImageResource(R.drawable.icon);
+	        }
+	        return view;
+		}
+
 	}
 	
 }
