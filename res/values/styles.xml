@@ -33,9 +33,5 @@
     <style name="Theme.iching.dialog" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@drawable/background</item>
     </style>
-    
-    <style name="listItem">
-		<item name="android:textColor">@android:color/black</item>
-	</style>
 
 </resources>

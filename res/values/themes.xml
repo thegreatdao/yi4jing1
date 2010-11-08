@@ -4,5 +4,11 @@
 		<item name="button">@style/ichingButton</item>
 		<item name="android:windowBackground">@drawable/background</item>
 		<item name="mainTitle">@style/mainTitle</item>
+		<item name="android:listViewStyle">@style/listView</item>
 	</style>
+
+	<style name="listView" parent="@android:style/Widget.ListView">
+		<item name="android:listSelector">@drawable/list_item</item>
+	</style>
+
 </resources>

@@ -13,18 +13,21 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class IChingView extends Activity
 {
@@ -93,7 +96,18 @@ public class IChingView extends Activity
 	{
 		List<String> titles = iChingSQLiteDBHelper.selectALlTitles(locale);
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.gua_title_text_view, titles));
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.gua_title_text_view, titles){
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent)
+			{
+				TextView txt = new TextView(this.getContext());
+				txt.setTextColor(Color.BLACK);
+				txt.setTextSize(16);
+				txt.setText(getItem(position));
+				txt.setPadding(10, 8, 10, 8);
+				return txt; 
+			}});
 		registerForContextMenu(listView);
 		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
 		return listView;
