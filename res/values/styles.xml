@@ -30,8 +30,4 @@
         <item name="android:layout_marginRight">10dip</item>
     </style>
     
-    <style name="Theme.iching.dialog" parent="android:Theme.Dialog">
-        <item name="android:windowBackground">@drawable/background</item>
-    </style>
-
 </resources>

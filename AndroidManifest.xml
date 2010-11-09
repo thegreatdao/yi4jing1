@@ -11,11 +11,11 @@
             </intent-filter>
         </activity>
 
-    	<activity android:name=".activities.About" android:label="@string/about_label" android:theme="@style/Theme.iching.dialog"/>
+    	<activity android:name=".activities.About" android:label="@string/about_label" android:theme="@style/Android.dialog"/>
     	
     	<activity android:name=".activities.IChingView" android:label="@string/gua_label"/>
     	
-    	<activity android:name=".activities.Gua" android:theme="@style/Theme.iching.dialog"/>
+    	<activity android:name=".activities.Gua" android:theme="@style/Android.dialog" android:label="@string/gua_label"/>
     	
     	<activity android:name=".activities.CastIChing" android:label="@string/gua_label"/>
     	
