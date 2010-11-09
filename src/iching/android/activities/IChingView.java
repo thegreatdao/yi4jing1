@@ -3,10 +3,10 @@ package iching.android.activities;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
+import static iching.android.R.drawable.*;
 import iching.android.R;
 import iching.android.bean.Hexagram;
 import iching.android.persistence.IChingSQLiteDBHelper;
-import iching.android.viewadapters.AdapterCommons;
 import iching.android.viewadapters.IChingGridViewAdapter;
 
 import java.util.ArrayList;
@@ -39,7 +39,14 @@ public class IChingView extends Activity
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
-	
+	private Integer[] hexagramIcons = {hexagram1, hexagram2, hexagram3, hexagram4, hexagram5, hexagram6, hexagram7, hexagram8,
+										hexagram9, hexagram10, hexagram11, hexagram12, hexagram13, hexagram14, hexagram15, hexagram16,
+										hexagram17, hexagram18, hexagram19, hexagram20, hexagram21, hexagram22, hexagram23, hexagram24,
+										hexagram25, hexagram26, hexagram27, hexagram28, hexagram29, hexagram30, hexagram31, hexagram32,
+										hexagram33, hexagram34, hexagram35, hexagram36, hexagram37, hexagram38, hexagram39, hexagram40,
+										hexagram41, hexagram42, hexagram43, hexagram44, hexagram45, hexagram46, hexagram47, hexagram48, 
+										hexagram49, hexagram50, hexagram51, hexagram52, hexagram53, hexagram54, hexagram55, hexagram56,
+										hexagram57, hexagram58, hexagram59, hexagram60, hexagram61, hexagram62, hexagram63, hexagram64};
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -101,7 +108,7 @@ public class IChingView extends Activity
 	{
 		List<String> titles = iChingSQLiteDBHelper.selectALlTitles(locale);
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
-		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, AdapterCommons.HEXAGRAM_ICONS)));
+		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, hexagramIcons)));
 		registerForContextMenu(listView);
 		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
 		return listView;
@@ -182,7 +189,7 @@ public class IChingView extends Activity
 	                TextView hexagramText = (TextView) view.findViewById(R.id.hexagram_text);
 	                hexagramText.setText(hexagram.getTitle());
 	                ImageView hexagramIcon = (ImageView)view.findViewById(R.id.hexagram_icon);
-	                hexagramIcon.setImageResource(R.drawable.icon);
+	                hexagramIcon.setImageResource(hexagram.getIcon());
 	        }
 	        return view;
 		}
