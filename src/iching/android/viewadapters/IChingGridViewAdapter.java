@@ -62,6 +62,7 @@ import static iching.android.R.drawable.yi2;
 import static iching.android.R.drawable.yu;
 import static iching.android.R.drawable.zhen;
 import static iching.android.R.drawable.zhong;
+import static iching.android.R.drawable.lu;
 import static iching.android.R.drawable.zhongfu;
 import android.content.Context;
 import android.view.View;
@@ -72,7 +73,7 @@ import android.widget.ImageView;
 public class IChingGridViewAdapter extends BaseAdapter
 {
 	private Integer[] hexagramImages = {qian3, kun, tun, meng, xu, song, shi, bi,
-			xiaochu, fu, tai, fou, tongren, dayou, qian, yu,
+			xiaochu, lu, tai, fou, tongren, dayou, qian, yu,
 			sui, zhong, lin, guan, shike, bi2, bo, fu,
 			wuwang, daxu, yi, daguo, kan, li, xian, heng,
 			dun, dazhuang, jin, mingyi, jiaren, kui, qian2, jie,

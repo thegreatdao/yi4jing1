@@ -38,7 +38,7 @@ public class Gua extends Activity
 		for (Field field : fields)
 		{
 			String fieldName = field.getName();
-			if (fieldName.endsWith(icon))
+			if (fieldName.equals(icon))
 			{
 				try
 				{

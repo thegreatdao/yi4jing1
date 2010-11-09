@@ -8,6 +8,7 @@
 		<item name="android:windowTitleSize">30dip</item>
         <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+		<item name="android:textColor">@color/default_color</item>
 	</style>
 
 	<style name="Android.dialog" parent="android:Theme.Dialog">
