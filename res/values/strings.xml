@@ -2,7 +2,7 @@
 <resources>
     <string name="main_title">Welcome to IChing</string>
     <string name="app_name">IChing</string>
-    <string name="references_check_label">Reference Check</string>
+    <string name="references_check_label">IChing Index</string>
     <string name="cast_iching_label">Cast IChing</string>
     <string name="about_label">About</string>
     <string name="exit_label">Exit</string>
