@@ -101,7 +101,7 @@ public class IChing extends Activity implements OnClickListener
 	@Override
 	protected Dialog onCreateDialog(int id)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);;
 		builder.setMessage(R.string.confirmation_exit_text)
 		.setCancelable(false)
 		.setPositiveButton(R.string.yes,
