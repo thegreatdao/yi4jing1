@@ -5,10 +5,16 @@ import iching.android.service.MusicControl;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.InflateException;
+import android.view.LayoutInflater;
+import android.view.LayoutInflater.Factory;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +24,8 @@ import android.view.View.OnClickListener;
 public class IChing extends Activity implements OnClickListener
 {
 
+	private static final String ICON_MENU_ITEM_VIEW = "com.android.internal.view.menu.IconMenuItemView";
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -95,9 +103,46 @@ public class IChing extends Activity implements OnClickListener
 	{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
+		setMenuBackground();
 		return true;
 	}
 
+	private void setMenuBackground()
+	{
+		getLayoutInflater().setFactory(new Factory()
+		{
+			@Override
+			public View onCreateView(String name, Context context, AttributeSet attrs)
+			{
+
+				if (name.equalsIgnoreCase(ICON_MENU_ITEM_VIEW))
+				{
+
+					try
+					{
+						LayoutInflater f = getLayoutInflater();
+						final View view = f.createView(name, null, attrs);
+						new Handler().post(new Runnable()
+						{
+							public void run()
+							{
+								view.setBackgroundResource(R.drawable.option);
+							}
+						});
+						return view;
+					}
+					catch (InflateException e)
+					{
+					}
+					catch (ClassNotFoundException e)
+					{
+					}
+				}
+				return null;
+			}
+		});
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id)
 	{
