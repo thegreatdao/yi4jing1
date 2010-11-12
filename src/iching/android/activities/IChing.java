@@ -8,6 +8,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +24,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 public class IChing extends Activity implements OnClickListener
 {
@@ -31,8 +38,25 @@ public class IChing extends Activity implements OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		ImageView spinner = (ImageView) findViewById(R.id.spinnner);
+		spinner.setImageResource(R.drawable.icon);
+		Animation iconRotation = AnimationUtils.loadAnimation(this, R.anim.rotation_icon);
+		spinner.startAnimation(iconRotation);
 		setUpListeners();
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+	}
+
+	@SuppressWarnings("unused")
+	private void rotateImage(ImageView spinner)
+	{
+		Bitmap source = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+		int height = source.getHeight();
+		int width = source.getWidth();
+		Matrix matrix = new Matrix();
+		matrix.postRotate(90);
+		Bitmap rotatedBMP = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
+		BitmapDrawable bitmapDrawable = new BitmapDrawable(rotatedBMP);
+		spinner.setImageDrawable(bitmapDrawable);
 	}
 
 	@Override

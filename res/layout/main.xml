@@ -7,6 +7,11 @@
    android:paddingTop="30dip"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent">
+   <ImageView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:id="@+id/spinnner"
+   />
    <TextView
    	  style="?mainTitle"
       android:text="@string/main_title"/>
