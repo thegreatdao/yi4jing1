@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/cast_iching"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+  <TableLayout
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content">
+  	<TableRow>
+  	
+  	</TableRow>
+  	<TableRow>
+		<ImageView
+			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:src="@drawable/manwen"/>
+		<ImageView
+			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:src="@drawable/hanwen"/>
+		<ImageView
+			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:src="@drawable/hanwen"/>
+  	</TableRow>
+  
+  </TableLayout>
+</LinearLayout>

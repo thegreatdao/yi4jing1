@@ -38,22 +38,27 @@ public class IChing extends Activity implements OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		ImageView spinner = (ImageView) findViewById(R.id.spinnner);
-		spinner.setImageResource(R.drawable.red);
-		Animation iconRotation = AnimationUtils.loadAnimation(this, R.anim.rotation_icon);
-		spinner.startAnimation(iconRotation);
+		spinnningIcon();
 		setUpListeners();
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	}
 
+	private void spinnningIcon()
+	{
+		ImageView spinner = (ImageView) findViewById(R.id.spinnner);
+		spinner.setImageResource(R.drawable.red);
+		Animation iconRotation = AnimationUtils.loadAnimation(this, R.anim.rotation_icon);
+		spinner.startAnimation(iconRotation);
+	}
+
 	@SuppressWarnings("unused")
-	private void rotateImage(ImageView spinner)
+	private void rotateImage(ImageView spinner, int degrees)
 	{
 		Bitmap source = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 		int height = source.getHeight();
 		int width = source.getWidth();
 		Matrix matrix = new Matrix();
-		matrix.postRotate(90);
+		matrix.postRotate(degrees);
 		Bitmap rotatedBMP = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
 		BitmapDrawable bitmapDrawable = new BitmapDrawable(rotatedBMP);
 		spinner.setImageDrawable(bitmapDrawable);

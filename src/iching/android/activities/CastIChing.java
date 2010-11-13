@@ -1,5 +1,6 @@
 package iching.android.activities;
 
+import iching.android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,7 +10,6 @@ import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.TextView;
 
 public class CastIChing extends Activity
 {
@@ -19,8 +19,8 @@ public class CastIChing extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(new Panel(this));
-		//sdfsdf
+		setContentView(R.layout.cast_iching);
+//		setContentView(new Panel(this));
 	}
 
 	class Panel extends View
@@ -58,10 +58,6 @@ public class CastIChing extends Activity
 			y = 85;
 			mDrawable.setBounds(x, y, x + width, y + height);
 			mDrawable.draw(canvas);
-			TextView textView = new TextView(getBaseContext());
-			textView.setText("This is it!");
-			textView.setHeight(200);
-			textView.setWidth(200);
 		}
 	}
 }
