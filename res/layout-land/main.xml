@@ -13,10 +13,15 @@
       android:paddingLeft="20dip"
       android:paddingRight="20dip">
    
-	   	<TextView
-		   	 style="@style/mainTitle"
-		     android:text="@string/main_title"/>
-	   
+ 		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/spinnner"
+			android:layout_gravity="center_horizontal"/>
+		<TextView
+			style="?mainTitle"
+		   	android:text="@string/main_title"/>
+	      
 		 <TableLayout
 		     android:layout_height="wrap_content"
 		     android:layout_width="wrap_content"
