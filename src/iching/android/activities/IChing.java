@@ -39,7 +39,7 @@ public class IChing extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		ImageView spinner = (ImageView) findViewById(R.id.spinnner);
-		spinner.setImageResource(R.drawable.icon);
+		spinner.setImageResource(R.drawable.red);
 		Animation iconRotation = AnimationUtils.loadAnimation(this, R.anim.rotation_icon);
 		spinner.startAnimation(iconRotation);
 		setUpListeners();
