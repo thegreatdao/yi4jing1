@@ -2,17 +2,17 @@ package iching.android.activities;
 
 import iching.android.R;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 
-public class CastIChing extends Activity
+public class CastIChing extends Activity implements OnClickListener
 {
+	private Handler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -20,44 +20,72 @@ public class CastIChing extends Activity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.cast_iching);
-//		setContentView(new Panel(this));
+		Button button = (Button) findViewById(R.id.test);
+		button.setOnClickListener(this);
+		handler = new Handler();
 	}
 
-	class Panel extends View
+	@Override
+	public void onClick(View v)
 	{
-		public Panel(Context context) {
-			super(context);
-		}
-
-		@Override
-		public void onDraw(Canvas canvas)
+		Thread thread = new Thread(new Runnable()
 		{
-			ShapeDrawable mDrawable;
+			@Override
+			public void run()
+			{
+				long now = System.currentTimeMillis();
+				long timeToTossCoin = 3000;
+				while (System.currentTimeMillis() - now < timeToTossCoin)
+				{
+					tossCoins();
+				}
+			}
+		});
+		thread.start();
+	}
+	
+	private void tossCoins()
+	{
+		final ImageView firstCoin = (ImageView)findViewById(R.id.first_coin);
+		final ImageView secondCoin = (ImageView)findViewById(R.id.second_coin);
+		final ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
+		
+		handler.post(new TossCoinThread(firstCoin, headOrTail()));
+		handler.post(new TossCoinThread(secondCoin, headOrTail()));
+		handler.post(new TossCoinThread(thirdCoin, headOrTail()));
+		
+	}
 
-			int x = 10;
-			int y = 10;
-			int width = 100;
-			int height = 10;
-
-			mDrawable = new ShapeDrawable(new RectShape());
-			mDrawable.getPaint().setColor(Color.BLACK);
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
-			y = 25;
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
-			y = 40;
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
-			y = 55;
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
-			y = 70;
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
-			y = 85;
-			mDrawable.setBounds(x, y, x + width, y + height);
-			mDrawable.draw(canvas);
+	private int headOrTail()
+	{
+		double mid = 0.5;
+		double random = Math.random();
+		if(random > mid)
+		{
+			return R.drawable.hanwen;
 		}
+		else
+		{
+			return R.drawable.manwen;
+		}
+	}
+	
+	private class TossCoinThread extends Thread
+	{
+		private ImageView coin;
+		private int source;
+		
+		TossCoinThread(ImageView coin, int source)
+		{
+			this.coin = coin;
+			this.source = source;
+		}
+		
+		@Override
+		public void run()
+		{
+			coin.setImageResource(source);
+		}
+		
 	}
 }
