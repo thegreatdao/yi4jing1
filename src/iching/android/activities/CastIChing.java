@@ -15,6 +15,9 @@ public class CastIChing extends Activity implements OnClickListener
 	private Handler handler;
 	private int threadCount;
 	private Integer threadFinishedCount = 0;
+	private boolean isHeadFirstCoin;
+	private boolean isHeadSecondCoin;
+	private boolean isHeadThirdCoin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
