@@ -13,6 +13,8 @@ import android.widget.ImageView;
 public class CastIChing extends Activity implements OnClickListener
 {
 	private Handler handler;
+	private int threadCount;
+	private Integer threadFinishedCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -28,17 +30,40 @@ public class CastIChing extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
+		final Button button = (Button) findViewById(R.id.test);
+		button.setClickable(false);
 		Thread thread = new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				long now = System.currentTimeMillis();
-				long timeToTossCoin = 3000;
+				long timeToTossCoin = 2000;
 				while (System.currentTimeMillis() - now < timeToTossCoin)
 				{
 					tossCoins();
+					threadCount++;
 				}
+				Thread ichingChecker = new Thread(new Runnable()
+				{
+					
+					@Override
+					public void run()
+					{
+						boolean run = true;
+						while(run)
+						{
+							if(threadCount * 3 == threadFinishedCount)
+							{
+								run = false;
+								threadCount = 0;
+								threadFinishedCount = 0;
+								button.setClickable(true);
+							}
+						}
+					}
+				});
+				ichingChecker.start();
 			}
 		});
 		thread.start();
@@ -85,6 +110,10 @@ public class CastIChing extends Activity implements OnClickListener
 		public void run()
 		{
 			coin.setImageResource(source);
+			synchronized(threadFinishedCount)
+			{
+				threadFinishedCount++;
+			}
 		}
 		
 	}
