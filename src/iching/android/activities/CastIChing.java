@@ -2,8 +2,10 @@ package iching.android.activities;
 
 import iching.android.R;
 import android.app.Activity;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,9 +17,6 @@ public class CastIChing extends Activity implements OnClickListener
 	private Handler handler;
 	private int threadCount;
 	private Integer threadFinishedCount = 0;
-	private boolean isHeadFirstCoin;
-	private boolean isHeadSecondCoin;
-	private boolean isHeadThirdCoin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -41,7 +40,7 @@ public class CastIChing extends Activity implements OnClickListener
 			public void run()
 			{
 				long now = System.currentTimeMillis();
-				long timeToTossCoin = 2000;
+				long timeToTossCoin = 1000;
 				while (System.currentTimeMillis() - now < timeToTossCoin)
 				{
 					tossCoins();
@@ -61,7 +60,20 @@ public class CastIChing extends Activity implements OnClickListener
 								run = false;
 								threadCount = 0;
 								threadFinishedCount = 0;
+								try
+								{
+									Thread.sleep(2000);
+								} catch (InterruptedException e)
+								{
+									e.printStackTrace();
+								}
+								ImageView firstCoin = (ImageView)findViewById(R.id.first_coin);
+								ImageView secondCoin = (ImageView)findViewById(R.id.second_coin);
+								ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
 								button.setClickable(true);
+								Log.e("firstCoine", firstCoin.getHeight() + "");
+								Log.e("secondCoine", secondCoin.getHeight() + "");
+								Log.e("thirdCoine", thirdCoin.getHeight() + "");
 							}
 						}
 					}
@@ -112,6 +124,11 @@ public class CastIChing extends Activity implements OnClickListener
 		@Override
 		public void run()
 		{
+			if(source == R.drawable.manwen)
+			{
+				Matrix markerMatrix = new Matrix();
+				coin.setImageMatrix(markerMatrix);
+			}
 			coin.setImageResource(source);
 			synchronized(threadFinishedCount)
 			{
