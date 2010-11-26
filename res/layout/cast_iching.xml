@@ -66,13 +66,15 @@
 	  		android:orientation="vertical"
 	  		android:layout_gravity="center">
 	  		<ImageView
-	  			android:visibility="invisible"
+				android:id="@+id/yao_6"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
+	  			android:visibility="invisible"
 	  			android:layout_marginTop="3dip"
 	  			android:layout_marginBottom="3dip"/>
 	  		<ImageView
+				android:id="@+id/yao_5"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
@@ -80,6 +82,7 @@
 	  			android:layout_marginTop="3dip"
 	  			android:layout_marginBottom="3dip"/>
 	  		<ImageView
+				android:id="@+id/yao_4"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
@@ -87,6 +90,7 @@
 	  			android:layout_marginTop="3dip"
 	  			android:layout_marginBottom="3dip"/>
 	  		<ImageView
+				android:id="@+id/yao_3"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
@@ -94,13 +98,15 @@
 	  			android:layout_marginTop="3dip"
 	  			android:layout_marginBottom="3dip"/>
 	  		<ImageView
-	  			android:visibility="invisible"
+				android:id="@+id/yao_2"
 				android:layout_width="wrap_content"
+	  			android:visibility="invisible"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
 	  			android:layout_marginTop="3dip"
 	  			android:layout_marginBottom="3dip"/>
 	  		<ImageView
+				android:id="@+id/yao_"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package iching.android.activities;
 
 import iching.android.R;
+import iching.android.utils.IChingHelper;
 import android.app.Activity;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class CastIChing extends Activity implements OnClickListener
 	private int threadCount;
 	private Integer threadFinishedCount = 0;
 	private Integer tossTimes = 0;
+	private int[] originalHexagram = new int[6];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,16 +33,17 @@ public class CastIChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	public void onClick(View v)
+	public void onClick(View view)
 	{
 		final Button button = (Button) findViewById(R.id.test);
-		button.setClickable(false);
+		button.setClickable(Boolean.FALSE);
 		Thread thread = new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				tossTimes++;
+				tossTimes = tossTimes % 7;
 				long now = System.currentTimeMillis();
 				long timeToTossCoin = 1000;
 				while (System.currentTimeMillis() - now < timeToTossCoin)
@@ -65,19 +68,92 @@ public class CastIChing extends Activity implements OnClickListener
 								try
 								{
 									Thread.sleep(2000);
-								} catch (InterruptedException e)
+								}
+								catch(InterruptedException e)
 								{
 									e.printStackTrace();
 								}
 								ImageView firstCoin = (ImageView)findViewById(R.id.first_coin);
 								ImageView secondCoin = (ImageView)findViewById(R.id.second_coin);
 								ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
-								button.setClickable(true);
+								final int[] coins = {firstCoin.getHeight(), secondCoin.getHeight(), thirdCoin.getHeight()};
+								if(tossTimes != 6)
+								{
+									button.setClickable(Boolean.TRUE);
+								}
+								Thread setYaoThread = new Thread(new Runnable(){
+									@Override
+									public void run()
+									{
+										setYao(coins);
+									}
+								});
+								handler.post(setYaoThread);
 								Log.e("firstCoine", firstCoin.getHeight() + "");
 								Log.e("secondCoine", secondCoin.getHeight() + "");
 								Log.e("thirdCoine", thirdCoin.getHeight() + "");
 							}
 						}
+					}
+
+					private void displayDerivedHexagram(int[] hexagram)
+					{
+						for(int i : hexagram)
+						{
+							
+						}
+					}
+					
+					private void setYao(int[] coins) {
+						String idString = "yao";
+						if(tossTimes != 1)
+						{
+							idString += tossTimes;
+						}								
+						int enableImageId = IChingHelper.getId(idString, R.id.class);								
+						ImageView yao = (ImageView) findViewById(enableImageId);
+						int yaoSource = getYaoSource(coins, originalHexagram, tossTimes - 1);
+						yao.setImageResource(yaoSource);
+						yao.setVisibility(View.VISIBLE);
+					}
+					
+					private int getYaoSource(int[] coins, int[] originalHexagram, int index)
+					{
+						String result = null;
+						int numOfYins = 0;
+						int numOfYangs = 0;
+						for(int i : coins)
+						{
+							if(i == 35)
+							{
+								numOfYangs++;
+							}
+							else
+							{
+								numOfYins++;
+							}
+						}
+						if(numOfYangs == 3)
+						{
+							result = "yang_changing";
+							originalHexagram[index] = 0;
+						}
+						else if(numOfYins == 3)
+						{
+							result = "yin_changing";
+							originalHexagram[index] = 1;
+						}
+						else if(numOfYangs == 2)
+						{
+							result = "yin";
+							originalHexagram[index] = 0;
+						}
+						else
+						{
+							result = "yang";
+							originalHexagram[index] = 1;
+						}
+						return IChingHelper.getId(result, R.drawable.class);
 					}
 				});
 				ichingChecker.start();

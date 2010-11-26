@@ -4,9 +4,7 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.R;
-
-import java.lang.reflect.Field;
-
+import iching.android.utils.IChingHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -27,29 +25,8 @@ public class Gua extends Activity
 		setTitle(extras.getString(GUA_TITLE));
 		ImageView iconImage = (ImageView) findViewById(R.id.gua_icon);
 		String icon = extras.getString(GUA_ICON);
-		int iconId = getIconId(icon);
+		int iconId = IChingHelper.getId(icon, R.drawable.class);
 		iconImage.setImageResource(iconId);
-	}
-
-	private int getIconId(String icon)
-	{
-		Field[] fields = R.drawable.class.getFields();
-		int iconId = R.drawable.bi;
-		for (Field field : fields)
-		{
-			String fieldName = field.getName();
-			if (fieldName.equals(icon))
-			{
-				try
-				{
-					iconId = (Integer) field.get(null);
-				} catch (Exception e)
-				{
-					throw new Error("no such icon");
-				}
-			}
-		}
-		return iconId;
 	}
 
 }
