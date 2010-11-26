@@ -17,6 +17,7 @@ public class CastIChing extends Activity implements OnClickListener
 	private Handler handler;
 	private int threadCount;
 	private Integer threadFinishedCount = 0;
+	private Integer tossTimes = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +40,7 @@ public class CastIChing extends Activity implements OnClickListener
 			@Override
 			public void run()
 			{
+				tossTimes++;
 				long now = System.currentTimeMillis();
 				long timeToTossCoin = 1000;
 				while (System.currentTimeMillis() - now < timeToTossCoin)
