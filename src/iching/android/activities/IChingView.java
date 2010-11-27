@@ -106,7 +106,7 @@ public class IChingView extends Activity
 	
 	private ListView setListView(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale)
 	{
-		List<String> titles = iChingSQLiteDBHelper.selectALlTitles(locale);
+		List<String> titles = iChingSQLiteDBHelper.selectAllTitles(locale);
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
 		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, hexagramIcons)));
 		registerForContextMenu(listView);
@@ -153,7 +153,7 @@ public class IChingView extends Activity
 						final IChingSQLiteDBHelper iChingSQLiteDBHelper,
 						final Locale locale, final Intent intent, int position)
 				{
-					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGua(position + 1, locale);
+					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField("_id", position + 1, locale);
 					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
 					intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
 					intent.putExtra(GUA_ICON, gua.get(GUA_ICON));

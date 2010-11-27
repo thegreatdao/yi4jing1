@@ -17,48 +17,42 @@
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
 	  			android:visibility="invisible"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao5"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yang"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao4"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao3"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao2"
 				android:layout_width="wrap_content"
 	  			android:visibility="invisible"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
   		</LinearLayout>
   		<LinearLayout
 	  		android:layout_width="fill_parent"
@@ -66,53 +60,47 @@
 	  		android:orientation="vertical"
 	  		android:layout_gravity="center">
 	  		<ImageView
-				android:id="@+id/yao_6"
+				android:id="@+id/yao_5"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
 	  			android:visibility="invisible"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
-	  		<ImageView
-				android:id="@+id/yao_5"
-	  			android:visibility="invisible"
-				android:layout_width="wrap_content"
-	  			android:layout_height="wrap_content"
-	  			android:src="@drawable/yang"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao_4"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
-	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:src="@drawable/yang"
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao_3"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao_2"
+	  			android:visibility="invisible"
+				android:layout_width="wrap_content"
+	  			android:layout_height="wrap_content"
+	  			android:src="@drawable/yin"
+	  			android:layout_marginTop="3dip"/>
+	  		<ImageView
+				android:id="@+id/yao_1"
 				android:layout_width="wrap_content"
 	  			android:visibility="invisible"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
 	  		<ImageView
 				android:id="@+id/yao_"
 	  			android:visibility="invisible"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
 	  			android:src="@drawable/yin"
-	  			android:layout_marginTop="3dip"
-	  			android:layout_marginBottom="3dip"/>
+	  			android:layout_marginTop="3dip"/>
   		</LinearLayout>
   	</TableRow>
   	<TableRow android:layout_marginTop="20dip">
@@ -130,14 +118,14 @@
 				android:id="@+id/second_coin"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
-	  			android:src="@drawable/manwen"
+	  			android:src="@drawable/default_coin"
 	  			android:paddingLeft="6dip"
 	  			android:paddingRight="6dip"/>
 			<ImageView
 				android:id="@+id/third_coin"
 				android:layout_width="wrap_content"
 	  			android:layout_height="wrap_content"
-	  			android:src="@drawable/hanwen"/>
+	  			android:src="@drawable/default_coin"/>
 	  	</LinearLayout>
 	  	<LinearLayout
 	  		android:layout_width="fill_parent"

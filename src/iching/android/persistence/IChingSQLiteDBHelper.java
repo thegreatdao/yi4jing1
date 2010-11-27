@@ -104,7 +104,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		dbInput.close();
 	}
 	
-	public List<String> selectALlTitles(Locale locale)
+	public List<String> selectAllTitles(Locale locale)
 	{
 		String field = TITLE_EN;
 		if(locale.equals(Locale.TAIWAN))
@@ -150,7 +150,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return result;
 	}
 	
-	public Map<String, String> selectOneGua(long id, Locale locale)
+	public Map<String, String> selectOneGuaByField(String fieldName, Object value, Locale locale)
 	{
 		String bodyLan = EN;
 		String titleLan = TITLE_EN;
@@ -165,7 +165,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 			titleLan = TITLE_CN;
 		}
 		Map<String, String> gua = new HashMap<String, String>();
-		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON}, "_id=" + id, null, null, null, null);
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON}, fieldName + "=" + value, null, null, null, null);
 		if(cursor.getCount() != 0)
 		{
 			cursor.moveToFirst();
