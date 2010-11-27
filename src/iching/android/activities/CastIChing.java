@@ -4,7 +4,9 @@ import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -36,6 +38,27 @@ public class CastIChing extends Activity implements OnClickListener
 		button.setOnClickListener(this);
 		handler = new Handler(); 
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+	}
+
+	@SuppressWarnings("unused")
+	private void testIfAllCodesInDB()
+	{
+		List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("gua", "code", null);
+		int count = 0;
+		for(int i=0; i<64; i++)
+		{
+			String binary = Integer.toBinaryString(i);
+	        binary = String.format("%" + 6 + "s", binary).replace(' ', '0');
+	        for(String code : selectAllForOneField)
+	        {
+	        	if(code.equals(binary))
+	        	{
+	        		Log.e("found", binary);
+	        		count++;
+	        	}
+	        }
+		}
+		Log.e("found", count + "");
 	}
 
 	@Override
@@ -110,15 +133,12 @@ public class CastIChing extends Activity implements OnClickListener
 											{
 												sb.append(i);
 											}
-											String code = sb.toString();
-											Log.e("@@@@@@", iChingSQLiteDBHelper.selectOneGuaByField("code", code, locale).get(IChingSQLiteDBHelper.GUA_TITLE));
+											String code = "'" + sb.toString() + "'";
+											Map<String, String> selectOneGuaByField = iChingSQLiteDBHelper.selectOneGuaByField("code", code, locale);
 										}
 									});
 									handler.post(showRelatingHexgram);
 								}
-								Log.e("firstCoine", firstCoin.getHeight() + "");
-								Log.e("secondCoine", secondCoin.getHeight() + "");
-								Log.e("thirdCoine", thirdCoin.getHeight() + "");
 							}
 						}
 					}
@@ -251,10 +271,7 @@ public class CastIChing extends Activity implements OnClickListener
 				coin.setImageMatrix(markerMatrix);
 			}
 			coin.setImageResource(source);
-			synchronized(threadFinishedCount)
-			{
-				threadFinishedCount++;
-			}
+			threadFinishedCount++;
 		}
 		
 	}

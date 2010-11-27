@@ -118,7 +118,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return selectAllForOneField(TABLE_GUA, field, " _id asc");
 	}
 	
-	private List<String> selectAllForOneField(String tableName, String field, String orderBy)
+	public List<String> selectAllForOneField(String tableName, String field, String orderBy)
 	{
 		if(orderBy == null)
 		{
