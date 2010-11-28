@@ -47,7 +47,10 @@
 	    <item name="android:topDark">@drawable/button_pressed</item>
 	    <item name="android:centerDark">@drawable/button_selected</item>
 	    <item name="android:bottomDark">@drawable/list_item_pressed</item>
-        
     </style>
     
+    <style name="instruction">
+        <item name="android:textColor">#F4A83D</item>
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>

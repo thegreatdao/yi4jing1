@@ -38,7 +38,7 @@ public class CastIChing extends Activity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.cast_iching);
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);

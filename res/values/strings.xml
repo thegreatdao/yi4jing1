@@ -29,4 +29,7 @@
 	<string name="hexagrams_preference_category">Hexagrams</string>
 	<string name="hexagrams_view_preference">Hexagrams\' view</string>
 	<string name="hexagrams_view_preference_summary">Select a view that suits you to display hexagrams</string>
+	<string name="instruction">Enter a question you want to consult IChing with, and later you can save it.</string>
+	<string name="destin">Destine</string>
+	<string name="tossCoin">Toss</string>
 </resources>
