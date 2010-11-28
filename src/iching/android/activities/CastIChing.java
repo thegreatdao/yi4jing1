@@ -218,11 +218,11 @@ public class CastIChing extends Activity implements OnClickListener
 							{
 								if(line.isYang())
 								{
-									relatingYao.setImageResource(IChingHelper.getId("yin", R.drawable.class));
+									relatingYao.setImageResource(IChingHelper.getId("yin_relating", R.drawable.class));
 								}
 								else
 								{
-									relatingYao.setImageResource(IChingHelper.getId("yang", R.drawable.class));
+									relatingYao.setImageResource(IChingHelper.getId("yang_relating", R.drawable.class));
 								}
 							}
 							else
