@@ -1,31 +1,37 @@
 package iching.android.activities;
 
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.R;
+import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class CastIChing extends Activity implements OnClickListener
 {
 	private Handler handler;
 	private int threadCount;
-	private Integer threadFinishedCount = 0;
-	private Integer tossTimes = 0;
-	private int[] originalHexagram = new int[6];
+	private int threadFinishedCount;
+	private int tossTimes;
+	private Line[] originalHexagramLines = new Line[6];
+	private Map<String, String> originalHexagram;
+	private Map<String, String> relatingHexagram;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 
 	@Override
@@ -34,37 +40,52 @@ public class CastIChing extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.cast_iching);
-		Button button = (Button) findViewById(R.id.test);
+		Button button = (Button) findViewById(R.id.tossCoin);
+		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
+		TextView guaTitle2 = (TextView) findViewById(R.id.gua_title2);
 		button.setOnClickListener(this);
+		guaTitle.setOnClickListener(this);
+		guaTitle2.setOnClickListener(this);
 		handler = new Handler(); 
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
-	}
-
-	@SuppressWarnings("unused")
-	private void testIfAllCodesInDB()
-	{
-		List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("gua", "code", null);
-		int count = 0;
-		for(int i=0; i<64; i++)
-		{
-			String binary = Integer.toBinaryString(i);
-	        binary = String.format("%" + 6 + "s", binary).replace(' ', '0');
-	        for(String code : selectAllForOneField)
-	        {
-	        	if(code.equals(binary))
-	        	{
-	        		Log.e("found", binary);
-	        		count++;
-	        	}
-	        }
-		}
-		Log.e("found", count + "");
 	}
 
 	@Override
 	public void onClick(View view)
 	{
-		final Button button = (Button) findViewById(R.id.test);
+		switch (view.getId())
+		{
+			case R.id.gua_title:
+				showHexagram(Boolean.TRUE);
+				break;
+			case R.id.gua_title2:
+				showHexagram(Boolean.FALSE);
+				break;
+			case R.id.tossCoin:
+				tossCoin();
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void showHexagram(boolean original)
+	{
+		Map<String, String> hexagram = relatingHexagram;
+		if(original)
+		{
+			hexagram = originalHexagram;
+		}
+		Intent intent = new Intent(getApplicationContext(), Gua.class);
+		intent.putExtra(GUA_BODY, hexagram.get(GUA_BODY));
+		intent.putExtra(GUA_TITLE, hexagram.get(GUA_TITLE));
+		intent.putExtra(GUA_ICON, hexagram.get(GUA_ICON));
+		startActivity(intent);
+	}
+	
+	private void tossCoin()
+	{
+		final Button button = (Button) findViewById(R.id.tossCoin);
 		button.setClickable(Boolean.FALSE);
 		Thread thread = new Thread(new Runnable()
 		{
@@ -126,15 +147,41 @@ public class CastIChing extends Activity implements OnClickListener
 										@Override
 										public void run()
 										{
-											displayDerivedHexagram(originalHexagram);
 											Locale locale = Locale.getDefault();
-											StringBuffer sb = new StringBuffer();
-											for(int i : originalHexagram)
+											StringBuilder originalHexgramCode = new StringBuilder();
+											for(Line line : originalHexagramLines)
 											{
-												sb.append(i);
+												char digit = '0';
+												if(line.isYang())
+												{
+													digit = '1';
+												}
+												originalHexgramCode.append(digit);
 											}
-											String code = "'" + sb.toString() + "'";
-											Map<String, String> selectOneGuaByField = iChingSQLiteDBHelper.selectOneGuaByField("code", code, locale);
+											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode.toString() + "'", locale);
+											TextView originalTitle = (TextView) findViewById(R.id.gua_title);
+											originalTitle.setText(originalHexagram.get(GUA_TITLE));
+											StringBuilder relatingHexgramCode = new StringBuilder();
+											for(Line line : originalHexagramLines)
+											{
+												char digit = '0';
+												if(line.isYang() && !line.isChanging())
+												{
+													digit = '1';
+												}
+												if(!line.isYang() && line.isChanging())
+												{
+													digit = '1';
+												}
+												relatingHexgramCode.append(digit);
+											}
+											if(relatingHexagramExists(originalHexagramLines))
+											{
+												displayRelatingHexagram(originalHexagramLines);
+												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode.toString() + "'", locale);
+												TextView relatingTitle = (TextView) findViewById(R.id.gua_title2);
+												relatingTitle.setText(relatingHexagram.get(GUA_TITLE));
+											}
 										}
 									});
 									handler.post(showRelatingHexgram);
@@ -143,10 +190,23 @@ public class CastIChing extends Activity implements OnClickListener
 						}
 					}
 
-					private void displayDerivedHexagram(int[] hexagram)
+					private boolean relatingHexagramExists(Line[] hexagram)
+					{
+						boolean result = false;
+						for(Line line : hexagram)
+						{
+							if(line.isChanging())
+							{
+								result = true;
+							}
+						}
+						return result;
+					}
+					
+					private void displayRelatingHexagram(Line[] hexagrams)
 					{
 						int index = 0;
-						for(int i : hexagram)
+						for(Line line : hexagrams)
 						{
 							String sourcePrefix = "yao_";
 							if(index != 0)
@@ -155,13 +215,27 @@ public class CastIChing extends Activity implements OnClickListener
 							}
 							ImageView relatingYao = (ImageView)findViewById(IChingHelper.getId(sourcePrefix, R.id.class));
 							relatingYao.setVisibility(View.VISIBLE);
-							if(i == 0)
+							if(line.isChanging())
 							{
-								relatingYao.setImageResource(IChingHelper.getId("yin", R.drawable.class));
+								if(line.isYang())
+								{
+									relatingYao.setImageResource(IChingHelper.getId("yin", R.drawable.class));
+								}
+								else
+								{
+									relatingYao.setImageResource(IChingHelper.getId("yang", R.drawable.class));
+								}
 							}
 							else
 							{
-								relatingYao.setImageResource(IChingHelper.getId("yang", R.drawable.class));
+								if(!line.isYang())
+								{
+									relatingYao.setImageResource(IChingHelper.getId("yin", R.drawable.class));
+								}
+								else
+								{
+									relatingYao.setImageResource(IChingHelper.getId("yang", R.drawable.class));
+								}
 							}
 							index++;
 						}
@@ -175,12 +249,12 @@ public class CastIChing extends Activity implements OnClickListener
 						}								
 						int enableImageId = IChingHelper.getId(idString, R.id.class);
 						ImageView yao = (ImageView) findViewById(enableImageId);
-						int yaoSource = getYaoSource(coins, originalHexagram, tossTimes - 1);
+						int yaoSource = getYaoSource(coins, originalHexagramLines, tossTimes - 1);
 						yao.setImageResource(yaoSource);
 						yao.setVisibility(View.VISIBLE);
 					}
 					
-					private int getYaoSource(int[] coins, int[] originalHexagram, int index)
+					private int getYaoSource(int[] coins, Line[] originalHexagram, int index)
 					{
 						String result = null;
 						int numOfYins = 0;
@@ -196,26 +270,32 @@ public class CastIChing extends Activity implements OnClickListener
 								numOfYins++;
 							}
 						}
+						Line line = new Line();
 						if(numOfYangs == 3)
 						{
 							result = "yang_changing";
-							originalHexagram[index] = 0;
+							line.setChanging(Boolean.TRUE);
+							line.setYang(Boolean.TRUE);
 						}
 						else if(numOfYins == 3)
 						{
 							result = "yin_changing";
-							originalHexagram[index] = 1;
+							line.setChanging(Boolean.TRUE);
+							line.setYang(Boolean.FALSE);
 						}
 						else if(numOfYangs == 2)
 						{
 							result = "yin";
-							originalHexagram[index] = 0;
+							line.setChanging(Boolean.FALSE);
+							line.setYang(Boolean.FALSE);
 						}
 						else
 						{
 							result = "yang";
-							originalHexagram[index] = 1;
+							line.setChanging(Boolean.FALSE);
+							line.setYang(Boolean.TRUE);
 						}
+						originalHexagram[index] = line;
 						return IChingHelper.getId(result, R.drawable.class);
 					}
 				});
