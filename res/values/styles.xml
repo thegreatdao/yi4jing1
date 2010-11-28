@@ -50,7 +50,19 @@
     </style>
     
     <style name="instruction">
-        <item name="android:textColor">#F4A83D</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="originalHexagramTitle">
+        <item name="android:textColor">#FF3300</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">10dip</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <style name="relatingHexagramTitle" parent="originalHexagramTitle">
+        <item name="android:textColor">#0033CC</item>
     </style>
 </resources>

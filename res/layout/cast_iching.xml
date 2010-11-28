@@ -5,7 +5,15 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:stretchColumns="*"
-  android:gravity="center">
+  android:gravity="center_horizontal">
+    <TableRow>
+    	<ImageView
+            android:layout_span="2"
+	    	android:layout_gravity="center"
+	    	android:layout_marginTop="10dip"
+	    	android:layout_marginBottom="10dip"
+    		android:src="@drawable/divination"/>
+    </TableRow>
     <TableRow>
     	<TextView
 			android:layout_width="fill_parent"
@@ -79,9 +87,7 @@
 	  			android:layout_marginTop="3dip"/>
 	  		<TextView
 				android:id="@+id/gua_title"
-				android:layout_marginTop="10dip"
-	  			android:layout_width="wrap_content"
-	  			android:layout_height="wrap_content"
+				style="@style/originalHexagramTitle"
 	  			/>
   		</LinearLayout>
   		<LinearLayout
@@ -133,9 +139,7 @@
 	  			android:layout_marginTop="3dip"/>
 	  		<TextView
 				android:id="@+id/gua_title2"
-				android:layout_marginTop="10dip"
-	  			android:layout_width="wrap_content"
-	  			android:layout_height="wrap_content"
+				style="@style/relatingHexagramTitle"
 	  			/>	  			
   		</LinearLayout>
   	</TableRow>

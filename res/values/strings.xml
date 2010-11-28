@@ -2,8 +2,8 @@
 <resources>
     <string name="main_title">Welcome to IChing</string>
     <string name="app_name">IChing</string>
-    <string name="references_check_label">IChing Index</string>
-    <string name="cast_iching_label">Cast IChing</string>
+    <string name="references_check_label">Hexagram Reference</string>
+    <string name="cast_iching_label">Cast Hexagram</string>
     <string name="about_label">About</string>
     <string name="exit_label">Exit</string>
     <string name="about_text">
@@ -30,6 +30,6 @@
 	<string name="hexagrams_view_preference">Hexagrams\' view</string>
 	<string name="hexagrams_view_preference_summary">Select a view that suits you to display hexagrams</string>
 	<string name="instruction">Enter a question you want to consult IChing with, and later you can save it.</string>
-	<string name="destin">Destine</string>
+	<string name="destin">Divination</string>
 	<string name="tossCoin">Toss</string>
 </resources>
