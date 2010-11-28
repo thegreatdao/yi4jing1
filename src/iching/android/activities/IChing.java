@@ -101,8 +101,8 @@ public class IChing extends Activity implements OnClickListener
 		switch (view.getId())
 		{
 			case R.id.references_check:
-				Intent referencesCheckintent = new Intent(this, IChingView.class);
-				startActivity(referencesCheckintent);
+				Intent referencesCheckIntent = new Intent(this, IChingView.class);
+				startActivity(referencesCheckIntent);
 				break;
 			case R.id.cast_iching:
 				Intent castIChingIntent = new Intent(this, CastIChing.class);

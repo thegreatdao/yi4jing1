@@ -20,10 +20,10 @@
 	<string name="switch_view">Switch view</string>
 	<string name="grid_view">Image view</string>
 	<string name="list_view">Text view</string>
-	<string name="music_title">music_summary</string>
-	<string name="music_summary">music_summary</string>
-	<string name="hexagrams_title">music_summary</string>
-	<string name="hexagrams_summary">hexagrams_summary</string>
+	<string name="music_title">Music Settings</string>
+	<string name="music_summary">Turn on/off Music</string>
+	<string name="hexagrams_title">Hexagram</string>
+	<string name="hexagrams_summary">Hexagram Summary</string>
 	<string name="settings_label">IChing Settings</string>
 	<string name="music_preference_category">Music</string>
 	<string name="hexagrams_preference_category">Hexagrams</string>
