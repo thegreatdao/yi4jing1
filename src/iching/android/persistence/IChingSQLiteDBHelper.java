@@ -60,7 +60,6 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	{
 		boolean dbExists = checkDataBase();
 		if(!dbExists)
-		if(true)
 		{
 			this.getReadableDatabase();
 			try

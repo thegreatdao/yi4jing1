@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,9 +49,11 @@ public class CastIChing extends Activity implements OnClickListener
 		guaTitle2.setOnClickListener(this);
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
-		long id = iChingSQLiteDBHelper.insertDivination("lines", "changing_lines", "question");
-		List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
-		Log.e("NUMBER OF ", selectAllForOneField.size() + " id : " + id);
+		List<String> lines = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
+		for(String line : lines)
+		{
+			Log.e("", line);
+		}
 	}
 
 	@Override
@@ -151,46 +154,30 @@ public class CastIChing extends Activity implements OnClickListener
 										public void run()
 										{
 											Locale locale = Locale.getDefault();
-											StringBuilder originalHexgramCode = new StringBuilder();
-											for(Line line : originalHexagramLines)
-											{
-												char digit = '0';
-												if(line.isYang())
-												{
-													digit = '1';
-												}
-												originalHexgramCode.append(digit);
-											}
-											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode.toString() + "'", locale);
+											String originalHexgramCode = getOriginalCodes(originalHexagramLines);
+											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode + "'", locale);
 											TextView originalTitle = (TextView) findViewById(R.id.gua_title);
 											originalTitle.setText(originalHexagram.get(GUA_TITLE));
-											StringBuilder relatingHexgramCode = new StringBuilder();
-											for(Line line : originalHexagramLines)
-											{
-												char digit = '0';
-												if(line.isYang() && !line.isChanging())
-												{
-													digit = '1';
-												}
-												if(!line.isYang() && line.isChanging())
-												{
-													digit = '1';
-												}
-												relatingHexgramCode.append(digit);
-											}
+											String relatingHexgramCode = getRelatingCodes(originalHexagramLines);
 											if(relatingHexagramExists(originalHexagramLines))
 											{
 												displayRelatingHexagram(originalHexagramLines);
-												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode.toString() + "'", locale);
+												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode + "'", locale);
 												TextView relatingTitle = (TextView) findViewById(R.id.gua_title2);
 												relatingTitle.setText(relatingHexagram.get(GUA_TITLE));
 											}
 										}
 									});
 									handler.post(showRelatingHexgram);
-									iChingSQLiteDBHelper.insertDivination("lines", "changing_lines", "question");
-									List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
-									Log.e("NUMBER OF ", selectAllForOneField.size() + "");
+									String question = ((EditText)findViewById(R.id.question)).getText().toString();
+									try {
+										Thread.sleep(2000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									Log.e("question ", question + " " + getOriginalCodes(originalHexagramLines) + " " + getChangingLinePositions(originalHexagramLines));
+									iChingSQLiteDBHelper.insertDivination(getOriginalCodes(originalHexagramLines), getChangingLinePositions(originalHexagramLines), "question");
 								}
 							}
 						}
@@ -367,5 +354,56 @@ public class CastIChing extends Activity implements OnClickListener
 	{
 		super.onDestroy();
 		iChingSQLiteDBHelper.close();
+	}
+	
+	private String getOriginalCodes(Line[] lines)
+	{
+		StringBuilder code = new StringBuilder();
+		for(Line line : lines)
+		{
+			if(line.isYang())
+			{
+				code.append('1');
+			}
+			else
+			{
+				code.append('0');
+			}
+		}
+		return code.toString();
+	}
+	
+	private String getRelatingCodes(Line[] lines)
+	{
+		StringBuilder code = new StringBuilder();
+		for(Line line : lines)
+		{
+			char digit = '0';
+			if(line.isYang() && !line.isChanging())
+			{
+				digit = '1';
+			}
+			if(!line.isYang() && line.isChanging())
+			{
+				digit = '1';
+			}
+			code.append(digit);
+		}
+		return code.toString();
+	}
+	
+	private String getChangingLinePositions(Line[] lines)
+	{
+		StringBuilder positions = new StringBuilder();
+		int index = 1;
+		for(Line line : lines)
+		{
+			if(line.isChanging())
+			{
+				positions.append(index);
+			}
+			index++;
+		}
+		return positions.toString();
 	}
 }
