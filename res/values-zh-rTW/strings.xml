@@ -29,7 +29,9 @@
 	<string name="hexagrams_preference_category">卦</string>
 	<string name="hexagrams_view_preference">64卦排列</string>
 	<string name="hexagrams_view_preference_summary">選擇您想要的卦排列形式</string>
-	<string name="instruction">請輸入你想問的問題，以便可以保存下來.</string>
+	<string name="instruction">輸入你的問題，以便可以保存下來.搖完卦後，你可以點擊卦的標題，來看全卦的內容。</string>
 	<string name="destin">宇宙在手，萬法由心。</string>
+	<string name="originalHexagram">本卦</string>
+	<string name="relatingHexagram">變卦</string>
 	<string name="tossCoin">搖卦</string>
 </resources>

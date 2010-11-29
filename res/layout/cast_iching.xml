@@ -8,10 +8,11 @@
   android:gravity="center_horizontal">
     <TableRow>
     	<ImageView
+			android:id="@+id/hexagrams"
             android:layout_span="2"
 	    	android:layout_gravity="center"
-	    	android:layout_marginTop="10dip"
-	    	android:layout_marginBottom="10dip"
+	    	android:layout_marginTop="5dip"
+	    	android:layout_marginBottom="5dip"
     		android:src="@drawable/divination"/>
     </TableRow>
     <TableRow>
@@ -31,7 +32,6 @@
             android:gravity="top"
             android:singleLine="false"
             android:lines="3"
-            android:layout_marginTop="10dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             style="@style/instruction"
@@ -43,6 +43,9 @@
 	  		android:layout_height="wrap_content"
 	  		android:orientation="vertical"
 	  		android:gravity="center">
+	  		<TextView
+				style="@style/originalHexagramTitle"
+				android:text="@string/originalHexagram"/>
 	  		<ImageView
 				android:id="@+id/yao6"
 				android:layout_width="wrap_content"
@@ -95,6 +98,9 @@
 	  		android:layout_height="wrap_content"
 	  		android:orientation="vertical"
 	  		android:gravity="center">
+	  		<TextView
+				style="@style/relatingHexagramTitle"
+				android:text="@string/relatingHexagram"/>
 	  		<ImageView
 				android:id="@+id/yao_5"
 				android:layout_width="wrap_content"
@@ -143,7 +149,7 @@
 	  			/>	  			
   		</LinearLayout>
   	</TableRow>
-  	<TableRow android:layout_marginTop="10dip">
+  	<TableRow>
 		<LinearLayout
 	  		android:layout_width="fill_parent"
 	  		android:layout_height="wrap_content"
