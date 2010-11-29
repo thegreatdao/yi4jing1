@@ -13,6 +13,7 @@ import java.util.Map;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
@@ -34,7 +35,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String GUA_BODY = "guaBody";
 	public static final String GUA_TITLE = "guaTitle";
 	public static final String GUA_ICON = "guaIcon";
-	private static final String INSERT_DIVINATION = "insert into " + TABLE_DIVINATION + " (lines, changing_lines, question) values (?, ?, ?)";
+	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question) VALUES (?, ?, ?)";
 	
 	private SQLiteDatabase sqLiteDatabase;
 	private SQLiteStatement sqLiteStatement;
@@ -43,15 +44,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public IChingSQLiteDBHelper(Context context, boolean writable)
 	{
 		super(context, DB_NAME, null, 1);
-		if(writable)
-		{
-			sqLiteDatabase = getWritableDatabase();
-		}
-		else
-		{
-			sqLiteDatabase = getReadableDatabase();
-		}
-		sqLiteStatement = sqLiteDatabase.compileStatement(INSERT_DIVINATION);
+		sqLiteDatabase = getWritableDatabase();
 		this.context = context;
 		try
 		{
@@ -60,12 +53,13 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		{
 			throw new Error("Error creating database");
 		}
+		sqLiteStatement = sqLiteDatabase.compileStatement(INSERT_DIVINATION);
 	}
 
 	public void createDataBase() throws IOException
 	{
-//			boolean dbExists = checkDataBase();
-//			if(!dbExists)
+		boolean dbExists = checkDataBase();
+		if(!dbExists)
 		if(true)
 		{
 			this.getReadableDatabase();
@@ -80,14 +74,32 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		}
 	}
 
+	private boolean checkDataBase()
+	{
+    	SQLiteDatabase checkDB = null;
+    	try{
+    		String myPath = DB_PATH + DB_NAME;
+    		checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+    	}
+    	catch(SQLiteException e)
+    	{
+    		//database does't exist yet.
+    	}
+    	if(checkDB != null)
+    	{
+    		checkDB.close();
+    	}
+    	return checkDB != null ? true : false;
+    }
+
 	@Override
 	public synchronized void close()
 	{
+		super.close();
 		if(sqLiteDatabase != null)
 		{
 			sqLiteDatabase.close();
 		}
-		super.close();
 	}
 
 	@Override

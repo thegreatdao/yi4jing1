@@ -48,6 +48,9 @@ public class CastIChing extends Activity implements OnClickListener
 		guaTitle2.setOnClickListener(this);
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
+		long id = iChingSQLiteDBHelper.insertDivination("lines", "changing_lines", "question");
+		List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
+		Log.e("NUMBER OF ", selectAllForOneField.size() + " id : " + id);
 	}
 
 	@Override
@@ -357,5 +360,12 @@ public class CastIChing extends Activity implements OnClickListener
 			threadFinishedCount++;
 		}
 		
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		iChingSQLiteDBHelper.close();
 	}
 }
