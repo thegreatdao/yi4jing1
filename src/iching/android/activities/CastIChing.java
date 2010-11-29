@@ -8,6 +8,7 @@ import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,7 +39,6 @@ public class CastIChing extends Activity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.cast_iching);
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
@@ -45,8 +46,8 @@ public class CastIChing extends Activity implements OnClickListener
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
-		handler = new Handler(); 
-		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+		handler = new Handler();
+		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
 	}
 
 	@Override
@@ -184,6 +185,9 @@ public class CastIChing extends Activity implements OnClickListener
 										}
 									});
 									handler.post(showRelatingHexgram);
+									iChingSQLiteDBHelper.insertDivination("lines", "changing_lines", "question");
+									List<String> selectAllForOneField = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
+									Log.e("NUMBER OF ", selectAllForOneField.size() + "");
 								}
 							}
 						}

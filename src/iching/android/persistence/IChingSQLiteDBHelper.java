@@ -14,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 {
@@ -25,6 +26,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String ICON = "icon";
 	public static final String TABLE_GUA = "gua";
 	public static final String TABLE_GONG = "gong";
+	public static final String TABLE_DIVINATION = "divination";
 	public static final String TITLE_SUFFIX = "_title";
 	public static final String TITLE_EN = EN + TITLE_SUFFIX;
 	public static final String TITLE_CN = CN + TITLE_SUFFIX;
@@ -32,14 +34,24 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String GUA_BODY = "guaBody";
 	public static final String GUA_TITLE = "guaTitle";
 	public static final String GUA_ICON = "guaIcon";
+	private static final String INSERT_DIVINATION = "insert into " + TABLE_DIVINATION + " (lines, changing_lines, question) values (?, ?, ?)";
 	
 	private SQLiteDatabase sqLiteDatabase;
+	private SQLiteStatement sqLiteStatement;
 	private Context context;
 	
-	public IChingSQLiteDBHelper(Context context)
+	public IChingSQLiteDBHelper(Context context, boolean writable)
 	{
 		super(context, DB_NAME, null, 1);
-		sqLiteDatabase = getReadableDatabase();
+		if(writable)
+		{
+			sqLiteDatabase = getWritableDatabase();
+		}
+		else
+		{
+			sqLiteDatabase = getReadableDatabase();
+		}
+		sqLiteStatement = sqLiteDatabase.compileStatement(INSERT_DIVINATION);
 		this.context = context;
 		try
 		{
@@ -175,6 +187,15 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		}
 		cursor.close();
 		return gua;
+	}
+	
+	public long insertDivination(String lines, String changing_lines, String question)
+	{
+		sqLiteStatement.bindString(1, lines);
+		sqLiteStatement.bindString(2, changing_lines);
+		sqLiteStatement.bindString(3, question);
+		long executeInsert = sqLiteStatement.executeInsert();
+		return executeInsert;
 	}
 
 }

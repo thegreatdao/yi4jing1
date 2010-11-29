@@ -51,7 +51,7 @@ public class IChingView extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);		
-		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this);
+		final IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
 		this.iChingSQLiteDBHelper = iChingSQLiteDBHelper;
 		setContentView(R.layout.iching_view_switcher);
 		final Locale locale = Locale.getDefault();
