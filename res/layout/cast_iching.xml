@@ -185,4 +185,30 @@
 		      style="@style/castIChingButton"/>
 	  	</LinearLayout>
   	</TableRow>
+  	<TableRow>
+		<LinearLayout
+	  		android:layout_width="fill_parent"
+	  		android:layout_height="wrap_content"
+	  		android:orientation="horizontal"
+	  		android:layout_gravity="center">
+  			<Button
+		      android:text="@string/tossCoin"
+		      android:layout_height="30dip"
+		      android:layout_width="100dip"
+		      style="@style/castIChingButton"
+		      android:visibility="invisible"/>
+	  	</LinearLayout>
+	  	<LinearLayout
+	  		android:layout_width="fill_parent"
+	  		android:layout_height="fill_parent"
+	  		android:layout_gravity="center">
+  			<Button
+	  		  android:id="@+id/saveDivination"
+		      android:text="@string/saveDivination"
+		      android:layout_height="30dip"
+		      android:layout_width="100dip"
+		      style="@style/castIChingButton"
+		      android:visibility="invisible"/>
+	  	</LinearLayout>
+  	</TableRow>
 </TableLayout>

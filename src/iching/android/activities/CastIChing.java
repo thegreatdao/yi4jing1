@@ -8,7 +8,6 @@ import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -17,11 +16,9 @@ import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,11 +46,6 @@ public class CastIChing extends Activity implements OnClickListener
 		guaTitle2.setOnClickListener(this);
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
-		List<String> lines = iChingSQLiteDBHelper.selectAllForOneField("divination", "lines", null);
-		for(String line : lines)
-		{
-			Log.e("", line);
-		}
 	}
 
 	@Override
@@ -169,15 +161,15 @@ public class CastIChing extends Activity implements OnClickListener
 										}
 									});
 									handler.post(showRelatingHexgram);
-									String question = ((EditText)findViewById(R.id.question)).getText().toString();
-									try {
+//									String question = ((EditText)findViewById(R.id.question)).getText().toString();
+									try
+									{
 										Thread.sleep(2000);
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
+									}
+									catch (InterruptedException e)
+									{
 										e.printStackTrace();
 									}
-									Log.e("question ", question + " " + getOriginalCodes(originalHexagramLines) + " " + getChangingLinePositions(originalHexagramLines));
-									iChingSQLiteDBHelper.insertDivination(getOriginalCodes(originalHexagramLines), getChangingLinePositions(originalHexagramLines), "question");
 								}
 							}
 						}
@@ -392,6 +384,7 @@ public class CastIChing extends Activity implements OnClickListener
 		return code.toString();
 	}
 	
+	@SuppressWarnings("unused")
 	private String getChangingLinePositions(Line[] lines)
 	{
 		StringBuilder positions = new StringBuilder();

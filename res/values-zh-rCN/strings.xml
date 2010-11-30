@@ -34,4 +34,5 @@
 	<string name="originalHexagram">本卦</string>
 	<string name="relatingHexagram">变卦</string>
 	<string name="tossCoin">摇卦</string>
+<string name="saveDivination">保存</string>
 </resources>
