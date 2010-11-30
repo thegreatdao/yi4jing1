@@ -1,5 +1,7 @@
 package iching.android.persistence;
 
+import iching.android.bean.Divination;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +23,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 {
 	private static final String DB_PATH = "/data/data/iching.android/databases/";
 	private static final String DB_NAME = "iching.db";
+	public static final String ID= "_id";
 	public static final String EN = "en";
 	public static final String CN = "cn";
 	public static final String TW = "tw";
@@ -35,6 +38,11 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String GUA_BODY = "guaBody";
 	public static final String GUA_TITLE = "guaTitle";
 	public static final String GUA_ICON = "guaIcon";
+	public static final String QUESTION = "question";
+	public static final String CREATED_TIME = "created_time";
+	public static final String ORIGINAL_LINES = "lines";
+	public static final String CHANGING_LINES = "changing_lines";
+	public static final String GUA_CODE = "code";
 	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question) VALUES (?, ?, ?)";
 	
 	private SQLiteDatabase sqLiteDatabase;
@@ -59,7 +67,8 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public void createDataBase() throws IOException
 	{
 		boolean dbExists = checkDataBase();
-		if(!dbExists)
+//		if(!dbExists)
+		if(true)
 		{
 			this.getReadableDatabase();
 			try
@@ -141,13 +150,13 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return selectAllForOneField(TABLE_GUA, field, " _id asc");
 	}
 	
-	public List<String> selectAllForOneField(String tableName, String field, String orderBy)
+	public ArrayList<String> selectAllForOneField(String tableName, String field, String orderBy)
 	{
 		if(orderBy == null)
 		{
 			orderBy = " " + field + " desc";
 		}
-		List<String> results = new ArrayList<String>();
+		ArrayList<String> results = new ArrayList<String>();
 		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, null, null, null, null, orderBy);
 		if(cursor.moveToFirst())
 		{
@@ -188,22 +197,43 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 			titleLan = TITLE_CN;
 		}
 		Map<String, String> gua = new HashMap<String, String>();
-		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON}, fieldName + "=" + value, null, null, null, null);
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{bodyLan, titleLan, ICON, ID}, fieldName + "=" + value, null, null, null, null);
 		if(cursor.getCount() != 0)
 		{
 			cursor.moveToFirst();
 			gua.put(GUA_BODY, cursor.getString(0));
 			gua.put(GUA_TITLE, cursor.getString(1));
 			gua.put(GUA_ICON, cursor.getString(2));
+			gua.put(ID, new Integer(cursor.getInt(3)).toString());
 		}
 		cursor.close();
 		return gua;
 	}
 	
-	public long insertDivination(String lines, String changing_lines, String question)
+	public List<Divination> selectAllDivinations()
+	{
+		List<Divination> divinations = new ArrayList<Divination>();
+		Cursor cursor = sqLiteDatabase.query(TABLE_DIVINATION, new String[]{ORIGINAL_LINES, CHANGING_LINES, QUESTION}, null, null, null, null, null);
+		if(cursor.getCount() != 0)
+		{
+			cursor.moveToFirst();
+			do
+			{
+				Divination divination = new Divination();
+				divination.setOriginalLines(cursor.getString(0));
+				divination.setChangingLines(cursor.getString(1));
+				divination.setQuestion(cursor.getString(2));
+				divinations.add(divination);
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+		return divinations;
+	}
+	
+	public long insertDivination(String lines, String changingLines, String question)
 	{
 		sqLiteStatement.bindString(1, lines);
-		sqLiteStatement.bindString(2, changing_lines);
+		sqLiteStatement.bindString(2, changingLines);
 		sqLiteStatement.bindString(3, question);
 		long executeInsert = sqLiteStatement.executeInsert();
 		return executeInsert;

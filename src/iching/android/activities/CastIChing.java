@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,9 +42,12 @@ public class CastIChing extends Activity implements OnClickListener
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
 		TextView guaTitle2 = (TextView) findViewById(R.id.gua_title2);
+		EditText question = (EditText)findViewById(R.id.question);
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
+		question.setOnClickListener(this);
+		
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
 	}
@@ -61,6 +65,12 @@ public class CastIChing extends Activity implements OnClickListener
 				break;
 			case R.id.tossCoin:
 				tossCoin();
+				break;
+			case R.id.saveDivination:
+				String lines = getOriginalCodes(originalHexagramLines);
+				String changingLines = getChangingLinePositions(originalHexagramLines);
+				String question = ((EditText)findViewById(R.id.question)).getText().toString();
+				saveDivination(lines, changingLines, question);
 				break;
 			default:
 				break;
@@ -161,15 +171,21 @@ public class CastIChing extends Activity implements OnClickListener
 										}
 									});
 									handler.post(showRelatingHexgram);
-//									String question = ((EditText)findViewById(R.id.question)).getText().toString();
 									try
 									{
 										Thread.sleep(2000);
 									}
-									catch (InterruptedException e)
+									catch(InterruptedException e)
 									{
 										e.printStackTrace();
 									}
+									handler.post(new Runnable() {
+										@Override
+										public void run() {
+												Button saveDivinationButton = (Button)findViewById(R.id.saveDivination);
+												saveDivinationButton.setVisibility(View.VISIBLE);
+										}
+									});
 								}
 							}
 						}
@@ -316,6 +332,11 @@ public class CastIChing extends Activity implements OnClickListener
 		}
 	}
 	
+	private void saveDivination(String lines, String changingLines, String question)
+	{
+		iChingSQLiteDBHelper.insertDivination(lines, changingLines, question);
+	}
+	
 	private class TossCoinThread extends Thread
 	{
 		private ImageView coin;
@@ -384,7 +405,6 @@ public class CastIChing extends Activity implements OnClickListener
 		return code.toString();
 	}
 	
-	@SuppressWarnings("unused")
 	private String getChangingLinePositions(Line[] lines)
 	{
 		StringBuilder positions = new StringBuilder();

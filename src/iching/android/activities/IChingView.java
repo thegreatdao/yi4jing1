@@ -39,7 +39,7 @@ public class IChingView extends Activity
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
-	private Integer[] hexagramIcons = {hexagram1, hexagram2, hexagram3, hexagram4, hexagram5, hexagram6, hexagram7, hexagram8,
+	public static final Integer[] HEXAGRAM_ICONS = {hexagram1, hexagram2, hexagram3, hexagram4, hexagram5, hexagram6, hexagram7, hexagram8,
 										hexagram9, hexagram10, hexagram11, hexagram12, hexagram13, hexagram14, hexagram15, hexagram16,
 										hexagram17, hexagram18, hexagram19, hexagram20, hexagram21, hexagram22, hexagram23, hexagram24,
 										hexagram25, hexagram26, hexagram27, hexagram28, hexagram29, hexagram30, hexagram31, hexagram32,
@@ -108,7 +108,7 @@ public class IChingView extends Activity
 	{
 		List<String> titles = iChingSQLiteDBHelper.selectAllTitles(locale);
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
-		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, hexagramIcons)));
+		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, HEXAGRAM_ICONS)));
 		registerForContextMenu(listView);
 		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
 		return listView;

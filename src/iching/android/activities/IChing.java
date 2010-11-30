@@ -108,6 +108,10 @@ public class IChing extends Activity implements OnClickListener
 				Intent castIChingIntent = new Intent(this, CastIChing.class);
 				startActivity(castIChingIntent);
 				break;
+			case R.id.load_divinations:
+				Intent loadDivinationIntent = new Intent(this, Divination.class);
+				startActivity(loadDivinationIntent);
+				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);
 				startActivity(aboutIntent);
@@ -206,5 +210,7 @@ public class IChing extends Activity implements OnClickListener
 		aboutButton.setOnClickListener(this);
 		View exitButton = findViewById(R.id.exit);
 		exitButton.setOnClickListener(this);
+		View loadDivinationButton = findViewById(R.id.load_divinations);
+		loadDivinationButton.setOnClickListener(this);
 	}
 }

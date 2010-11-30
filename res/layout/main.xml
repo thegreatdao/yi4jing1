@@ -25,6 +25,10 @@
       android:text="@string/cast_iching_label"
       style="?button"/>
    <Button
+   	  android:id="@+id/load_divinations"
+      android:text="@string/cast_iching_label"
+      style="?button"/>
+   <Button
    	  android:id="@+id/about"
 	  android:text="@string/about_label"
 	  style="?button"/>

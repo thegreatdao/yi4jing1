@@ -20,6 +20,8 @@
     	<activity android:name=".activities.CastIChing" android:label="@string/destin" android:screenOrientation="portrait"/>
     	
 		<activity android:name=".activities.Preferences" android:label="@string/settings_label"/>
+    	
+		<activity android:name=".activities.Divination" android:label="@string/settings_label"/>
 		
 		<service android:name=".service.MusicService" android:enabled="true"/>
 	</application>
