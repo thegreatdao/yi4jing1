@@ -62,14 +62,46 @@ public class Divination extends ListActivity
 	                TextView hexagramText = (TextView) view.findViewById(R.id.divination_question);
 	                hexagramText.setText(divination.getQuestion());
 	                Locale locale = Locale.getDefault();
-	                Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(GUA_CODE, divination.getOriginalLines(), locale);
-	                ImageView originalIcon = (ImageView) findViewById(R.id.original_lines);
-					String id = gua.get(ID);
-					Integer index = Integer.parseInt(id) + 1;
-	                originalIcon.setImageResource(IChingView.HEXAGRAM_ICONS[index]);
+	                String originalCode = "'" + divination.getOriginalLines() + "'";
+	                Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(GUA_CODE, originalCode, locale);
+	                ImageView originalIcon = (ImageView)view.findViewById(R.id.original_lines);
+					setIcon(gua, originalIcon);
+	                String changingLines = divination.getChangingLines();
+	                if(changingLines.trim().length() != 0)
+	                {
+	                	String relatingCode = "'" + getRelatingCode(divination.getOriginalLines(), changingLines) + "'";
+	                	gua = iChingSQLiteDBHelper.selectOneGuaByField(GUA_CODE, relatingCode, locale);
+	                	ImageView relatingIcon = (ImageView)view.findViewById(R.id.relating_lines);
+	                	setIcon(gua, relatingIcon);
+	                }
 	        }
 	        return view;
 		}
-
+		
+		private void setIcon(Map<String, String> gua, ImageView icon)
+		{
+			Integer index = Integer.parseInt(gua.get(ID)) - 1;
+            icon.setImageResource(IChingView.HEXAGRAM_ICONS[index]);
+		}
+		
+		private String getRelatingCode(String originalCode, String changingLines)
+		{
+			char[] originalCodeArray = originalCode.toCharArray();
+			char[] changingLineArray = changingLines.toCharArray();
+			for(char digit : changingLineArray)
+			{
+				int index = Integer.parseInt(digit + "") - 1;
+				char lineAtIndex = originalCodeArray[index];
+				if(lineAtIndex == '1')
+				{
+					originalCodeArray[index] = '0';
+				}
+				else
+				{
+					originalCodeArray[index] = '1';
+				}
+			}
+			return new String(originalCodeArray);
+		}
 	}
 }

@@ -2,18 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip">
+    android:paddingLeft="2dip"
+    android:paddingRight="2dip"
+    android:paddingTop="6dip"
+    android:paddingBottom="6dip">
     <ImageView
         android:id="@+id/original_lines"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:src="@drawable/red"/>
+        android:layout_marginRight="2dip"/>
     <ImageView
         android:id="@+id/relating_lines"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="6dip"
-        android:src="@drawable/red"/>
+        android:src="@drawable/yinyang"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
@@ -23,6 +26,8 @@
             android:id="@+id/divination_question"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
+            android:maxLines="1"
+            android:ellipsize="marquee"
             android:layout_weight="1"
             android:textColor="@color/default_color"
             android:gravity="center_vertical"

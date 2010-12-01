@@ -69,7 +69,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		boolean dbExists = checkDataBase();
 		if(!dbExists)
 		{
-			this.getReadableDatabase();
+			getReadableDatabase();
 			try
 			{
 				copyDataBase();
