@@ -15,6 +15,7 @@
 	<string name="settings">设置</string>
 	<string name="yes">确定</string>
 	<string name="no">取消</string>
+	<string name="cancel">取消</string>
 	<string name="confirmation_exit_text">确定要退出吗？</string>
 	<string name="gua_label">64卦</string>
 	<string name="switch_view">列表转化</string>
@@ -34,6 +35,9 @@
 	<string name="originalHexagram">本卦</string>
 	<string name="relatingHexagram">变卦</string>
 	<string name="tossCoin">摇卦</string>
-<string name="saveDivination">保存</string>
-<string name="load_divinations">我的占卜</string>
+	<string name="saveDivination">保存</string>
+	<string name="load_divinations">我的占卜</string>
+	<string name="empty_question">请输入你的问题，然后保存这卦</string>
+	<string name="records_full">你没有空间来存取这卦，你想删除第一卦，来保存这卦吗？</string>
+	<string name="succesful_save">你已经成功地保存这卦。</string>
 </resources>

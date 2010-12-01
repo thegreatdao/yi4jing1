@@ -14,6 +14,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -44,7 +45,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String CHANGING_LINES = "changing_lines";
 	public static final String GUA_CODE = "code";
 	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question) VALUES (?, ?, ?)";
-	
+	private static final String DELETE_DIVINATION = "DELETE FROM " + TABLE_DIVINATION + " WHERE _id = (SELECT MIN(_id) FROM " + TABLE_DIVINATION + ")";
 	private SQLiteDatabase sqLiteDatabase;
 	private SQLiteStatement sqLiteStatement;
 	private Context context;
@@ -237,5 +238,15 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		long executeInsert = sqLiteStatement.executeInsert();
 		return executeInsert;
 	}
-
+	
+	public long getMumOfRecords(String table)
+	{
+		return DatabaseUtils.queryNumEntries(sqLiteDatabase, table);
+	}
+	
+	public void deleteTopMostDivination()
+	{
+//		sqLiteDatabase.delete(TABLE_DIVINATION, " ORDER BY _id asc LIMIT 1", null);
+		sqLiteDatabase.execSQL(DELETE_DIVINATION);
+	}
 }

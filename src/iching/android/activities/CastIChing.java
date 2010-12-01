@@ -3,6 +3,7 @@ package iching.android.activities;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
+import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_DIVINATION;
 import iching.android.R;
 import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
@@ -12,6 +13,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CastIChing extends Activity implements OnClickListener
 {
@@ -33,6 +38,10 @@ public class CastIChing extends Activity implements OnClickListener
 	private Map<String, String> originalHexagram;
 	private Map<String, String> relatingHexagram;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	private String lines;
+	private String changingLines;
+	private String question;
+	Button saveDivinationButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +51,7 @@ public class CastIChing extends Activity implements OnClickListener
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
 		TextView guaTitle2 = (TextView) findViewById(R.id.gua_title2);
-		Button saveDivinationButton = (Button)findViewById(R.id.saveDivination);
+		saveDivinationButton = (Button)findViewById(R.id.saveDivination);
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
@@ -67,10 +76,21 @@ public class CastIChing extends Activity implements OnClickListener
 				tossCoin();
 				break;
 			case R.id.saveDivination:
-				String lines = getOriginalCodes(originalHexagramLines);
-				String changingLines = getChangingLinePositions(originalHexagramLines);
-				String question = ((EditText)findViewById(R.id.question)).getText().toString();
-				saveDivination(lines, changingLines, question);
+				lines = getOriginalCodes(originalHexagramLines);
+				changingLines = getChangingLinePositions(originalHexagramLines);
+				question = ((EditText)findViewById(R.id.question)).getText().toString();
+				if(question.trim().length()==0)
+				{
+					showDialog(0);
+				}
+				else if(iChingSQLiteDBHelper.getMumOfRecords(TABLE_DIVINATION) == 10)
+				{
+					showDialog(1);
+				}
+				else
+				{
+					saveDivination(lines, changingLines, question);
+				}
 				break;
 			default:
 				break;
@@ -89,6 +109,50 @@ public class CastIChing extends Activity implements OnClickListener
 		intent.putExtra(GUA_TITLE, hexagram.get(GUA_TITLE));
 		intent.putExtra(GUA_ICON, hexagram.get(GUA_ICON));
 		startActivity(intent);
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		switch (id) 
+		{
+			case 0:
+				builder.setMessage(R.string.empty_question);
+				builder.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						dialog.cancel();
+					}
+				});
+				break;
+			case 1:
+				builder.setMessage(R.string.records_full);
+				builder.setPositiveButton(R.string.yes,
+						new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						iChingSQLiteDBHelper.deleteTopMostDivination();
+						saveDivination(lines, changingLines, question);
+					}
+				}).setNegativeButton(R.string.no,
+						new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						dialog.cancel();
+					}
+				});
+				break;
+			default:
+				break;
+		}
+		
+		return builder.create();
 	}
 	
 	private void tossCoin()
@@ -182,7 +246,6 @@ public class CastIChing extends Activity implements OnClickListener
 									handler.post(new Runnable() {
 										@Override
 										public void run() {
-												Button saveDivinationButton = (Button)findViewById(R.id.saveDivination);
 												saveDivinationButton.setVisibility(View.VISIBLE);
 										}
 									});
@@ -335,6 +398,18 @@ public class CastIChing extends Activity implements OnClickListener
 	private void saveDivination(String lines, String changingLines, String question)
 	{
 		iChingSQLiteDBHelper.insertDivination(lines, changingLines, question);
+		Toast message = Toast.makeText(this, R.string.succesful_save, Toast.LENGTH_LONG);
+		View messageView = message.getView();
+		messageView.setBackgroundResource(R.drawable.button_pressed);
+		message.show();
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				View saveButton = findViewById(R.id.saveDivination);
+				saveButton.setVisibility(View.INVISIBLE);
+			}
+		});
 	}
 	
 	private class TossCoinThread extends Thread
