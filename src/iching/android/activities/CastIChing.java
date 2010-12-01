@@ -42,11 +42,11 @@ public class CastIChing extends Activity implements OnClickListener
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
 		TextView guaTitle2 = (TextView) findViewById(R.id.gua_title2);
-		EditText question = (EditText)findViewById(R.id.question);
+		Button saveDivinationButton = (Button)findViewById(R.id.saveDivination);
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
-		question.setOnClickListener(this);
+		saveDivinationButton.setOnClickListener(this);
 		
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);

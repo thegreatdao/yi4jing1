@@ -67,8 +67,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public void createDataBase() throws IOException
 	{
 		boolean dbExists = checkDataBase();
-//		if(!dbExists)
-		if(true)
+		if(!dbExists)
 		{
 			this.getReadableDatabase();
 			try
