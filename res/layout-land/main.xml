@@ -43,9 +43,17 @@
 				   android:text="@string/about_label"
 				   style="?button"/>
 				<Button
+			   	  android:id="@+id/load_divinations"
+			      android:text="@string/load_divinations"
+			      style="?button"/>
+			</TableRow>
+			<TableRow>
+				<Button
 				   android:id="@+id/exit"
 				   android:text="@string/exit_label"
-				   style="?button"/>
+				   android:layout_span="2"
+				   style="?button"
+				   />
 			</TableRow>
 		</TableLayout>
 		

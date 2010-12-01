@@ -35,4 +35,5 @@
 	<string name="relatingHexagram">Relating</string>
 	<string name="tossCoin">Toss</string>
 <string name="saveDivination">Save</string>
+<string name="load_divinations">My Divinations</string>
 </resources>

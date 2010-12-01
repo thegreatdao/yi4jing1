@@ -35,4 +35,5 @@
 	<string name="relatingHexagram">變卦</string>
 	<string name="tossCoin">搖卦</string>
 <string name="saveDivination">保存</string>
+<string name="load_divinations">我的占卜</string>
 </resources>
