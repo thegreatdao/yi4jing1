@@ -22,8 +22,8 @@ import android.database.sqlite.SQLiteStatement;
 
 public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 {
-	private static final String DB_PATH = "/data/data/iching.android/databases/";
-	private static final String DB_NAME = "iching.db";
+	public static final String DB_PATH = "/data/data/iching.android/databases/";
+	public static final String DB_NAME = "iching.db";
 	public static final String ID= "_id";
 	public static final String EN = "en";
 	public static final String CN = "cn";
@@ -68,6 +68,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public void createDataBase() throws IOException
 	{
 		boolean dbExists = checkDataBase();
+//		dbExists = Boolean.FALSE;
 		if(!dbExists)
 		{
 			try

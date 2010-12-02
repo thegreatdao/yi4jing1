@@ -2,6 +2,9 @@ package iching.android.activities;
 
 import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
+import iching.android.utils.IChingHelper;
+
+import static iching.android.persistence.IChingSQLiteDBHelper.*;
 
 import java.util.List;
 import java.util.Locale;
@@ -9,16 +12,19 @@ import java.util.Map;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import static iching.android.persistence.IChingSQLiteDBHelper.*;
+import android.widget.Toast;
 
-public class Divination extends ListActivity
+public class Divinations extends ListActivity
 {
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	
@@ -27,9 +33,21 @@ public class Divination extends ListActivity
 	{
 		super.onCreate(savedInstanceState);
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
-		setListView();
+//		setListView();
+		Uri dbUri = Uri.parse(DB_PATH + DB_NAME);
+/*		Cursor cursor = getContentResolver().query(IChingSQLiteDBHelper.D, projection, selection, selectionArgs, sortOrder)
+        startManagingCursor(cursor);*/
+
 	}
 	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id)
+	{
+		Toast.makeText(this, position + " " + id, Toast.LENGTH_LONG).show();
+		/*Intent divinationIntent = new Intent(getBaseContext(), Divination.class);
+		startActivity(divinationIntent);*/
+	}
+
 	private void setListView()
 	{
 		List<iching.android.bean.Divination> divinations = iChingSQLiteDBHelper.selectAllDivinations();

@@ -4,6 +4,7 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import static iching.android.R.drawable.*;
+import static iching.android.activities.Preferences.*;
 import iching.android.R;
 import iching.android.bean.Hexagram;
 import iching.android.persistence.IChingSQLiteDBHelper;
@@ -58,7 +59,7 @@ public class IChingView extends Activity
 		setListView(iChingSQLiteDBHelper, locale);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
 		setGridView(iChingSQLiteDBHelper, locale);
-		isGridView = Preferences.getStringValue(this).equals("0");
+		isGridView = getStringValue(this, KEY_VIEW, DEFAULT_VALUE_VIEW).equals("0");
 		if(!isGridView)
 		{
 			viewSwitcher.showPrevious();

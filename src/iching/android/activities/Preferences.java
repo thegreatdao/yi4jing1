@@ -11,8 +11,10 @@ public class Preferences extends PreferenceActivity
 {
 	private static final String KEY_MUSIC = "musicPref";
 	private static final boolean DEFAULT_VALUE_MUSIC = Boolean.TRUE;
-	private static final String KEY_VIEW = "viewPref";
-	private static final String DEFAULT_VALUE_VIEW = "0";
+	public static final String KEY_VIEW = "viewPref";
+	public static final String DEFAULT_VALUE_VIEW = "0";
+	public static final String KEY_DIVINATIONS = "numOfRecordsPref";
+	public static final String DEFAULT_VALUE_DIVINATIONS = "10";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -26,9 +28,14 @@ public class Preferences extends PreferenceActivity
 		return getSharedPreferences(context).getBoolean(KEY_MUSIC, DEFAULT_VALUE_MUSIC);
 	}
 	
-	public static String getStringValue(Context context)
+	public static String getStringValue(Context context, String key, String defaultValue)
 	{
-		return getSharedPreferences(context).getString(KEY_VIEW, DEFAULT_VALUE_VIEW);
+		return getSharedPreferences(context).getString(key, defaultValue);
+	}
+	
+	public static int getIntValue(Context context, String key, int defaultValue)
+	{
+		return getSharedPreferences(context).getInt(key, defaultValue);
 	}
 	
 	private static SharedPreferences getSharedPreferences(Context context)

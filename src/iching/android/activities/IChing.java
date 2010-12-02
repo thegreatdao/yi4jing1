@@ -109,7 +109,7 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(castIChingIntent);
 				break;
 			case R.id.load_divinations:
-				Intent loadDivinationIntent = new Intent(this, Divination.class);
+				Intent loadDivinationIntent = new Intent(this, Divinations.class);
 				startActivity(loadDivinationIntent);
 				break;
 			case R.id.about:
