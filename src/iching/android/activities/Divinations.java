@@ -1,43 +1,32 @@
 package iching.android.activities;
 
 import iching.android.R;
-import iching.android.persistence.IChingSQLiteDBHelper;
-import iching.android.utils.IChingHelper;
+import iching.android.contentprovider.DivinationProvider;
+import android.app.ListActivity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import static iching.android.persistence.IChingSQLiteDBHelper.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import android.app.ListActivity;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 public class Divinations extends ListActivity
 {
-	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
-//		setListView();
-		Uri dbUri = Uri.parse(DB_PATH + DB_NAME);
-/*		Cursor cursor = getContentResolver().query(IChingSQLiteDBHelper.D, projection, selection, selectionArgs, sortOrder)
-        startManagingCursor(cursor);*/
-
+		setContentView(R.layout.divinations);
+		setListView();
+		Cursor cursor = getContentResolver().query(DivinationProvider.CONTENT_URI, new String[] {ID, QUESTION}, null, null, CREATED_TIME);
+        startManagingCursor(cursor);
+        String[] from = new String[]{QUESTION};
+        int[] to = new int[] {R.id.divination_question};
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, R.layout.divination_list_item, cursor, from, to);
+        setListAdapter(simpleCursorAdapter);
 	}
 	
 	@Override
@@ -50,11 +39,11 @@ public class Divinations extends ListActivity
 
 	private void setListView()
 	{
-		List<iching.android.bean.Divination> divinations = iChingSQLiteDBHelper.selectAllDivinations();
-		setListAdapter(new DivinationAdapter(this, R.layout.divination_list_item, divinations));
+/*		List<iching.android.bean.Divination> divinations = iChingSQLiteDBHelper.selectAllDivinations();
+		setListAdapter(new DivinationAdapter(this, R.layout.divination_list_item, divinations));*/
 	}
 	
-	private class DivinationAdapter extends ArrayAdapter<iching.android.bean.Divination>
+	/*private class DivinationAdapter extends ArrayAdapter<iching.android.bean.Divination>
 	{
 
 		private List<iching.android.bean.Divination> divinations;
@@ -121,5 +110,5 @@ public class Divinations extends ListActivity
 			}
 			return new String(originalCodeArray);
 		}
-	}
+	}*/
 }

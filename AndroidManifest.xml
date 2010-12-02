@@ -26,6 +26,8 @@
 		<activity android:name=".activities.Divination" android:label="@string/load_divinations"/>
 		
 		<service android:name=".service.MusicService" android:enabled="true"/>
+		
+		<provider android:name=".contentprovider.DivinationProvider" android:authorities="iching.android.contentprovider.Divinations"/>
 	</application>
     
     <uses-sdk android:minSdkVersion="8" />

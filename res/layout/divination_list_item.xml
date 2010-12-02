@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingLeft="2dip"
-    android:paddingRight="2dip"
-    android:paddingTop="6dip"
-    android:paddingBottom="6dip">
+    android:layout_height="36dip"
+    android:padding="6dip">
     <ImageView
         android:id="@+id/original_lines"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginRight="2dip"/>
+        android:layout_marginRight="2dip"
+        android:src="@drawable/hexagram1"/>
     <ImageView
         android:id="@+id/relating_lines"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="6dip"
-        android:src="@drawable/yinyang"/>
+        android:src="@drawable/hexagram16"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"

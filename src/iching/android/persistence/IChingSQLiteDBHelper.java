@@ -249,4 +249,14 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 //		sqLiteDatabase.delete(TABLE_DIVINATION, " ORDER BY _id asc LIMIT 1", null);
 		sqLiteDatabase.execSQL(DELETE_DIVINATION);
 	}
+
+	public SQLiteDatabase getSqLiteDatabase()
+	{
+		return sqLiteDatabase;
+	}
+
+	public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase)
+	{
+		this.sqLiteDatabase = sqLiteDatabase;
+	}
 }

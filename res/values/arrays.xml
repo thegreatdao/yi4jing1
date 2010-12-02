@@ -14,10 +14,10 @@
       <item>@string/large</item>
       <item>@string/infinite</item>
    </string-array>
-   <integer-array name="divinations_values">
+   <string-array name="divinations_values">
       <item>10</item>
       <item>20</item>
       <item>50</item>
       <item>-1</item>
-   </integer-array>
+   </string-array>
 </resources>
