@@ -1,9 +1,6 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
-import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_DIVINATION;
+import static iching.android.persistence.IChingSQLiteDBHelper.*;
 import iching.android.R;
 import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
@@ -397,7 +394,14 @@ public class CastIChing extends Activity implements OnClickListener
 	
 	private void saveDivination(String lines, String changingLines, String question)
 	{
-		iChingSQLiteDBHelper.insertDivination(lines, changingLines, question);
+		int originalIcon = getIconIDByCode(lines, iChingSQLiteDBHelper);
+		int changingIcon = 64;
+		if(changingLines.trim().length() != 0)
+		{
+			String relatingCode = getRelatingCode(lines, changingLines);
+			changingIcon = getIconIDByCode(relatingCode, iChingSQLiteDBHelper);
+		}
+		iChingSQLiteDBHelper.insertDivination(lines, changingLines, question, originalIcon, changingIcon);
 		Toast message = Toast.makeText(this, R.string.succesful_save, Toast.LENGTH_LONG);
 		View messageView = message.getView();
 		messageView.setBackgroundResource(R.drawable.button_pressed);
@@ -410,6 +414,33 @@ public class CastIChing extends Activity implements OnClickListener
 				saveButton.setVisibility(View.INVISIBLE);
 			}
 		});
+	}
+	
+	private int getIconIDByCode(String lines, IChingSQLiteDBHelper iChingSQLiteDBHelper)
+	{
+		lines = "'" + lines + "'";
+		Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(GUA_CODE, lines, Locale.getDefault());
+		return Integer.parseInt(gua.get(ID)) - 1;
+	}
+
+	private String getRelatingCode(String originalCode, String changingLines)
+	{
+		char[] originalCodeArray = originalCode.toCharArray();
+		char[] changingLineArray = changingLines.toCharArray();
+		for(char digit : changingLineArray)
+		{
+			int index = Integer.parseInt(digit + "") - 1;
+			char lineAtIndex = originalCodeArray[index];
+			if(lineAtIndex == '1')
+			{
+				originalCodeArray[index] = '0';
+			}
+			else
+			{
+				originalCodeArray[index] = '1';
+			}
+		}
+		return new String(originalCodeArray);
 	}
 	
 	private class TossCoinThread extends Thread

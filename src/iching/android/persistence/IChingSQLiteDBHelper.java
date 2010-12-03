@@ -43,8 +43,10 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String CREATED_TIME = "created_time";
 	public static final String ORIGINAL_LINES = "lines";
 	public static final String CHANGING_LINES = "changing_lines";
+	public static final String ORIGINAL_ICON = "original_icon";
+	public static final String RELATING_ICON = "changing_icon";
 	public static final String GUA_CODE = "code";
-	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question) VALUES (?, ?, ?)";
+	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question, original_icon, changing_icon) VALUES (?, ?, ?, ?, ?)";
 	private static final String DELETE_DIVINATION = "DELETE FROM " + TABLE_DIVINATION + " WHERE _id = (SELECT MIN(_id) FROM " + TABLE_DIVINATION + ")";
 	private SQLiteDatabase sqLiteDatabase;
 	private SQLiteStatement sqLiteStatement;
@@ -53,7 +55,14 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public IChingSQLiteDBHelper(Context context, boolean writable)
 	{
 		super(context, DB_NAME, null, 1);
-		sqLiteDatabase = getWritableDatabase();
+		if(writable)
+		{
+			sqLiteDatabase = getWritableDatabase();
+		}
+		else
+		{
+			sqLiteDatabase = getReadableDatabase();
+		}
 		this.context = context;
 		try
 		{
@@ -230,11 +239,13 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return divinations;
 	}
 	
-	public long insertDivination(String lines, String changingLines, String question)
+	public long insertDivination(String lines, String changingLines, String question, int originalIcon, int changingIcon)
 	{
 		sqLiteStatement.bindString(1, lines);
 		sqLiteStatement.bindString(2, changingLines);
 		sqLiteStatement.bindString(3, question);
+		sqLiteStatement.bindLong(4, originalIcon);
+		sqLiteStatement.bindLong(5, changingIcon);
 		long executeInsert = sqLiteStatement.executeInsert();
 		return executeInsert;
 	}

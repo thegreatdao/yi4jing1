@@ -2,12 +2,12 @@ package iching.android.activities;
 
 import iching.android.R;
 import iching.android.contentprovider.DivinationProvider;
+import iching.android.viewadapters.DivinationsCursorAdapter;
 import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import static iching.android.persistence.IChingSQLiteDBHelper.*;
@@ -21,12 +21,11 @@ public class Divinations extends ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.divinations);
 		setListView();
-		Cursor cursor = getContentResolver().query(DivinationProvider.CONTENT_URI, new String[] {ID, QUESTION}, null, null, CREATED_TIME);
-        startManagingCursor(cursor);
-        String[] from = new String[]{QUESTION};
+		Cursor cursor = managedQuery(DivinationProvider.CONTENT_URI, new String[] {ID, QUESTION, ORIGINAL_ICON, RELATING_ICON}, null, null, CREATED_TIME);
+        String[] from = new String[]{QUESTION, ORIGINAL_ICON, RELATING_ICON};
         int[] to = new int[] {R.id.divination_question};
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, R.layout.divination_list_item, cursor, from, to);
-        setListAdapter(simpleCursorAdapter);
+        DivinationsCursorAdapter divinationsCursorAdapter = new DivinationsCursorAdapter(this, R.layout.divination_list_item, cursor, from, to);
+        setListAdapter(divinationsCursorAdapter);
 	}
 	
 	@Override

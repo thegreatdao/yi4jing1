@@ -45,9 +45,9 @@ public class IChingView extends Activity
 										hexagram17, hexagram18, hexagram19, hexagram20, hexagram21, hexagram22, hexagram23, hexagram24,
 										hexagram25, hexagram26, hexagram27, hexagram28, hexagram29, hexagram30, hexagram31, hexagram32,
 										hexagram33, hexagram34, hexagram35, hexagram36, hexagram37, hexagram38, hexagram39, hexagram40,
-										hexagram41, hexagram42, hexagram43, hexagram44, hexagram45, hexagram46, hexagram47, hexagram48, 
+										hexagram41, hexagram42, hexagram43, hexagram44, hexagram45, hexagram46, hexagram47, hexagram48,
 										hexagram49, hexagram50, hexagram51, hexagram52, hexagram53, hexagram54, hexagram55, hexagram56,
-										hexagram57, hexagram58, hexagram59, hexagram60, hexagram61, hexagram62, hexagram63, hexagram64};
+										hexagram57, hexagram58, hexagram59, hexagram60, hexagram61, hexagram62, hexagram63, hexagram64, yinyang};
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
