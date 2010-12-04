@@ -27,4 +27,24 @@ public class IChingHelper
 		}
 		return iconId;
 	}
+	
+	public static String getRelatingCode(String originalCode, String changingLines)
+	{
+		char[] originalCodeArray = originalCode.toCharArray();
+		char[] changingLineArray = changingLines.toCharArray();
+		for(char digit : changingLineArray)
+		{
+			int index = Integer.parseInt(digit + "") - 1;
+			char lineAtIndex = originalCodeArray[index];
+			if(lineAtIndex == '1')
+			{
+				originalCodeArray[index] = '0';
+			}
+			else
+			{
+				originalCodeArray[index] = '1';
+			}
+		}
+		return new String(originalCodeArray);
+	}
 }

@@ -398,7 +398,7 @@ public class CastIChing extends Activity implements OnClickListener
 		int changingIcon = 64;
 		if(changingLines.trim().length() != 0)
 		{
-			String relatingCode = getRelatingCode(lines, changingLines);
+			String relatingCode = IChingHelper.getRelatingCode(lines, changingLines);
 			changingIcon = getIconIDByCode(relatingCode, iChingSQLiteDBHelper);
 		}
 		iChingSQLiteDBHelper.insertDivination(lines, changingLines, question, originalIcon, changingIcon);
@@ -421,26 +421,6 @@ public class CastIChing extends Activity implements OnClickListener
 		lines = "'" + lines + "'";
 		Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(GUA_CODE, lines, Locale.getDefault());
 		return Integer.parseInt(gua.get(ID)) - 1;
-	}
-
-	private String getRelatingCode(String originalCode, String changingLines)
-	{
-		char[] originalCodeArray = originalCode.toCharArray();
-		char[] changingLineArray = changingLines.toCharArray();
-		for(char digit : changingLineArray)
-		{
-			int index = Integer.parseInt(digit + "") - 1;
-			char lineAtIndex = originalCodeArray[index];
-			if(lineAtIndex == '1')
-			{
-				originalCodeArray[index] = '0';
-			}
-			else
-			{
-				originalCodeArray[index] = '1';
-			}
-		}
-		return new String(originalCodeArray);
 	}
 	
 	private class TossCoinThread extends Thread

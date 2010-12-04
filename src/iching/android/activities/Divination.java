@@ -2,18 +2,26 @@ package iching.android.activities;
 
 import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
+import iching.android.utils.IChingHelper;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Divination extends Activity
+public class Divination extends Activity implements OnClickListener
 {
 
+	private Map<String, String> originalGua;
+	private Map<String, String> relatingGua;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -41,9 +49,21 @@ public class Divination extends Activity
 		relatingImageViews.add((ImageView)findViewById(R.id.yao_4));
 		relatingImageViews.add((ImageView)findViewById(R.id.yao_5));
 		displayHexagramByLines(lines, changingLines, Boolean.TRUE, originalImageViews);
+		IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
+		Locale locale = Locale.getDefault();
+		originalGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + lines + "'", locale);
+		String originalTitle = originalGua.get(IChingSQLiteDBHelper.GUA_TITLE);
+		TextView originalTitleTextView = (TextView)findViewById(R.id.gua_title);
+		originalTitleTextView.setText(originalTitle);
+		originalTitleTextView.setOnClickListener(this);
 		if(changingLines.trim().length() != 0)
 		{
 			displayHexagramByLines(lines, changingLines, Boolean.FALSE, relatingImageViews);
+			relatingGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + IChingHelper.getRelatingCode(lines, changingLines) + "'", locale);
+			String relatingTitle = relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE);
+			TextView relatingTitleTextView = (TextView)findViewById(R.id.gua_title2);
+			relatingTitleTextView.setText(relatingTitle);
+			relatingTitleTextView.setOnClickListener(this);
 		}
 	}
 	
@@ -90,6 +110,32 @@ public class Divination extends Activity
 			imageView.setVisibility(View.VISIBLE);
 			index++;
 		}
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+			case R.id.gua_title:
+				loadHexagram(originalGua);
+				break;
+			case R.id.gua_title2:
+				loadHexagram(relatingGua);
+				break;
+			default:
+				break;
+		}
+		
+	}
+	
+	private void loadHexagram(Map<String, String> gua)
+	{
+		Intent intent = new Intent(this, Gua.class);
+		intent.putExtra(IChingSQLiteDBHelper.GUA_TITLE, gua.get(IChingSQLiteDBHelper.GUA_TITLE));
+		intent.putExtra(IChingSQLiteDBHelper.GUA_BODY, gua.get(IChingSQLiteDBHelper.GUA_BODY));
+		intent.putExtra(IChingSQLiteDBHelper.GUA_ICON, gua.get(IChingSQLiteDBHelper.GUA_ICON));
+		startActivity(intent);
 	}
 }
 

@@ -16,7 +16,7 @@
     	<ScrollView
 		      android:layout_span="2"
 			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
+			  android:layout_height="100dip"
 			  android:layout_marginBottom="10dip">
 			  <TextView
 				android:id="@+id/your_question"
@@ -29,9 +29,15 @@
 		</ScrollView>
     </TableRow>
     <TableRow>
+	    <View style="@style/seperator"/>
+    </TableRow>
+    <TableRow>
     	<TextView
 	    	android:text="@string/your_divinations"
 	    	style="@style/divinationTitle"/>
     </TableRow>
 	<include layout="@layout/hexagrams"/>
+	<TableRow>
+   	    <View style="@style/seperator"/>
+    </TableRow>
 </TableLayout>
