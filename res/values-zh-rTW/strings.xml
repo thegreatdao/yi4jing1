@@ -47,4 +47,6 @@
 	<string name="medium">中(20)</string>
 	<string name="large">大(50)</string>
 	<string name="infinite">無限</string>
+	<string name="your_question">你的問題：</string>
+	<string name="your_divinations">你的卜筮：</string>
 </resources>

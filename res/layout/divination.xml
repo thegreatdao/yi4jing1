@@ -6,36 +6,32 @@
   android:layout_height="fill_parent"
   android:stretchColumns="*"
   android:gravity="center_horizontal">
+  	<include layout="@layout/title_icon"/>
     <TableRow>
-    	<ImageView
-			android:id="@+id/hexagrams"
-            android:layout_span="2"
-	    	android:layout_gravity="center"
-	    	android:layout_marginTop="5dip"
-	    	android:layout_marginBottom="5dip"
-    		android:src="@drawable/divination"/>
+    	<TextView
+	    	android:text="@string/your_question"
+	    	style="@style/divinationTitle"/>
+    </TableRow>
+    <TableRow>
+    	<ScrollView
+		      android:layout_span="2"
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content"
+			  android:layout_marginBottom="10dip">
+			  <TextView
+				android:id="@+id/your_question"
+				android:layout_width="fill_parent"
+				android:layout_height="30dip"
+		    	android:text="@string/your_question"
+		    	android:layout_gravity="left"
+		    	android:layout_marginLeft="10dip"
+		    	android:layout_marginRight="10dip"/>
+		</ScrollView>
     </TableRow>
     <TableRow>
     	<TextView
-			android:layout_width="fill_parent"
-            android:layout_span="2"
-	    	android:text="@string/instruction"
-	    	android:layout_gravity="center"
-	    	android:layout_marginRight="20dip"/>
-    </TableRow>
-    <TableRow>
-    	<EditText
-			android:id="@+id/question"
-            android:layout_span="2"
-    		android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:singleLine="false"
-            android:lines="3"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            style="@style/instruction"
-            />
+	    	android:text="@string/your_divinations"
+	    	style="@style/divinationTitle"/>
     </TableRow>
 	<include layout="@layout/hexagrams"/>
 </TableLayout>

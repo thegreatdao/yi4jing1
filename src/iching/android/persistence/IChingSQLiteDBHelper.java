@@ -219,6 +219,22 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return gua;
 	}
 	
+	public Map<String, String> selectOneDivinationByField(String fieldName, Object value, Locale locale)
+	{
+		Map<String, String> divinaiton = new HashMap<String, String>();
+		Cursor cursor = sqLiteDatabase.query(TABLE_DIVINATION, new String[]{ID, QUESTION, ORIGINAL_LINES, CHANGING_LINES}, fieldName + "=" + value, null, null, null, null);
+		if(cursor.getCount() != 0)
+		{
+			cursor.moveToFirst();
+			divinaiton.put(ID, cursor.getString(0));
+			divinaiton.put(QUESTION, cursor.getString(1));
+			divinaiton.put(ORIGINAL_LINES, cursor.getString(2));
+			divinaiton.put(CHANGING_LINES, cursor.getString(3));
+		}
+		cursor.close();
+		return divinaiton;
+	}
+	
 	public List<Divination> selectAllDivinations()
 	{
 		List<Divination> divinations = new ArrayList<Divination>();

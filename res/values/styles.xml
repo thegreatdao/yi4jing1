@@ -62,4 +62,13 @@
     <style name="relatingHexagramTitle" parent="originalHexagramTitle">
         <item name="android:textColor">#0033CC</item>
     </style>
+        
+    <style name="divinationTitle">
+        <item name="android:textColor">@color/divinationTitleColor</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_span">2</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_marginLeft">10dip</item>
+    </style>
 </resources>
