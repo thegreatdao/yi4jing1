@@ -49,4 +49,8 @@
 	<string name="infinite">Infinite</string>
 	<string name="your_question">Your question:</string>
 	<string name="your_divinations">Your divination:</string>
+	<string name="current_value_music_on">[ON]</string>
+	<string name="current_value_music_off">[OFF]</string>
+	<string name="current_value_view_on">[List View]</string>
+	<string name="current_value_view_off">[Grid View]</string>
 </resources>
