@@ -20,9 +20,10 @@
 	<string name="gua_label">64 Hexagrams</string>
 	<string name="switch_view">Switch view</string>
 	<string name="grid_view">Image view</string>
-	<string name="list_view">Text view</string>
+	<string name="list_view">List view</string>
 	<string name="music_title">Music Settings</string>
-	<string name="music_summary">Turn on/off Music</string>
+	<string name="music_summary_on">Turn on/off Music [ON]</string>
+	<string name="music_summary_off">Turn on/off Music [OFF]</string>
 	<string name="hexagrams_title">Hexagram</string>
 	<string name="hexagrams_summary">Hexagram Summary</string>
 	<string name="settings_label">IChing Settings</string>
@@ -49,8 +50,8 @@
 	<string name="infinite">Infinite</string>
 	<string name="your_question">Your question:</string>
 	<string name="your_divinations">Your divination:</string>
-	<string name="current_value_music_on">[ON]</string>
-	<string name="current_value_music_off">[OFF]</string>
 	<string name="current_value_view_on">[List View]</string>
 	<string name="current_value_view_off">[Grid View]</string>
+	<string name="open_bracket">[</string>
+	<string name="close_bracket">]</string>
 </resources>

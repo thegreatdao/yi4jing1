@@ -4,7 +4,8 @@
 		<CheckBoxPreference
 			android:key="musicPref"
 			android:title="@string/music_title"
-			android:summary="@string/music_summary"
+			android:summaryOn="@string/music_summary_on"
+			android:summaryOff="@string/music_summary_off"
 			android:defaultValue="true"/>
 	</PreferenceCategory>
 
