@@ -37,6 +37,7 @@
 	<string name="originalHexagram">Original</string>
 	<string name="relatingHexagram">Relating</string>
 	<string name="tossCoin">Toss</string>
+	<string name="restCoin">Another Cast</string>
 	<string name="saveDivination">Save</string>
 	<string name="load_divinations">My Divinations</string>
 	<string name="empty_question">Please enter your question in order to save your divination</string>

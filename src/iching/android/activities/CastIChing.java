@@ -1,11 +1,18 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.*;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_CODE;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
+import static iching.android.persistence.IChingSQLiteDBHelper.ID;
+import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_DIVINATION;
 import iching.android.R;
 import iching.android.bean.Line;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -38,7 +45,12 @@ public class CastIChing extends Activity implements OnClickListener
 	private String lines;
 	private String changingLines;
 	private String question;
-	Button saveDivinationButton;
+	private Button saveDivinationButton;
+	private List<ImageView> imageLines = new ArrayList<ImageView>(6);
+	private List<ImageView> imageCoins = new ArrayList<ImageView>(6);
+	private List<TextView> hexagramTitles = new ArrayList<TextView>(2);
+	// 0 for tossing 1 for reset
+	private int action;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -48,14 +60,45 @@ public class CastIChing extends Activity implements OnClickListener
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
 		TextView guaTitle2 = (TextView) findViewById(R.id.gua_title2);
+		collectAllTitles(guaTitle, guaTitle2);
 		saveDivinationButton = (Button)findViewById(R.id.saveDivination);
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
 		saveDivinationButton.setOnClickListener(this);
-		
+		collectAllLines();
+		collectAllCoins();
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
+	}
+
+	private void collectAllTitles(TextView guaTitle, TextView guaTitle2)
+	{
+		hexagramTitles.add(guaTitle);
+		hexagramTitles.add(guaTitle2);
+	}
+
+	private void collectAllCoins()
+	{
+		imageCoins.add((ImageView)findViewById(R.id.first_coin));
+		imageCoins.add((ImageView)findViewById(R.id.second_coin));
+		imageCoins.add((ImageView)findViewById(R.id.third_coin));
+	}
+
+	private void collectAllLines()
+	{
+		imageLines.add((ImageView)findViewById(R.id.yao));
+		imageLines.add((ImageView)findViewById(R.id.yao2));
+		imageLines.add((ImageView)findViewById(R.id.yao3));
+		imageLines.add((ImageView)findViewById(R.id.yao4));
+		imageLines.add((ImageView)findViewById(R.id.yao5));
+		imageLines.add((ImageView)findViewById(R.id.yao6));
+		imageLines.add((ImageView)findViewById(R.id.yao_));
+		imageLines.add((ImageView)findViewById(R.id.yao_1));
+		imageLines.add((ImageView)findViewById(R.id.yao_2));
+		imageLines.add((ImageView)findViewById(R.id.yao_3));
+		imageLines.add((ImageView)findViewById(R.id.yao_4));
+		imageLines.add((ImageView)findViewById(R.id.yao_5));
 	}
 
 	@Override
@@ -70,7 +113,16 @@ public class CastIChing extends Activity implements OnClickListener
 				showHexagram(Boolean.FALSE);
 				break;
 			case R.id.tossCoin:
-				tossCoin();
+				if(action == 0)
+				{
+					tossCoin();
+				}
+				else
+				{
+					EditText question = (EditText)findViewById(R.id.question);
+					Button tossButton = (Button)findViewById(R.id.tossCoin);
+					resetPage(imageLines, imageCoins, hexagramTitles, question, tossButton);
+				}
 				break;
 			case R.id.saveDivination:
 				lines = getOriginalCodes(originalHexagramLines);
@@ -210,12 +262,14 @@ public class CastIChing extends Activity implements OnClickListener
 									}
 								});
 								handler.post(setYaoThread);
+								button.setClickable(Boolean.TRUE);
 								if(tossTimes != 6)
 								{
-									button.setClickable(Boolean.TRUE);
+									action = 0;
 								}
 								else
 								{
+									action = 1;
 									Thread showRelatingHexgram = new Thread(new Runnable()
 									{
 										
@@ -227,6 +281,7 @@ public class CastIChing extends Activity implements OnClickListener
 											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode + "'", locale);
 											TextView originalTitle = (TextView) findViewById(R.id.gua_title);
 											originalTitle.setText(originalHexagram.get(GUA_TITLE));
+											button.setText(R.string.restCoin);
 											String relatingHexgramCode = getRelatingCodes(originalHexagramLines);
 											if(relatingHexagramExists(originalHexagramLines))
 											{
@@ -396,6 +451,30 @@ public class CastIChing extends Activity implements OnClickListener
 		{
 			return R.drawable.manwen;
 		}
+	}
+	
+	private void resetPage(List<ImageView> lines, List<ImageView> coins, List<TextView> hexagramTitles, EditText question, Button tossButton)
+	{
+		for(ImageView line : lines)
+		{
+			line.setVisibility(View.INVISIBLE);
+		}
+		for(ImageView coin : coins)
+		{
+			coin.setImageResource(R.drawable.default_coin);
+		}
+		for(TextView hexagramTitle : hexagramTitles)
+		{
+			hexagramTitle.setText("");
+		}
+		question.setText("");
+		tossButton.setText(R.string.tossCoin);
+		saveDivinationButton.setVisibility(View.INVISIBLE);
+		action = 0;
+		threadCount = 0;
+		tossTimes = 0;
+		threadFinishedCount = 0;
+		originalHexagramLines = new Line[6];
 	}
 	
 	private void saveDivination(String lines, String changingLines, String question)

@@ -37,6 +37,7 @@
 	<string name="originalHexagram">本卦</string>
 	<string name="relatingHexagram">变卦</string>
 	<string name="tossCoin">摇卦</string>
+	<string name="restCoin">再来一卦</string>
 	<string name="saveDivination">保存</string>
 	<string name="load_divinations">我的占卜</string>
 	<string name="empty_question">请输入你的问题，然后保存</string>
