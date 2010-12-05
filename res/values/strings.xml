@@ -54,4 +54,5 @@
 	<string name="current_value_view_off">[Grid View]</string>
 	<string name="open_bracket">[</string>
 	<string name="close_bracket">]</string>
+	<string name="exceed_numember_of_records_warning_title">You currently have more records than the limit you are setting, please remove some records before proceeding.</string>
 </resources>

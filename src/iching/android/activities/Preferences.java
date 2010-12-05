@@ -1,8 +1,12 @@
 package iching.android.activities;
 
 import iching.android.R;
+import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.service.MusicControl;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -21,16 +25,20 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	
 	private ListPreference viewListPreference;
 	private ListPreference numOfRecordsListPreference;
+	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	private String initNumOfRecords;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
 		viewListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_VIEW);
 		numOfRecordsListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_DIVINATIONS);
-		setUpViewSummary(KEY_VIEW);
+		setUpViewSummary(KEY_VIEW);		
 		setUpNumOfRecordsSummary(KEY_DIVINATIONS);
+		initNumOfRecords = getStringValue(this, KEY_DIVINATIONS, DEFAULT_VALUE_DIVINATIONS);
 	}
 	
 	@Override
@@ -67,10 +75,39 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		}
 		else if(key.equals(KEY_DIVINATIONS))
 		{
-			setUpNumOfRecordsSummary(key);
+			int numOfRecords = (int)iChingSQLiteDBHelper.getNumOfRecords(IChingSQLiteDBHelper.TABLE_DIVINATION);
+			String currentValueString = getStringValue(this, key, DEFAULT_VALUE_DIVINATIONS);
+			int currentValue = Integer.parseInt(currentValueString);
+			if(currentValue > 0 && numOfRecords > currentValue)
+			{
+				showDialog(0);
+				numOfRecordsListPreference.setValue(initNumOfRecords);
+			}
+			else
+			{
+				initNumOfRecords = currentValueString;
+				setUpNumOfRecordsSummary(key);
+			}
 		}
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);;
+		builder.setMessage(R.string.exceed_numember_of_records_warning_title)
+		.setCancelable(false)
+		.setNegativeButton(R.string.no,
+				new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int id)
+			{
+				dialog.cancel();
+			}
+		});
+		return builder.create();
+	}
+	
 	private void setUpNumOfRecordsSummary(String key)
 	{
 		String numOfRecordsSummary = getString(R.string.divination_summary);

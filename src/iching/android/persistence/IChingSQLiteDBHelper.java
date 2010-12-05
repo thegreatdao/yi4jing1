@@ -266,7 +266,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return executeInsert;
 	}
 	
-	public long getMumOfRecords(String table)
+	public long getNumOfRecords(String table)
 	{
 		return DatabaseUtils.queryNumEntries(sqLiteDatabase, table);
 	}

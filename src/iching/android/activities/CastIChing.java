@@ -76,11 +76,17 @@ public class CastIChing extends Activity implements OnClickListener
 				lines = getOriginalCodes(originalHexagramLines);
 				changingLines = getChangingLinePositions(originalHexagramLines);
 				question = ((EditText)findViewById(R.id.question)).getText().toString();
+				String maximumNumOfRecords = Preferences.getStringValue(this, Preferences.KEY_DIVINATIONS, Preferences.DEFAULT_VALUE_DIVINATIONS);
+				int maximumNumOfRecordsIntValue = Integer.parseInt(maximumNumOfRecords);
+				if(maximumNumOfRecordsIntValue == -1)
+				{
+					maximumNumOfRecordsIntValue = Integer.MAX_VALUE;
+				}
 				if(question.trim().length()==0)
 				{
 					showDialog(0);
 				}
-				else if(iChingSQLiteDBHelper.getMumOfRecords(TABLE_DIVINATION) == 10)
+				else if(iChingSQLiteDBHelper.getNumOfRecords(TABLE_DIVINATION) == maximumNumOfRecordsIntValue)
 				{
 					showDialog(1);
 				}

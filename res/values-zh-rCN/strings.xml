@@ -54,4 +54,5 @@
 	<string name="current_value_view_off">【图片】</string>
 	<string name="open_bracket">【</string>
 	<string name="close_bracket">】</string>
+	<string name="exceed_numember_of_records_warning_title">你设置的数值比你保存的卦数小，请删除一些数据后再试。</string>
 </resources>
