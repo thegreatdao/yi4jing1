@@ -22,6 +22,7 @@
 	<string name="grid_view">Image view</string>
 	<string name="list_view">List view</string>
 	<string name="music_title">Music Settings</string>
+	<string name="music_summary">Turn on/off Music</string>
 	<string name="music_summary_on">Turn on/off Music [ON]</string>
 	<string name="music_summary_off">Turn on/off Music [OFF]</string>
 	<string name="hexagrams_title">Hexagram</string>
@@ -43,7 +44,7 @@
 	<string name="succesful_save">Divination has been saved!</string>
 	<string name="divinations_preference_category">Divinations</string>
 	<string name="divination_title">Number of Divinations</string>
-	<string name="divination_summary">Set a limit to the number of divinations you can store in the system, you can set it to 10, 20, 50 or no limit at all.</string>
+	<string name="divination_summary">Set a limit to the number of divinations you can store in the system, you can set it to 10, 20, 50 or no limit at all</string>
 	<string name="small">Small(10)</string>
 	<string name="medium">Medium(20)</string>
 	<string name="large">Large(50)</string>
@@ -54,5 +55,7 @@
 	<string name="current_value_view_off">[Grid View]</string>
 	<string name="open_bracket">[</string>
 	<string name="close_bracket">]</string>
+	<string name="on">ON</string>
+	<string name="off">OFF</string>
 	<string name="exceed_numember_of_records_warning_title">You currently have more records than the limit you are setting, please remove some records before proceeding.</string>
 </resources>

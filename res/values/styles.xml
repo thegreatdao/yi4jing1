@@ -64,7 +64,7 @@
     </style>
         
     <style name="divinationTitle">
-        <item name="android:textColor">@color/divinationTitleColor</item>
+        <item name="android:textColor">@color/title_background_color</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_span">2</item>

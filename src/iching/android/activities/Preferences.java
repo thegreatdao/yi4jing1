@@ -10,9 +10,15 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener
 {
@@ -25,6 +31,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	
 	private ListPreference viewListPreference;
 	private ListPreference numOfRecordsListPreference;
+	private CheckBoxPreference musicCheckBoxPreference;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	private String initNumOfRecords;
 
@@ -36,6 +43,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
 		viewListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_VIEW);
 		numOfRecordsListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_DIVINATIONS);
+		musicCheckBoxPreference = (CheckBoxPreference)getPreferenceScreen().findPreference(KEY_MUSIC);
+		setUpMusicSummary(KEY_MUSIC);
 		setUpViewSummary(KEY_VIEW);		
 		setUpNumOfRecordsSummary(KEY_DIVINATIONS);
 		initNumOfRecords = getStringValue(this, KEY_DIVINATIONS, DEFAULT_VALUE_DIVINATIONS);
@@ -68,6 +77,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 			{
 				MusicControl.stop(this);
 			}
+			setUpMusicSummary(key);
 		}
 		else if(key.equals(KEY_VIEW))
 		{
@@ -97,7 +107,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);;
 		builder.setMessage(R.string.exceed_numember_of_records_warning_title)
 		.setCancelable(false)
-		.setNegativeButton(R.string.no,
+		.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int id)
@@ -108,6 +118,23 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		return builder.create();
 	}
 	
+	private void setUpMusicSummary(String key)
+	{
+		String musicSummary = getString(R.string.music_summary);
+		String musicValue = "";
+		if(isMusicOn(this))
+		{
+			musicValue = getString(R.string.on);
+		}
+		else
+		{
+			musicValue = getString(R.string.off);
+		}
+		musicValue = getString(R.string.open_bracket) + musicValue + getString(R.string.close_bracket);
+		musicSummary = stylizeValue(musicSummary, musicValue);
+		musicCheckBoxPreference.setSummary(Html.fromHtml(musicSummary));
+	}
+	
 	private void setUpNumOfRecordsSummary(String key)
 	{
 		String numOfRecordsSummary = getString(R.string.divination_summary);
@@ -116,8 +143,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		{
 			numOfRecordsValue = getString(R.string.infinite);
 		}
-		numOfRecordsSummary = numOfRecordsSummary + " " + getString(R.string.open_bracket) + numOfRecordsValue + getString(R.string.close_bracket);
-		numOfRecordsListPreference.setSummary(numOfRecordsSummary);
+		numOfRecordsValue = getString(R.string.open_bracket) + numOfRecordsValue + getString(R.string.close_bracket);
+		numOfRecordsSummary = stylizeValue(numOfRecordsSummary, numOfRecordsValue);
+		numOfRecordsListPreference.setSummary(Html.fromHtml(numOfRecordsSummary));
 	}
 
 	private void setUpViewSummary(String key)
@@ -128,10 +156,30 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		{
 			viewValue = getString(R.string.current_value_view_off);
 		}
-		viewSummary = viewSummary + " " + viewValue;
-		viewListPreference.setSummary(viewSummary);
+		viewSummary = stylizeValue(viewSummary, viewValue);
+		viewListPreference.setSummary(Html.fromHtml(viewSummary));
 	}
-
+	
+	private String stylizeValue(String summary, String value)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("<font color=\"#000000\">");
+		stringBuilder.append(summary + " ");
+		stringBuilder.append("</font>");
+		stringBuilder.append("<b><font color=\"#F49A05\">");
+		stringBuilder.append(value);
+		stringBuilder.append("</font></b>");
+		return stringBuilder.toString();
+	}
+	
+	@SuppressWarnings("unused")
+	private void stylizeSummary(String input, Preference preference)
+	{
+		Spannable summary = new SpannableString (input);
+		summary.setSpan(new ForegroundColorSpan(R.color.title_color), 0, summary.length(), 0 );
+		preference.setSummary(summary);
+	}
+	
 	public static boolean isMusicOn(Context context)
 	{
 		return getSharedPreferences(context).getBoolean(KEY_MUSIC, DEFAULT_VALUE_MUSIC);
