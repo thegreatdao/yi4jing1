@@ -146,8 +146,7 @@ public class IChingView extends Activity
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 				{
 					final Intent intent = new Intent(getApplicationContext(), Gua.class);
-					setUpHexagram(iChingSQLiteDBHelper, locale, intent,
-							position);
+					setUpHexagram(iChingSQLiteDBHelper, locale, intent, position);
 				}
 
 				private void setUpHexagram(

@@ -286,4 +286,9 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	{
 		this.sqLiteDatabase = sqLiteDatabase;
 	}
+	
+	public void deleteDivinationById(long id)
+	{
+		sqLiteDatabase.delete(TABLE_DIVINATION, "_id=" + id, null);
+	}
 }
