@@ -34,5 +34,6 @@
 	<string name="originalHexagram">Original</string>
 	<string name="relatingHexagram">Relating</string>
 	<string name="tossCoin">Toss</string>
-<string name="saveDivination">Save</string>
+	<string name="restCoin">Another Cast</string>
+	<string name="saveDivination">Save</string>
 </resources>
