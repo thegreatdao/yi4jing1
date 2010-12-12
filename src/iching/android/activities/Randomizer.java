@@ -7,10 +7,15 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
+import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -25,6 +30,9 @@ import org.anddev.andengine.ui.activity.LayoutGameActivity;
 import android.hardware.SensorManager;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener
 {
@@ -36,6 +44,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 
 	private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 320;
+	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private final Vector2 mTempVector = new Vector2();
 	
@@ -65,22 +74,33 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public Scene onLoadScene()
 	{
-		final Scene sceneA = new Scene(1);
-		sceneA.setBackground(new ColorBackground(0.2f, 0.2f, 0.2f, 1f));
-		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
-		/*
-		 * Calculate the coordinates for the face, so its centered on the
-		 * camera.
-		 */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2 - 100;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion
-				.getHeight()) / 2;
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY,
-				this.mFaceTextureRegion);
-		sceneA.getTopLayer().addEntity(face);
-		return sceneA;
+		final Scene scene = new Scene(2);
+		scene.setBackground(new ColorBackground(1, 1, 1, 0));
+		scene.setOnSceneTouchListener(this);
+
+		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+
+		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
+		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
+		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
+		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
+
+		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+
+		scene.getBottomLayer().addEntity(roof);
+		scene.getBottomLayer().addEntity(ground);
+		scene.getBottomLayer().addEntity(left);
+		scene.getBottomLayer().addEntity(right);
+
+		scene.registerUpdateHandler(this.mPhysicsWorld);
+
+		return scene;
 	}
 
 	@Override
@@ -102,8 +122,19 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent)
+	public boolean onSceneTouchEvent(Scene pScene, final TouchEvent pSceneTouchEvent)
 	{
+		if(this.mPhysicsWorld != null) {
+			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				this.runOnUpdateThread(new Runnable() {
+					@Override
+					public void run() {
+						Randomizer.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+					}
+				});
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -113,5 +144,17 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		this.mTempVector.set(pAccelerometerData.getY(), pAccelerometerData.getX());
 		this.mPhysicsWorld.setGravity(this.mTempVector);
 	}
+	
+	private void addFace(final float pX, final float pY) {
+		final Scene scene = this.mEngine.getScene();
 
+		final Sprite face;
+		final Body body;
+
+		face = new Sprite(pX, pY, this.mFaceTextureRegion);
+		body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
+		face.setUpdatePhysics(false);
+		scene.getTopLayer().addEntity(face);
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+	}
 }
