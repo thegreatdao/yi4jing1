@@ -29,6 +29,10 @@
       android:text="@string/load_divinations"
       style="?button"/>
    <Button
+   	  android:id="@+id/randomizer"
+	  android:text="@string/randomizer"
+	  style="?button"/>
+   <Button
    	  android:id="@+id/about"
 	  android:text="@string/about_label"
 	  style="?button"/>

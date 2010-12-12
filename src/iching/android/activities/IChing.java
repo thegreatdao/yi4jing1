@@ -112,6 +112,10 @@ public class IChing extends Activity implements OnClickListener
 				Intent loadDivinationIntent = new Intent(this, Divinations.class);
 				startActivity(loadDivinationIntent);
 				break;
+			case R.id.randomizer:
+				Intent randomizerIntent = new Intent(this, Randomizer.class);
+				startActivity(randomizerIntent);
+				break;
 			case R.id.about:
 				Intent aboutIntent = new Intent(this, About.class);
 				startActivity(aboutIntent);
@@ -212,5 +216,7 @@ public class IChing extends Activity implements OnClickListener
 		exitButton.setOnClickListener(this);
 		View loadDivinationButton = findViewById(R.id.load_divinations);
 		loadDivinationButton.setOnClickListener(this);
+		View randomizerButton = findViewById(R.id.randomizer);
+		randomizerButton.setOnClickListener(this);
 	}
 }

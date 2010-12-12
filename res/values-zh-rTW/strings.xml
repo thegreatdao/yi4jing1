@@ -61,4 +61,5 @@
 	<string name="exceed_numember_of_records_warning_title">你設置的數值比你保存的卦數小，請刪除一些數據後再試。</string>
 	<string name="confirm_delete_divination">你確定要刪除這條卦嗎？</string>
 	<string name="divination_deleted">卦已經被刪除！</string>
+	<string name="randomizer">23D卦象</string>
 </resources>
