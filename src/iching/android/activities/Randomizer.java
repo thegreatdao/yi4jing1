@@ -62,7 +62,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	{
 		this.mTexture = new Texture(128, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		mFaceTextureRegion = TextureRegionFactory.createFromResource(mTexture, this, R.drawable.kun, 0, 0);
+		mFaceTextureRegion = TextureRegionFactory.createFromResource(mTexture, this, R.drawable.bi, 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 		
@@ -139,7 +139,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onAccelerometerChanged(AccelerometerData pAccelerometerData)
 	{
-		this.mTempVector.set(pAccelerometerData.getY(), pAccelerometerData.getX());
+		this.mTempVector.set( pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(this.mTempVector);
 	}
 	
