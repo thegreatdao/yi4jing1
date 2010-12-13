@@ -22,12 +22,12 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
 
 import android.hardware.SensorManager;
+import android.view.Display;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -40,10 +40,9 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private PhysicsWorld mPhysicsWorld;
 	private Texture mTexture;
 	private TextureRegion mFaceTextureRegion;
-	private TiledTextureRegion gua;
 
-	private static final int CAMERA_WIDTH = 480;
-	private static final int CAMERA_HEIGHT = 320;
+	private int CAMERA_WIDTH;
+	private int CAMERA_HEIGHT;
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private final Vector2 mTempVector = new Vector2();
@@ -51,20 +50,19 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public Engine onLoadEngine()
 	{
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(false, ScreenOrientation.PORTRAIT,
-				new FillResolutionPolicy(), this.mCamera));
+		Display display = getWindowManager().getDefaultDisplay();
+		CAMERA_WIDTH = display.getWidth();
+		CAMERA_HEIGHT = display.getHeight();
+		this.mCamera = new Camera(0, 0, display.getWidth(), display.getHeight());
+		return new Engine(new EngineOptions(false, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources()
 	{
-		this.mTexture = new Texture(128, 128,
-				TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.gua = TextureRegionFactory.createTiledFromResource(this.mTexture, this, R.drawable.qian2, 0, 0, 2, 1); // 64x32
+		this.mTexture = new Texture(128, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		mFaceTextureRegion = TextureRegionFactory.createFromResource(mTexture,
-				this, R.drawable.qian3, 0, 0);
+		mFaceTextureRegion = TextureRegionFactory.createFromResource(mTexture, this, R.drawable.kun, 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 		
@@ -77,25 +75,25 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(1, 1, 1, 0));
+		scene.setBackground(new ColorBackground(1, 1, 1, 1));
 		scene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
-		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
+		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getBottomLayer().addEntity(roof);
 		scene.getBottomLayer().addEntity(ground);
 		scene.getBottomLayer().addEntity(left);
+		scene.getBottomLayer().addEntity(roof);
 		scene.getBottomLayer().addEntity(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
@@ -153,7 +151,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 
 		face = new Sprite(pX, pY, this.mFaceTextureRegion);
 		body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
-		face.setUpdatePhysics(false);
+		face.setUpdatePhysics(true);
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
