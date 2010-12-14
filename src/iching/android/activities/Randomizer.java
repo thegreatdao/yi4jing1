@@ -34,69 +34,78 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener
+public class Randomizer extends LayoutGameActivity implements
+		IAccelerometerListener, IOnSceneTouchListener
 {
-	private Camera mCamera;
-	private PhysicsWorld mPhysicsWorld;
-	private Texture mTexture;
-	private TextureRegion mFaceTextureRegion;
+	private Camera camera;
+	private PhysicsWorld physicsWorld;
+	private Texture texture;
+	private TextureRegion guaTextureRegion;
 
 	private int CAMERA_WIDTH;
 	private int CAMERA_HEIGHT;
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
-	private final Vector2 mTempVector = new Vector2();
-	
+	private final Vector2 vector2 = new Vector2();
+//	private RepeatingSpriteBackground background;
+	private int count;
+
 	@Override
 	public Engine onLoadEngine()
 	{
 		Display display = getWindowManager().getDefaultDisplay();
 		CAMERA_WIDTH = display.getWidth();
 		CAMERA_HEIGHT = display.getHeight();
-		this.mCamera = new Camera(0, 0, display.getWidth(), display.getHeight());
-		return new Engine(new EngineOptions(false, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), this.mCamera));
+		camera = new Camera(0, 0, display.getWidth(), display.getHeight());
+		return new Engine(new EngineOptions(false, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), camera));
 	}
 
 	@Override
 	public void onLoadResources()
 	{
-		this.mTexture = new Texture(128, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		mFaceTextureRegion = TextureRegionFactory.createFromResource(mTexture, this, R.drawable.bi, 0, 0);
+		guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, R.drawable.bo, 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-		
-		this.enableAccelerometerSensor(this);
+		mEngine.getTextureManager().loadTexture(texture);
+//		background = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/background.png"));
+		enableAccelerometerSensor(this);
 	}
 
 	@Override
 	public Scene onLoadScene()
 	{
-		this.mEngine.registerUpdateHandler(new FPSLogger());
+		mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(1, 1, 1, 1));
+		scene.setBackground(new ColorBackground(1, 1, 1));
+//		scene.setBackground(background);
 		scene.setOnSceneTouchListener(this);
 
-		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
-
+		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_MERCURY), false);
+		physicsWorld.setGravity(vector2);
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
 		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0,
+				0.5f, 0.5f);
+		PhysicsFactory.createBoxBody(physicsWorld, ground,
+				BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, left,
+				BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, roof,
+				BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, right,
+				BodyType.StaticBody, wallFixtureDef);
 
 		scene.getBottomLayer().addEntity(ground);
 		scene.getBottomLayer().addEntity(left);
 		scene.getBottomLayer().addEntity(roof);
 		scene.getBottomLayer().addEntity(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		scene.registerUpdateHandler(physicsWorld);
 
 		return scene;
 	}
@@ -122,11 +131,15 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, final TouchEvent pSceneTouchEvent)
 	{
-		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-				this.runOnUpdateThread(new Runnable() {
+		if (physicsWorld != null)
+		{
+			if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
+			{
+				runOnUpdateThread(new Runnable()
+				{
 					@Override
-					public void run() {
+					public void run()
+					{
 						Randomizer.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 					}
 				});
@@ -139,20 +152,25 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onAccelerometerChanged(AccelerometerData pAccelerometerData)
 	{
-		this.mTempVector.set( pAccelerometerData.getX(), pAccelerometerData.getY());
-		this.mPhysicsWorld.setGravity(this.mTempVector);
+		vector2.set(pAccelerometerData.getX(),pAccelerometerData.getY());
+		physicsWorld.setGravity(vector2);
 	}
+
+	private void addFace(final float pX, final float pY)
+	{
+		count++;
+		if(count <= 8)
+		{
+			final Scene scene = mEngine.getScene();
 	
-	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
-		final Sprite face;
-		final Body body;
-
-		face = new Sprite(pX, pY, this.mFaceTextureRegion);
-		body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
-		face.setUpdatePhysics(true);
-		scene.getTopLayer().addEntity(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+			final Sprite gua;
+			final Body body;
+	
+			gua = new Sprite(pX, pY, guaTextureRegion);
+			body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
+			gua.setUpdatePhysics(false);
+			scene.getTopLayer().addEntity(gua);
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, false, false));
+		}
 	}
 }
