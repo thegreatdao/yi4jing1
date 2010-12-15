@@ -2,6 +2,7 @@ package iching.android.persistence;
 
 import iching.android.bean.Divination;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
@@ -51,10 +51,26 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	private SQLiteDatabase sqLiteDatabase;
 	private SQLiteStatement sqLiteStatement;
 	private Context context;
+	private boolean writable;
 	
 	public IChingSQLiteDBHelper(Context context, boolean writable)
 	{
 		super(context, DB_NAME, null, 1);
+		this.writable = writable;
+		this.context = context;
+		try
+		{
+			createDataBase();
+		}
+		catch (IOException e)
+		{
+			throw new Error("Error creating database");
+		}
+	}
+
+	public void createDataBase() throws IOException
+	{
+		boolean dbExists = checkDataBase();
 		if(writable)
 		{
 			sqLiteDatabase = getWritableDatabase();
@@ -63,50 +79,17 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		{
 			sqLiteDatabase = getReadableDatabase();
 		}
-		this.context = context;
-		try
+		if(!dbExists)
 		{
-			createDataBase();
-		} catch (IOException e)
-		{
-			throw new Error("Error creating database");
+			copyDataBase();
 		}
 		sqLiteStatement = sqLiteDatabase.compileStatement(INSERT_DIVINATION);
 	}
 
-	public void createDataBase() throws IOException
-	{
-		boolean dbExists = checkDataBase();
-//		dbExists = Boolean.FALSE;
-		if(!dbExists)
-		{
-			try
-			{
-				copyDataBase();
-			}
-			catch (IOException e)
-			{
-				throw new Error("Error copying database");
-			}
-		}
-	}
-
 	private boolean checkDataBase()
 	{
-    	SQLiteDatabase checkDB = null;
-    	try{
-    		String myPath = DB_PATH + DB_NAME;
-    		checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-    	}
-    	catch(SQLiteException e)
-    	{
-    		//database does't exist yet.
-    	}
-    	if(checkDB != null)
-    	{
-    		checkDB.close();
-    	}
-    	return checkDB != null ? true : false;
+		File dbFile = new File(DB_PATH + DB_NAME);
+        return dbFile.exists();
     }
 
 	@Override
@@ -273,7 +256,6 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	
 	public void deleteTopMostDivination()
 	{
-//		sqLiteDatabase.delete(TABLE_DIVINATION, " ORDER BY _id asc LIMIT 1", null);
 		sqLiteDatabase.execSQL(DELETE_DIVINATION);
 	}
 
