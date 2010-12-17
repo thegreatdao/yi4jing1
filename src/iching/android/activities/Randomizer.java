@@ -47,7 +47,6 @@ public class Randomizer extends LayoutGameActivity implements
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private final Vector2 vector2 = new Vector2();
-//	private RepeatingSpriteBackground background;
 	private int count;
 
 	@Override
@@ -79,7 +78,6 @@ public class Randomizer extends LayoutGameActivity implements
 
 		final Scene scene = new Scene(2);
 		scene.setBackground(new ColorBackground(1, 1, 1));
-//		scene.setBackground(background);
 		scene.setOnSceneTouchListener(this);
 
 		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_MERCURY), false);
