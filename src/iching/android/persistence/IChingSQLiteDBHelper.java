@@ -148,17 +148,17 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		{
 			orderBy = " " + field + " desc";
 		}
-		ArrayList<String> results = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<String>();
 		Cursor cursor = sqLiteDatabase.query(tableName, new String[]{field}, null, null, null, null, orderBy);
 		if(cursor.moveToFirst())
 		{
 			do
 			{
-				results.add(cursor.getString(0));
+				result.add(cursor.getString(0));
 			}while(cursor.moveToNext());
 		}
 		cursor.close();
-		return results;
+		return result;
 	}
 	
 	public String selectOne(String tableName, String field, long id)
@@ -272,5 +272,32 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public void deleteDivinationById(long id)
 	{
 		sqLiteDatabase.delete(TABLE_DIVINATION, "_id=" + id, null);
+	}
+	
+	public String[] selectGuasByGong(int gongId)
+	{
+		String[] result = new String[8];
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{ICON}, "gong_id=" + gongId, null, null, null, null);
+		int i = 0;
+		if(cursor.moveToFirst())
+		{
+			do
+			{
+				result[i] = cursor.getString(0);
+				i++;
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+		return result;
+	}
+	
+	public List<String[]> getGuasByGongs()
+	{
+		List<String[]> result = new ArrayList<String[]>(8);
+		for(int i=1; i<=8; i++)
+		{
+			result.add(selectGuasByGong(i));
+		}
+		return result;
 	}
 }

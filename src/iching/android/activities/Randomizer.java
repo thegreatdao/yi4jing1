@@ -1,6 +1,10 @@
 package iching.android.activities;
 
 import iching.android.R;
+import iching.android.utils.IChingHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -27,31 +31,32 @@ import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
 
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.view.Display;
+import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-public class Randomizer extends LayoutGameActivity implements
-		IAccelerometerListener, IOnSceneTouchListener
+public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener
 {
 	private Camera camera;
 	private PhysicsWorld physicsWorld;
 	private Texture texture;
-	private TextureRegion guaTextureRegion;
-
 	private int CAMERA_WIDTH;
 	private int CAMERA_HEIGHT;
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private final Vector2 vector2 = new Vector2();
 	private int count;
+	private Map<String, String[]> icons;
 
 	@Override
 	public Engine onLoadEngine()
 	{
+		icons = getIcons();
 		Display display = getWindowManager().getDefaultDisplay();
 		CAMERA_WIDTH = display.getWidth();
 		CAMERA_HEIGHT = display.getHeight();
@@ -63,11 +68,7 @@ public class Randomizer extends LayoutGameActivity implements
 	public void onLoadResources()
 	{
 		texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, R.drawable.bo, 0, 0);
-
 		mEngine.getTextureManager().loadTexture(texture);
-//		background = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/background.png"));
 		enableAccelerometerSensor(this);
 	}
 
@@ -80,15 +81,14 @@ public class Randomizer extends LayoutGameActivity implements
 		scene.setBackground(new ColorBackground(1, 1, 1));
 		scene.setOnSceneTouchListener(this);
 
-		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_MERCURY), false);
+		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.LIGHT_SUNRISE), true);
 		physicsWorld.setGravity(vector2);
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
 		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0,
-				0.5f, 0.5f);
+		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(physicsWorld, ground,
 				BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(physicsWorld, left,
@@ -111,7 +111,7 @@ public class Randomizer extends LayoutGameActivity implements
 	@Override
 	public void onLoadComplete()
 	{
-
+		Toast.makeText(this, "click on the screen", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
@@ -154,21 +154,32 @@ public class Randomizer extends LayoutGameActivity implements
 		physicsWorld.setGravity(vector2);
 	}
 
-	private void addFace(final float pX, final float pY)
+	private void addFace(float pX, float pY)
 	{
-		count++;
-		if(count <= 8)
+		String[] iconsForOneGong = icons.get("2");
+		if(count < 8)
 		{
-			final Scene scene = mEngine.getScene();
-	
-			final Sprite gua;
-			final Body body;
-	
-			gua = new Sprite(pX, pY, guaTextureRegion);
-			body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
-			gua.setUpdatePhysics(false);
+			Scene scene = mEngine.getScene();
+			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, IChingHelper.getId(iconsForOneGong[count], R.drawable.class), 0, 0);
+			Sprite gua = new Sprite(pX, pY, guaTextureRegion);
+			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			scene.getTopLayer().addEntity(gua);
+			mEngine.getTextureManager().loadTexture(texture);
 			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, false, false));
 		}
+		count++;
+	}
+	
+	private Map<String, String[]> getIcons()
+	{
+		Bundle extras = getIntent().getExtras();
+		Map<String, String[]> icons = new HashMap<String, String[]>();
+		for(int i=1; i<=8; i++)
+		{
+			icons.put(Integer.toString(i), (String[])extras.get(Integer.toString(i)));
+		}
+		return icons;
 	}
 }

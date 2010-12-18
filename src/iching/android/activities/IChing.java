@@ -1,6 +1,9 @@
 package iching.android.activities;
 
+import java.util.List;
+
 import iching.android.R;
+import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.service.MusicControl;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,6 +35,7 @@ public class IChing extends Activity implements OnClickListener
 {
 
 	private static final String ICON_MENU_ITEM_VIEW = "com.android.internal.view.menu.IconMenuItemView";
+	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -114,6 +118,7 @@ public class IChing extends Activity implements OnClickListener
 				break;
 			case R.id.randomizer:
 				Intent randomizerIntent = new Intent(this, Randomizer.class);
+				prepareGuas(randomizerIntent);
 				startActivity(randomizerIntent);
 				break;
 			case R.id.about:
@@ -218,5 +223,16 @@ public class IChing extends Activity implements OnClickListener
 		loadDivinationButton.setOnClickListener(this);
 		View randomizerButton = findViewById(R.id.randomizer);
 		randomizerButton.setOnClickListener(this);
+	}
+	
+	
+	private void prepareGuas(Intent intent)
+	{
+		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
+		List<String[]> guas = iChingSQLiteDBHelper.getGuasByGongs();
+		for(int i=0; i<guas.size(); i++)
+		{
+			intent.putExtra(Integer.toString(i), guas.get(i));
+		}
 	}
 }
