@@ -3,7 +3,9 @@ package iching.android.activities;
 import iching.android.R;
 import iching.android.utils.IChingHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -15,7 +17,9 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -26,6 +30,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
+import org.anddev.andengine.extension.physics.box2d.PhysicsConnectorManager;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -51,7 +56,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnMenuItemClickListener
+public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnMenuItemClickListener, IOnAreaTouchListener
 {
 	private Camera camera;
 	private PhysicsWorld physicsWorld;
@@ -69,11 +74,23 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private MenuScene mMenuScene;
 	private Scene scene;
 	private Font font;
+	private String[] guas;
+	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
+	
+	private static final int QIAN_GONG = 1;
+	private static final int ZHEN_GONG = 2;
+	private static final int KAN_GONG = 3;
+	private static final int GEN_GONG = 4;
+	private static final int KUN_GONG = 5;
+	private static final int XUN_GONG = 6;
+	private static final int LI_GONG = 7;
+	private static final int DUI_GONG = 8;
 	
 	@Override
 	public Engine onLoadEngine()
 	{
 		icons = getIcons();
+		guas = icons.get(Integer.toString(QIAN_GONG));
 		Display display = getWindowManager().getDefaultDisplay();
 		CAMERA_WIDTH = display.getWidth();
 		CAMERA_HEIGHT = display.getHeight();
@@ -156,14 +173,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		{
 			if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
 			{
-				runOnUpdateThread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						Randomizer.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-					}
-				});
+				addIcon(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}
@@ -177,22 +187,37 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		physicsWorld.setGravity(vector2);
 	}
 
-	private void addFace(float pX, float pY)
+	private void addIcon(float pX, float pY)
 	{
-		String[] iconsForOneGong = icons.get("2");
 		if(count < 8)
 		{
-			Scene scene = mEngine.getScene();
 			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, IChingHelper.getId(iconsForOneGong[count], R.drawable.class), 0, 0);
+			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, IChingHelper.getId(guas[count], R.drawable.class), 0, 0);
 			Sprite gua = new Sprite(pX, pY, guaTextureRegion);
+			guasOnScreen.add(gua);
+			gua.setUpdatePhysics(false);
+			scene.registerTouchArea(gua);
 			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			scene.getTopLayer().addEntity(gua);
 			mEngine.getTextureManager().loadTexture(texture);
-			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, false, false));
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, true, true));
 		}
 		count++;
+	}
+	
+	private void removeIcons(List<Sprite> icons)
+	{
+		PhysicsConnectorManager physicsConnectorManager = physicsWorld.getPhysicsConnectorManager();
+		for(Sprite icon : icons)
+		{
+			PhysicsConnector guaPhysicsConnector = physicsConnectorManager.findPhysicsConnectorByShape(icon);
+			
+			physicsWorld.unregisterPhysicsConnector(guaPhysicsConnector);
+			physicsWorld.destroyBody(guaPhysicsConnector.getBody());
+			scene.unregisterTouchArea(icon);
+			scene.getTopLayer().removeEntity(icon);
+		}
 	}
 	
 	private Map<String, String[]> getIcons()
@@ -207,48 +232,81 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	}
 	
 	@Override
-	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem, final float pMenuItemLocalX, final float pMenuItemLocalY) {
-		switch(pMenuItem.getID()) {
-			case MENU_QUIT:
-				this.finish();
+	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem, final float pMenuItemLocalX, final float pMenuItemLocalY)
+	{
+		switch(pMenuItem.getID())
+		{
+			case QIAN_GONG:
+				setGuas(QIAN_GONG, icons, scene);
+				return true;
+			case ZHEN_GONG:
+				setGuas(ZHEN_GONG, icons, scene);
+				return true;
+			case KAN_GONG:
+				setGuas(KAN_GONG, icons, scene);
+				return true;
+			case GEN_GONG:
+				setGuas(GEN_GONG, icons, scene);
+				return true;
+			case KUN_GONG:
+				setGuas(KUN_GONG, icons, scene);
+				return true;
+			case XUN_GONG:
+				setGuas(XUN_GONG, icons, scene);
+				return true;
+			case LI_GONG:
+				setGuas(LI_GONG, icons, scene);
+				return true;
+			case DUI_GONG:
+				setGuas(DUI_GONG, icons, scene);
 				return true;
 			default:
 				return false;
 		}
 	}
 
-	protected MenuScene createMenuScene() {
+	public void setGuas(int gongId, Map<String, String[]> icons, Scene scene)
+	{
+		removeIcons(guasOnScreen);
+		guas = icons.get(Integer.toString(gongId));
+		count = 0;
+		guasOnScreen = new ArrayList<Sprite>();
+		scene.back();
+	}
+	
+	protected MenuScene createMenuScene()
+	{
 		final MenuScene menuScene = new MenuScene(camera);
 
-		final IMenuItem qianMenuItem = new ColorMenuItemDecorator(new TextMenuItem(1, font, getString(R.string.qian_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem qianMenuItem = new ColorMenuItemDecorator(new TextMenuItem(QIAN_GONG, font, getString(R.string.qian_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		qianMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(qianMenuItem);
 		
-		final IMenuItem zhenMenuItem = new ColorMenuItemDecorator(new TextMenuItem(2, font, getString(R.string.zhen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem zhenMenuItem = new ColorMenuItemDecorator(new TextMenuItem(ZHEN_GONG, font, getString(R.string.zhen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		zhenMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(zhenMenuItem);
 
-		final IMenuItem kanMenuItem = new ColorMenuItemDecorator(new TextMenuItem(3, font, getString(R.string.kan_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem kanMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KAN_GONG, font, getString(R.string.kan_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		kanMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(kanMenuItem);
 
-		final IMenuItem genMenuItem = new ColorMenuItemDecorator(new TextMenuItem(4, font, getString(R.string.gen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem genMenuItem = new ColorMenuItemDecorator(new TextMenuItem(GEN_GONG, font, getString(R.string.gen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		genMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(genMenuItem);
 
-		final IMenuItem kunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(5, font, getString(R.string.kun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem kunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KUN_GONG, font, getString(R.string.kun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		kunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(kunMenuItem);
 
-		final IMenuItem xunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(6, font, getString(R.string.xun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem xunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(XUN_GONG, font, getString(R.string.xun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		xunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(xunMenuItem);
 
-		final IMenuItem liMenuItem = new ColorMenuItemDecorator(new TextMenuItem(7, font, getString(R.string.li_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem liMenuItem = new ColorMenuItemDecorator(new TextMenuItem(LI_GONG, font, getString(R.string.li_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		liMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(liMenuItem);
 
-		final IMenuItem duiMenuItem = new ColorMenuItemDecorator(new TextMenuItem(8, font, getString(R.string.dui_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem duiMenuItem = new ColorMenuItemDecorator(new TextMenuItem(DUI_GONG, font, getString(R.string.dui_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		duiMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(duiMenuItem);
 
@@ -261,18 +319,36 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	}
 	
 	@Override
-	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent) {
-		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			if(scene.hasChildScene()) {
-				/* Remove the menu and reset it. */
-				this.mMenuScene.back();
-			} else {
-				/* Attach the menu. */
-				scene.setChildScene(this.mMenuScene, false, true, true);
+	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent)
+	{
+		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN)
+		{
+			if(scene.hasChildScene())
+			{
+				mMenuScene.back();
+			}
+			else
+			{
+				scene.setChildScene(mMenuScene, false, true, true);
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			return super.onKeyDown(pKeyCode, pEvent);
 		}
+	}
+
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
+			ITouchArea pTouchArea, float pTouchAreaLocalX,
+			float pTouchAreaLocalY)
+	{
+		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
+		{
+			Toast.makeText(this, "s", Toast.LENGTH_SHORT).show();
+			return true;
+		}
+		return false;
 	}
 }

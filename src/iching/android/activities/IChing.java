@@ -232,7 +232,7 @@ public class IChing extends Activity implements OnClickListener
 		List<String[]> guas = iChingSQLiteDBHelper.getGuasByGongs();
 		for(int i=0; i<guas.size(); i++)
 		{
-			intent.putExtra(Integer.toString(i), guas.get(i));
+			intent.putExtra(Integer.toString(i+1), guas.get(i));
 		}
 	}
 }
