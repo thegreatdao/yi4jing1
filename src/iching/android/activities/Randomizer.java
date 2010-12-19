@@ -87,7 +87,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		mEngine.getTextureManager().loadTexture(texture);
 		
-		Texture mFontTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.WHITE);
@@ -220,42 +220,38 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	protected MenuScene createMenuScene() {
 		final MenuScene menuScene = new MenuScene(camera);
 
-		final IMenuItem quitMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(quitMenuItem);
+		final IMenuItem qianMenuItem = new ColorMenuItemDecorator(new TextMenuItem(1, font, getString(R.string.qian_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		qianMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(qianMenuItem);
 		
-		final IMenuItem menuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem);
+		final IMenuItem zhenMenuItem = new ColorMenuItemDecorator(new TextMenuItem(2, font, getString(R.string.zhen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		zhenMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(zhenMenuItem);
 
-		final IMenuItem menuItem2 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem2);
+		final IMenuItem kanMenuItem = new ColorMenuItemDecorator(new TextMenuItem(3, font, getString(R.string.kan_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		kanMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(kanMenuItem);
 
-		final IMenuItem menuItem3 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem3);
+		final IMenuItem genMenuItem = new ColorMenuItemDecorator(new TextMenuItem(4, font, getString(R.string.gen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		genMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(genMenuItem);
 
-		final IMenuItem menuItem4 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem4);
+		final IMenuItem kunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(5, font, getString(R.string.kun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		kunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(kunMenuItem);
 
-		final IMenuItem menuItem5 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem5);
+		final IMenuItem xunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(6, font, getString(R.string.xun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		xunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(xunMenuItem);
 
-		final IMenuItem menuItem6 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem6);
+		final IMenuItem liMenuItem = new ColorMenuItemDecorator(new TextMenuItem(7, font, getString(R.string.li_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		liMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(liMenuItem);
 
-		final IMenuItem menuItem7 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem7);
-		menuScene.buildAnimations();
+		final IMenuItem duiMenuItem = new ColorMenuItemDecorator(new TextMenuItem(8, font, getString(R.string.dui_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		duiMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(duiMenuItem);
 
-		final IMenuItem menuItem8 = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, font, "推出2"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(menuItem8);
 		menuScene.buildAnimations();
 		
 		menuScene.setBackgroundEnabled(false);

@@ -62,4 +62,12 @@
 	<string name="confirm_delete_divination">你确定要删除这条卦吗？</string>
 	<string name="divination_deleted">卦已经被删除！</string>
 	<string name="randomizer">23D卦象</string>
+	<string name="qian_gong">乾宫</string>
+	<string name="kun_gong">坤宫</string>
+	<string name="xun_gong">巽宫</string>
+	<string name="dui_gong">兑宫</string>
+	<string name="gen_gong">艮宫</string>
+	<string name="li_gong">离宫</string>
+	<string name="kan_gong">坎宫</string>
+	<string name="zhen_gong">震宫</string>
 </resources>

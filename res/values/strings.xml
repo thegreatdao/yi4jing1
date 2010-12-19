@@ -62,4 +62,12 @@
 	<string name="confirm_delete_divination">Do you want to delete this divination?</string>
 	<string name="divination_deleted">Divination deleted!</string>
 	<string name="randomizer">Hex in 2D&amp;3D</string>
+	<string name="qian_gong">Ch\'ien</string>
+	<string name="kun_gong">K\'un</string>
+	<string name="xun_gong">Sun</string>
+	<string name="dui_gong">Tui</string>
+	<string name="gen_gong">Ken</string>
+	<string name="li_gong">Li</string>
+	<string name="kan_gong">K\'an</string>
+	<string name="zhen_gong">Chen</string>
 </resources>
