@@ -214,15 +214,23 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	
 	private void removeIcons(List<Sprite> icons)
 	{
-		PhysicsConnectorManager physicsConnectorManager = physicsWorld.getPhysicsConnectorManager();
-		for(Sprite icon : icons)
+		final PhysicsConnectorManager physicsConnectorManager = physicsWorld.getPhysicsConnectorManager();
+		for(final Sprite icon : icons)
 		{
-			PhysicsConnector guaPhysicsConnector = physicsConnectorManager.findPhysicsConnectorByShape(icon);
+			runOnUpdateThread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					PhysicsConnector guaPhysicsConnector = physicsConnectorManager.findPhysicsConnectorByShape(icon);
+					
+					physicsWorld.unregisterPhysicsConnector(guaPhysicsConnector);
+					physicsWorld.destroyBody(guaPhysicsConnector.getBody());
+					scene.unregisterTouchArea(icon);
+					scene.getTopLayer().removeEntity(icon);
+				}
+			});
 			
-			physicsWorld.unregisterPhysicsConnector(guaPhysicsConnector);
-			physicsWorld.destroyBody(guaPhysicsConnector.getBody());
-			scene.unregisterTouchArea(icon);
-			scene.getTopLayer().removeEntity(icon);
 		}
 	}
 	
