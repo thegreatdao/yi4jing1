@@ -173,8 +173,14 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		{
 			if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
 			{
-				addIcon(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				return true;
+				runOnUpdateThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						Randomizer.this.addIcon(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+					}
+				});
 			}
 		}
 		return false;
