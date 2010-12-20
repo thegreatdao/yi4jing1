@@ -44,6 +44,7 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -66,14 +67,10 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private int CAMERA_HEIGHT;
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 	
-	protected static final int MENU_RESET = 0;
-	protected static final int MENU_QUIT = MENU_RESET + 1;
-
 	private final Vector2 vector2 = new Vector2();
 	private int count;
 	private Map<String, String[]> icons;
 	private MenuScene mMenuScene;
-	private Scene scene;
 	private Font font;
 	private String[] guas;
 	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
@@ -96,7 +93,9 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		CAMERA_WIDTH = display.getWidth();
 		CAMERA_HEIGHT = display.getHeight();
 		camera = new Camera(0, 0, display.getWidth(), display.getHeight());
-		return new Engine(new EngineOptions(false, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), camera));
+		EngineOptions pEngineOptions = new EngineOptions(false, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), camera);
+		pEngineOptions.getTouchOptions().setRunOnUpdateThread(true);
+		return new Engine(pEngineOptions);
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	public Scene onLoadScene()
 	{
 		mEngine.registerUpdateHandler(new FPSLogger());
-		scene = new Scene(2);
+		final Scene scene = new Scene(2);
 		mMenuScene = createMenuScene();
 		scene.setBackground(new ColorBackground(1, 1, 1));
 		scene.setOnSceneTouchListener(this);
@@ -145,7 +144,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		scene.getBottomLayer().addEntity(right);
 
 		scene.registerUpdateHandler(physicsWorld);
-
+		scene.setOnAreaTouchListener(this);
+		
 		return scene;
 	}
 
@@ -185,6 +185,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 						Randomizer.this.addIcon(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 					}
 				});
+				return true;
 			}
 		}
 		return false;
@@ -199,16 +200,18 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 
 	private void addIcon(float pX, float pY)
 	{
+		final Scene scene = this.mEngine.getScene();
+
 		if(count < 8)
 		{
 			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, IChingHelper.getId(guas[count], R.drawable.class), 0, 0);
 			Sprite gua = new Sprite(pX, pY, guaTextureRegion);
+			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			guasOnScreen.add(gua);
 			gua.setUpdatePhysics(false);
 			scene.registerTouchArea(gua);
-			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			scene.getTopLayer().addEntity(gua);
 			mEngine.getTextureManager().loadTexture(texture);
 			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, true, true));
@@ -219,6 +222,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private void removeIcons(List<Sprite> icons)
 	{
 		final PhysicsConnectorManager physicsConnectorManager = physicsWorld.getPhysicsConnectorManager();
+		final Scene scene = this.mEngine.getScene();
+
 		for(final Sprite icon : icons)
 		{
 			runOnUpdateThread(new Runnable()
@@ -252,6 +257,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem, final float pMenuItemLocalX, final float pMenuItemLocalY)
 	{
+		final Scene scene = this.mEngine.getScene();
 		switch(pMenuItem.getID())
 		{
 			case QIAN_GONG:
@@ -339,6 +345,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent)
 	{
+		final Scene scene = this.mEngine.getScene();
+
 		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN)
 		{
 			if(scene.hasChildScene())
@@ -358,13 +366,12 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	}
 
 	@Override
-	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
-			ITouchArea pTouchArea, float pTouchAreaLocalX,
-			float pTouchAreaLocalY)
+	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
 	{
 		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
 		{
-			Toast.makeText(this, "s", Toast.LENGTH_SHORT).show();
+			Intent mainIntent = new Intent(this, IChing.class);
+			startActivity(mainIntent);
 			return true;
 		}
 		return false;
