@@ -49,6 +49,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
@@ -107,7 +108,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
-		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.WHITE);
+		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.RED);
 		this.mEngine.getTextureManager().loadTexture(mFontTexture);
 		this.mEngine.getFontManager().loadFont(font);
 		enableAccelerometerSensor(this);
@@ -151,7 +152,10 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onLoadComplete()
 	{
-		Toast.makeText(this, "click on the screen", Toast.LENGTH_LONG).show();
+		Toast message = Toast.makeText(this, getString(R.string.instruction_random), Toast.LENGTH_LONG);
+		View view = message.getView();
+		view.setBackgroundResource(R.drawable.button_pressed);
+		message.show();
 	}
 
 	@Override
@@ -292,35 +296,35 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	{
 		final MenuScene menuScene = new MenuScene(camera);
 
-		final IMenuItem qianMenuItem = new ColorMenuItemDecorator(new TextMenuItem(QIAN_GONG, font, getString(R.string.qian_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem qianMenuItem = new ColorMenuItemDecorator(new TextMenuItem(QIAN_GONG, font, getString(R.string.qian_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		qianMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(qianMenuItem);
 		
-		final IMenuItem zhenMenuItem = new ColorMenuItemDecorator(new TextMenuItem(ZHEN_GONG, font, getString(R.string.zhen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem zhenMenuItem = new ColorMenuItemDecorator(new TextMenuItem(ZHEN_GONG, font, getString(R.string.zhen_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		zhenMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(zhenMenuItem);
 
-		final IMenuItem kanMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KAN_GONG, font, getString(R.string.kan_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem kanMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KAN_GONG, font, getString(R.string.kan_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		kanMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(kanMenuItem);
 
-		final IMenuItem genMenuItem = new ColorMenuItemDecorator(new TextMenuItem(GEN_GONG, font, getString(R.string.gen_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem genMenuItem = new ColorMenuItemDecorator(new TextMenuItem(GEN_GONG, font, getString(R.string.gen_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		genMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(genMenuItem);
 
-		final IMenuItem kunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KUN_GONG, font, getString(R.string.kun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem kunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(KUN_GONG, font, getString(R.string.kun_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		kunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(kunMenuItem);
 
-		final IMenuItem xunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(XUN_GONG, font, getString(R.string.xun_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem xunMenuItem = new ColorMenuItemDecorator(new TextMenuItem(XUN_GONG, font, getString(R.string.xun_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		xunMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(xunMenuItem);
 
-		final IMenuItem liMenuItem = new ColorMenuItemDecorator(new TextMenuItem(LI_GONG, font, getString(R.string.li_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem liMenuItem = new ColorMenuItemDecorator(new TextMenuItem(LI_GONG, font, getString(R.string.li_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		liMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(liMenuItem);
 
-		final IMenuItem duiMenuItem = new ColorMenuItemDecorator(new TextMenuItem(DUI_GONG, font, getString(R.string.dui_gong)), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem duiMenuItem = new ColorMenuItemDecorator(new TextMenuItem(DUI_GONG, font, getString(R.string.dui_gong)), 1.0f,0.0f,0.5f, 0.5f,0.0f,0.0f);
 		duiMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(duiMenuItem);
 

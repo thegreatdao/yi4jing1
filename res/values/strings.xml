@@ -70,4 +70,5 @@
 	<string name="li_gong">Li</string>
 	<string name="kan_gong">K\'an</string>
 	<string name="zhen_gong">Chen</string>
+	<string name="instruction_random">Click on the screen</string>
 </resources>
