@@ -297,6 +297,22 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		}
 	}
 
+	private void fadeAwayIcons(List<Sprite> icons)
+	{
+		for(Sprite icon : icons)
+		{
+			icon.setAlpha(0.1f);
+		}
+	}
+
+	private void restoreIcons(List<Sprite> icons)
+	{
+		for(Sprite icon : icons)
+		{
+			icon.setAlpha(1.0f);
+		}
+	}
+	
 	public void setGuas(int gongId, Map<String, String[]> icons, Scene scene)
 	{
 		removeIcons(guasOnScreen);
@@ -359,10 +375,26 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		{
 			if(scene.hasChildScene())
 			{
-				menuScene.back();
+				runOnUpdateThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						menuScene.back();
+						restoreIcons(guasOnScreen);
+					}
+				});
 			}
 			else
 			{
+				runOnUpdateThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						fadeAwayIcons(guasOnScreen);
+					}
+				});
 				scene.setChildScene(menuScene, false, true, true);
 			}
 			return true;
