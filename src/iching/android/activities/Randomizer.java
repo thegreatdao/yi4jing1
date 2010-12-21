@@ -1,11 +1,17 @@
 package iching.android.activities;
 
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.R;
+import iching.android.andengine.GuaSprite;
+import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -70,10 +76,11 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private final Vector2 vector2 = new Vector2();
 	private int count;
 	private Map<String, String[]> icons;
-	private MenuScene mMenuScene;
+	private MenuScene menuScene;
 	private Font font;
 	private String[] guas;
 	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
+	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	
 	private static final int QIAN_GONG = 1;
 	private static final int ZHEN_GONG = 2;
@@ -116,9 +123,10 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public Scene onLoadScene()
 	{
+		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(getApplicationContext(), Boolean.FALSE);
 		mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene(2);
-		mMenuScene = createMenuScene();
+		menuScene = createMenuScene();
 		scene.setBackground(new ColorBackground(1, 1, 1));
 		scene.setOnSceneTouchListener(this);
 		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_SATURN), true);
@@ -205,9 +213,9 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		if(count < 8)
 		{
 			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, IChingHelper.getId(guas[count], R.drawable.class), 0, 0);
-			Sprite gua = new Sprite(pX, pY, guaTextureRegion);
+			int id = IChingHelper.getId(guas[count], R.drawable.class);
+			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, id, 0, 0);
+			GuaSprite gua = new GuaSprite(pX, pY, guaTextureRegion, id);
 			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			guasOnScreen.add(gua);
 			gua.setUpdatePhysics(false);
@@ -351,11 +359,11 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		{
 			if(scene.hasChildScene())
 			{
-				mMenuScene.back();
+				menuScene.back();
 			}
 			else
 			{
-				scene.setChildScene(mMenuScene, false, true, true);
+				scene.setChildScene(menuScene, false, true, true);
 			}
 			return true;
 		}
@@ -370,8 +378,15 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	{
 		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN)
 		{
-			Intent mainIntent = new Intent(this, IChing.class);
-			startActivity(mainIntent);
+			GuaSprite sprite = (GuaSprite)pTouchArea;
+			String icon = IChingHelper.getIconFromInt(sprite.getResourceId());
+			icon = "'" + icon + "'";
+			Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ICON, icon, Locale.getDefault());
+			Intent intent = new Intent(getApplicationContext(), Gua.class);
+			intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
+			intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
+			intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
+			startActivity(intent);
 			return true;
 		}
 		return false;

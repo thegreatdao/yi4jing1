@@ -153,7 +153,7 @@ public class IChingView extends Activity
 						final IChingSQLiteDBHelper iChingSQLiteDBHelper,
 						final Locale locale, final Intent intent, int position)
 				{
-					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField("_id", position + 1, locale);
+					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ID, position + 1, locale);
 					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
 					intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
 					intent.putExtra(GUA_ICON, gua.get(GUA_ICON));

@@ -28,6 +28,29 @@ public class IChingHelper
 		return iconId;
 	}
 	
+	public static String getIconFromInt(int value)
+	{
+		Field[] fields = R.drawable.class.getFields();
+		String result = null;
+		for (Field field : fields)
+		{
+			try
+			{
+				Integer id = (Integer)field.get(null);
+				if(id == value)
+				{
+					result = field.getName();
+					break;//hate doing this
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	public static String getRelatingCode(String originalCode, String changingLines)
 	{
 		char[] originalCodeArray = originalCode.toCharArray();
