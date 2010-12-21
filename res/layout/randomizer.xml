@@ -5,5 +5,6 @@
    android:layout_height="fill_parent">
    <org.anddev.andengine.opengl.view.RenderSurfaceView android:id="@+id/xmllayoutexample_rendersurfaceview"
 				android:layout_width="fill_parent" 
-				android:layout_height="fill_parent"/>
+				android:layout_height="fill_parent"
+				android:windowBackground="@drawable/background"/>
 </LinearLayout>

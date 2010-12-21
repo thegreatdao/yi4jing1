@@ -61,7 +61,7 @@
 	<string name="exceed_numember_of_records_warning_title">你设置的数值比你保存的卦数小，请删除一些数据后再试。</string>
 	<string name="confirm_delete_divination">你确定要删除这条卦吗？</string>
 	<string name="divination_deleted">卦已经被删除！</string>
-	<string name="randomizer">23D卦象</string>
+	<string name="randomizer">八宫</string>
 	<string name="qian_gong">乾宫</string>
 	<string name="kun_gong">坤宫</string>
 	<string name="xun_gong">巽宫</string>
