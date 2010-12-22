@@ -50,6 +50,8 @@ public class CastIChing extends Activity implements OnClickListener
 	private List<ImageView> imageCoins = new ArrayList<ImageView>(6);
 	private List<TextView> hexagramTitles = new ArrayList<TextView>(2);
 	// 0 for tossing 1 for reset
+	private static final int EMPTY_STRING = 0;
+	private static final int RECORDS_FULL = 1;
 	private int action;
 
 	@Override
@@ -173,7 +175,7 @@ public class CastIChing extends Activity implements OnClickListener
 		builder.setCancelable(false);
 		switch (id) 
 		{
-			case 0:
+			case EMPTY_STRING:
 				builder.setMessage(R.string.empty_question);
 				builder.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener()
@@ -184,7 +186,7 @@ public class CastIChing extends Activity implements OnClickListener
 					}
 				});
 				break;
-			case 1:
+			case RECORDS_FULL:
 				builder.setMessage(R.string.records_full);
 				builder.setPositiveButton(R.string.yes,
 						new DialogInterface.OnClickListener()
