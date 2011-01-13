@@ -90,6 +90,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private static final int XUN_GONG = 6;
 	private static final int LI_GONG = 7;
 	private static final int DUI_GONG = 8;
+	private static final int WIDTH_HEIGHT_ICON = 80;
 	
 	@Override
 	public Engine onLoadEngine()
@@ -215,6 +216,14 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			int id = IChingHelper.getId(guas[count], R.drawable.class);
 			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, id, 0, 0);
+			if((pX + WIDTH_HEIGHT_ICON/2) > CAMERA_WIDTH)
+			{
+				pX = CAMERA_WIDTH - WIDTH_HEIGHT_ICON;
+			}
+			if((pY + WIDTH_HEIGHT_ICON/2) > CAMERA_HEIGHT)
+			{
+				pY = CAMERA_HEIGHT - WIDTH_HEIGHT_ICON;
+			}
 			GuaSprite gua = new GuaSprite(pX, pY, guaTextureRegion, id);
 			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			guasOnScreen.add(gua);
