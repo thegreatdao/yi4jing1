@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="Android">
+	<style name="Android" parent="android:Theme">
 		<item name="button">@style/ichingButton</item>
 		<item name="android:windowBackground">@drawable/background</item>
 		<item name="mainTitle">@style/mainTitle</item>
@@ -27,7 +27,7 @@
           <item name="android:textStyle">bold|italic</item>
      </style>
 
-     <style name="CustomWindowTitleBackground">
+     <style name="CustomWindowTitleBackground" parent="android:Theme">
            <item name="android:background">@color/title_background_color</item>
      </style>
 
