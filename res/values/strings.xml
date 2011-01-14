@@ -11,9 +11,9 @@
 		Classic of Changes; and Zhouyi, is one of the oldest of the Chinese classic texts.
 		The book contains a divination system comparable to Western geomancy or the West African 
 		Ifá system. In Western cultures and modern East Asia, it is still widely used for this purpose.
-		<b/>
-		<b><font color="#F49A05">Designed and developed by immortal_ego@hotmail.coms</font></b>
 	</string>
+	<string name="developer">Brought to you by</string>
+	<string name="email">immortal_ego@hotmail.com</string>
 	<string name="settings">Settings</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
@@ -73,5 +73,4 @@
 	<string name="kan_gong">K\'an</string>
 	<string name="zhen_gong">Chen</string>
 	<string name="instruction_random">Click on the screen</string>
-	<string name="developer">Designed and developed by Immortal_ego@hotmail.com</string>
 </resources>
