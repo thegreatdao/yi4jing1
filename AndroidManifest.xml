@@ -27,7 +27,7 @@
 
 		<activity android:name=".activities.Divination" android:label="@string/load_divinations" android:screenOrientation="portrait"/>
 		
-		<activity android:name=".activities.Randomizer" android:label="@string/randomizer"/>
+		<activity android:name=".activities.Randomizer" android:label="@string/randomizer" android:screenOrientation="portrait"/>
 		
 		<service android:name=".service.MusicService" android:enabled="true"/>
 		
