@@ -25,6 +25,7 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,7 @@ public class CastIChing extends Activity implements OnClickListener
 	private static final int EMPTY_STRING = 0;
 	private static final int RECORDS_FULL = 1;
 	private int action;
+	private int yangCoinHeight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -68,6 +70,14 @@ public class CastIChing extends Activity implements OnClickListener
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
 		saveDivinationButton.setOnClickListener(this);
+		final ImageView yangCoin = (ImageView) findViewById(R.id.first_coin);
+		ViewTreeObserver viewTreeObserver = yangCoin.getViewTreeObserver();
+		viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+		    public boolean onPreDraw() {
+		        yangCoinHeight = yangCoin.getMeasuredHeight();
+		        return true;
+		    }
+		});
 		collectAllLines();
 		collectAllCoins();
 		handler = new Handler();
@@ -385,7 +395,7 @@ public class CastIChing extends Activity implements OnClickListener
 						int numOfYangs = 0;
 						for(int i : coins)
 						{
-							if(i == 35)
+							if(i == yangCoinHeight)
 							{
 								numOfYangs++;
 							}
