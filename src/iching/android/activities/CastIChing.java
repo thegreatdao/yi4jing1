@@ -25,7 +25,6 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +36,6 @@ public class CastIChing extends Activity implements OnClickListener
 {
 	private Handler handler;
 	private int threadCount;
-	private int threadFinishedCount;
 	private int tossTimes;
 	private Line[] originalHexagramLines = new Line[6];
 	private Map<String, String> originalHexagram;
@@ -54,7 +52,10 @@ public class CastIChing extends Activity implements OnClickListener
 	private static final int EMPTY_STRING = 0;
 	private static final int RECORDS_FULL = 1;
 	private int action;
-	private int yangCoinHeight;
+	private static final int FLIP_COIN_TIMES = 1000;
+	private int firstCoinImage;
+	private int secondCoinImage;
+	private int thirdCoinImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -70,14 +71,6 @@ public class CastIChing extends Activity implements OnClickListener
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
 		saveDivinationButton.setOnClickListener(this);
-		final ImageView yangCoin = (ImageView) findViewById(R.id.first_coin);
-		ViewTreeObserver viewTreeObserver = yangCoin.getViewTreeObserver();
-		viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-		    public boolean onPreDraw() {
-		        yangCoinHeight = yangCoin.getMeasuredHeight();
-		        return true;
-		    }
-		});
 		collectAllLines();
 		collectAllCoins();
 		handler = new Handler();
@@ -133,7 +126,7 @@ public class CastIChing extends Activity implements OnClickListener
 				{
 					EditText question = (EditText)findViewById(R.id.question);
 					Button tossButton = (Button)findViewById(R.id.tossCoin);
-					resetPage(imageLines, imageCoins, hexagramTitles, question, tossButton);
+					reset(imageLines, imageCoins, hexagramTitles, question, tossButton);
 				}
 				break;
 			case R.id.saveDivination:
@@ -233,11 +226,9 @@ public class CastIChing extends Activity implements OnClickListener
 			{
 				tossTimes++;
 				tossTimes = tossTimes % 7;
-				long now = System.currentTimeMillis();
-				long timeToTossCoin = 1000;
-				while (System.currentTimeMillis() - now < timeToTossCoin)
+				for(int i=0; i < FLIP_COIN_TIMES; i++)
 				{
-					tossCoins();
+					tossCoins(i);
 					threadCount++;
 				}
 				Thread ichingChecker = new Thread(new Runnable()
@@ -249,23 +240,11 @@ public class CastIChing extends Activity implements OnClickListener
 						boolean run = true;
 						while(run)
 						{
-							if(threadCount * 3 == threadFinishedCount)
+							if(threadCount == FLIP_COIN_TIMES)
 							{
 								run = false;
 								threadCount = 0;
-								threadFinishedCount = 0;
-								try
-								{
-									Thread.sleep(2000);
-								}
-								catch(InterruptedException e)
-								{
-									e.printStackTrace();
-								}
-								ImageView firstCoin = (ImageView)findViewById(R.id.first_coin);
-								ImageView secondCoin = (ImageView)findViewById(R.id.second_coin);
-								ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
-								final int[] coins = {firstCoin.getHeight(), secondCoin.getHeight(), thirdCoin.getHeight()};
+								final int[] coins = {firstCoinImage, secondCoinImage, thirdCoinImage};
 								Thread setYaoThread = new Thread(new Runnable(){
 									@Override
 									public void run()
@@ -302,23 +281,10 @@ public class CastIChing extends Activity implements OnClickListener
 												TextView relatingTitle = (TextView) findViewById(R.id.gua_title2);
 												relatingTitle.setText(relatingHexagram.get(GUA_TITLE));
 											}
+											saveDivinationButton.setVisibility(View.VISIBLE);
 										}
 									});
 									handler.post(showRelatingHexgram);
-									try
-									{
-										Thread.sleep(2000);
-									}
-									catch(InterruptedException e)
-									{
-										e.printStackTrace();
-									}
-									handler.post(new Runnable() {
-										@Override
-										public void run() {
-												saveDivinationButton.setVisibility(View.VISIBLE);
-										}
-									});
 								}
 							}
 						}
@@ -395,7 +361,7 @@ public class CastIChing extends Activity implements OnClickListener
 						int numOfYangs = 0;
 						for(int i : coins)
 						{
-							if(i == yangCoinHeight)
+							if(i == R.drawable.manwen)
 							{
 								numOfYangs++;
 							}
@@ -439,16 +405,24 @@ public class CastIChing extends Activity implements OnClickListener
 		thread.start();
 	}
 	
-	private void tossCoins()
+	private void tossCoins(int counter)
 	{
 		final ImageView firstCoin = (ImageView)findViewById(R.id.first_coin);
 		final ImageView secondCoin = (ImageView)findViewById(R.id.second_coin);
 		final ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
 		
-		handler.post(new TossCoinThread(firstCoin, headOrTail()));
-		handler.post(new TossCoinThread(secondCoin, headOrTail()));
-		handler.post(new TossCoinThread(thirdCoin, headOrTail()));
-		
+		int headOrTailFirst = headOrTail();		
+		handler.post(new TossCoinThread(firstCoin, headOrTailFirst));
+		int headOrTailSecond = headOrTail();
+		handler.post(new TossCoinThread(secondCoin, headOrTailSecond));
+		int headOrTailThird = headOrTail();
+		handler.post(new TossCoinThread(thirdCoin, headOrTailThird));
+		if(counter + 1 == FLIP_COIN_TIMES)
+		{
+			firstCoinImage = headOrTailFirst;
+			secondCoinImage = headOrTailSecond;
+			thirdCoinImage = headOrTailThird;
+		}
 	}
 
 	private int headOrTail()
@@ -465,7 +439,7 @@ public class CastIChing extends Activity implements OnClickListener
 		}
 	}
 	
-	private void resetPage(List<ImageView> lines, List<ImageView> coins, List<TextView> hexagramTitles, EditText question, Button tossButton)
+	private void reset(List<ImageView> lines, List<ImageView> coins, List<TextView> hexagramTitles, EditText question, Button tossButton)
 	{
 		for(ImageView line : lines)
 		{
@@ -485,7 +459,6 @@ public class CastIChing extends Activity implements OnClickListener
 		action = 0;
 		threadCount = 0;
 		tossTimes = 0;
-		threadFinishedCount = 0;
 		originalHexagramLines = new Line[6];
 	}
 	
@@ -540,9 +513,7 @@ public class CastIChing extends Activity implements OnClickListener
 				coin.setImageMatrix(markerMatrix);
 			}
 			coin.setImageResource(source);
-			threadFinishedCount++;
 		}
-		
 	}
 
 	@Override
