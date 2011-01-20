@@ -109,11 +109,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onLoadResources()
 	{
-		texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mEngine.getTextureManager().loadTexture(texture);
-		
 		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
 		FontFactory.setAssetBasePath("font/");
 		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.RED);
 		this.mEngine.getTextureManager().loadTexture(mFontTexture);
@@ -161,7 +157,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onLoadComplete()
 	{
-		Toast message = Toast.makeText(this, getString(R.string.instruction_random), Toast.LENGTH_LONG);
+		Toast message = Toast.makeText(this, getString(R.string.instruction_random), Toast.LENGTH_SHORT);
 		View view = message.getView();
 		view.setBackgroundResource(R.drawable.button_pressed);
 		message.show();
