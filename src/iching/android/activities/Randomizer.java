@@ -126,7 +126,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		menuScene = createMenuScene();
 		scene.setBackground(new ColorBackground(1, 1, 1));
 		scene.setOnSceneTouchListener(this);
-		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_SATURN), true);
+		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), true);
 		physicsWorld.setGravity(vector2);
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
@@ -199,7 +199,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public void onAccelerometerChanged(AccelerometerData pAccelerometerData)
 	{
-		vector2.set(pAccelerometerData.getX(),pAccelerometerData.getY());
+		vector2.set(-pAccelerometerData.getX(),pAccelerometerData.getY());
 		physicsWorld.setGravity(vector2);
 	}
 
@@ -209,7 +209,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 
 		if(count < 8)
 		{
-			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			texture = new Texture(128, 128, TextureOptions.BILINEAR);
+			mEngine.getTextureManager().loadTexture(texture);
 			int id = IChingHelper.getId(guas[count], R.drawable.class);
 			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, id, 0, 0);
 			if((pX + WIDTH_HEIGHT_ICON/2) > CAMERA_WIDTH)
@@ -226,7 +227,6 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 			gua.setUpdatePhysics(false);
 			scene.registerTouchArea(gua);
 			scene.getTopLayer().addEntity(gua);
-			mEngine.getTextureManager().loadTexture(texture);
 			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, true, true));
 		}
 		count++;
@@ -306,7 +306,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	{
 		for(Sprite icon : icons)
 		{
-			icon.setAlpha(0.1f);
+			icon.setAlpha(0.3f);
 		}
 	}
 

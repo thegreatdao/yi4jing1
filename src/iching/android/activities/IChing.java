@@ -1,10 +1,11 @@
 package iching.android.activities;
 
-import java.util.List;
-
 import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.service.MusicControl;
+
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,11 +22,11 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;
-import android.view.LayoutInflater.Factory;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.LayoutInflater.Factory;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -209,6 +210,7 @@ public class IChing extends Activity implements OnClickListener
 		return builder.create();
 	}
 
+	
 	private void setUpListeners()
 	{
 		View referencesCheckButton = findViewById(R.id.references_check);
@@ -234,5 +236,11 @@ public class IChing extends Activity implements OnClickListener
 		{
 			intent.putExtra(Integer.toString(i+1), guas.get(i));
 		}
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		showDialog(0);
 	}
 }
